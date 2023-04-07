@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: UIViewIdDatabase
   m_EditorClassIdentifier: 
   Database:
-    Items: []
+    Items:
+    - Category: dasd
+      Name: asdasda
+    - Category: None
+      Name: None
