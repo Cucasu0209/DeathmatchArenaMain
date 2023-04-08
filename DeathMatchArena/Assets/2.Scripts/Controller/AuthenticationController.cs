@@ -84,6 +84,7 @@ public class AuthenticationController : MonoBehaviour
             MyPlayfabId = result.PlayFabId;
             LocalClientData.SaveUsername(username);
             LocalClientData.SavePassword(password);
+            PlayerData.SetId(MyPlayfabId);
             OnComplete?.Invoke(LoginResultType.Success);
 
         },
@@ -131,6 +132,7 @@ public class AuthenticationController : MonoBehaviour
         (result) =>
         {
             Debug.Log($"[{this.name}]:ChangeName {result.DisplayName}");
+            PlayerData.SetNickName(newDisplayName);
             OnComplete?.Invoke(NickNameChangeResult.Success);
 
         },
@@ -162,7 +164,7 @@ public class AuthenticationController : MonoBehaviour
             {
                 Debug.Log($"[{this.name}]:Get NickName {result.AccountInfo.TitleInfo.DisplayName}");
                 OnComplete?.Invoke(GetNickNameResult.Success, MyDisplayName);
-
+                PlayerData.SetNickName(MyDisplayName);
             }
             else
             {
@@ -181,6 +183,14 @@ public class AuthenticationController : MonoBehaviour
     private bool IsClientLoggedIn()
     {
         return PlayFabClientAPI.IsClientLoggedIn() && string.IsNullOrEmpty(MyPlayfabId) == false;
+    }
+    private void LogoutPlayfab()
+    {
+        PlayFabClientAPI.ForgetAllCredentials();
+    }
+    private void LoginDefaultPlayfab(Action<LoginResultType> OnComplete)
+    {
+        Login(LocalClientData.LoadUsername(), LocalClientData.LoadPassword(), OnComplete);
     }
     #endregion
 
@@ -230,9 +240,14 @@ public class AuthenticationController : MonoBehaviour
     }
     public void ChangeNickName(string newDisplayName, Action<NickNameChangeResult> Oncomplete)
     {
-        if (newDisplayName.Length <= 6)
+        if (newDisplayName.Length < 6)
         {
             Oncomplete?.Invoke(NickNameChangeResult.NickNameTooShort);
+            return;
+        }
+        if (newDisplayName.Length > 12)
+        {
+            Oncomplete?.Invoke(NickNameChangeResult.NickNameTooLong);
             return;
         }
         ChangeDisplayNamePlayfab(newDisplayName, Oncomplete);
@@ -240,6 +255,29 @@ public class AuthenticationController : MonoBehaviour
     public void GetNickName(Action<GetNickNameResult, string> OnComplete)
     {
         GetDisplayNamePlayfab(OnComplete);
+    }
+    public void Logout()
+    {
+        LogoutPlayfab();   
+    }
+    public void LoginDefault(Action<LoginResultType> OnComplete)
+    {
+        if (IsClientLoggedIn())
+        {
+            OnComplete?.Invoke(LoginResultType.Success);
+            return;
+        }
+        LoginDefaultPlayfab((result) =>
+        {
+            GetNickName((_result, _name) =>
+            {
+                OnComplete?.Invoke(result);
+            });
+        });
+    }
+    public bool IsLogin()
+    {
+        return IsClientLoggedIn();
     }
     #endregion
 
@@ -301,6 +339,7 @@ public enum NickNameChangeResult
     Success,
     NickNameExisted,
     NickNameTooShort,
+    NickNameTooLong,
     NotLoginYet,
 }
 

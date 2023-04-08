@@ -15,7 +15,8 @@ public class StartNameContainerUI : MonoBehaviour
     {
         {NickNameChangeResult.Success, "Completed"},
         {NickNameChangeResult.NickNameExisted, "Nickname has already existed or invalid. Try again ! !"},
-        {NickNameChangeResult.NickNameTooShort, "Your nickname is too short !"},
+        {NickNameChangeResult.NickNameTooShort, "Your nickname is too short \" more than 5 \" !"},
+        {NickNameChangeResult.NickNameTooLong, "Your nickname is too long \" less than 13 \" !"},
         {NickNameChangeResult.NotLoginYet, "You haven't logged in yet !"},
     };
     private void OnEnable()
