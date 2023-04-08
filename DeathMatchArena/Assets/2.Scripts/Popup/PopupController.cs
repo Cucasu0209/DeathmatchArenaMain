@@ -8,6 +8,8 @@ public class PopupController
     #region Link
     private static readonly string LoadingPopupLink = "Popup/LoadingPopup";
     private static readonly string LoginAfterRegisterPopupLink = "Popup/LoginAfterRegisterPopup";
+    private static readonly string RenamePopupLink = "Popup/RenamePopup";
+    private static readonly string ConfirmLogoutPopupLink = "Popup/ConfirmLogoutPopup";
     #endregion
 
     #region Action
@@ -63,6 +65,60 @@ public class PopupController
         if (LoginAfterRegisterPopup.Instance != null)
         {
             LoginAfterRegisterPopup.Instance.Hide();
+        }
+
+    }
+    public static void ShowRenamePopup(Canvas holder)
+    {
+        if (RenamePopup.Instance != null)
+        {
+            RenamePopup.Instance.Show();
+            RenamePopup.Instance.transform.SetAsLastSibling();
+        }
+        else
+        {
+            GameObject myPopup = Resources.Load<GameObject>(RenamePopupLink);
+            if (myPopup != null)
+            {
+                GameObject NewPopup = GameObject.Instantiate(myPopup, holder.transform);
+                NewPopup.GetComponent<BasePopup>()?.Show();
+                NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+            }
+        }
+
+    }
+    public static void HideRenamePopup()
+    {
+        if (RenamePopup.Instance != null)
+        {
+            RenamePopup.Instance.Hide();
+        }
+
+    }
+    public static void ShowConfirmLogoutPopup(Canvas holder)
+    {
+        if (ConfirmLogoutPopup.Instance != null)
+        {
+            ConfirmLogoutPopup.Instance.Show();
+            ConfirmLogoutPopup.Instance.transform.SetAsLastSibling();
+        }
+        else
+        {
+            GameObject myPopup = Resources.Load<GameObject>(ConfirmLogoutPopupLink);
+            if (myPopup != null)
+            {
+                GameObject NewPopup = GameObject.Instantiate(myPopup, holder.transform);
+                NewPopup.GetComponent<BasePopup>()?.Show();
+                NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+            }
+        }
+
+    }
+    public static void HideConfirmLogoutPopup()
+    {
+        if (ConfirmLogoutPopup.Instance != null)
+        {
+            ConfirmLogoutPopup.Instance.Hide();
         }
 
     }

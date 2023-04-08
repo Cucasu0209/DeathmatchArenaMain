@@ -1,13 +1,14 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
-
+using System.Linq;
 
 public class AuthenticationComponentUI : MonoBehaviour
 {
+    public string allowedCharacters = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM._@:1234567890";
     public TMP_InputField Input;
     public Image Arrow;
 
@@ -20,7 +21,7 @@ public class AuthenticationComponentUI : MonoBehaviour
         startSizeInput = inputTranform.sizeDelta;
         Arrow.DOFade(0, 0);
 
-
+        Input.onValueChanged.AddListener(OnInputFieldValueChanged);
         Input.onSelect.AddListener(OnInputSelect);
         Input.onDeselect.AddListener(OnInputDeselect);
     }
@@ -35,6 +36,14 @@ public class AuthenticationComponentUI : MonoBehaviour
     {
         inputTranform.DOSizeDelta(startSizeInput, 0.3f);
         Arrow.DOFade(0, 0.2f);
+    }
+    private void OnInputFieldValueChanged(string value)
+    {
+        string filteredValue = new string(value.Where(c => allowedCharacters.Contains(c)).ToArray());
+        if (filteredValue != value)
+        {
+            Input.text = filteredValue;
+        }
     }
     public string GetText()
     {
