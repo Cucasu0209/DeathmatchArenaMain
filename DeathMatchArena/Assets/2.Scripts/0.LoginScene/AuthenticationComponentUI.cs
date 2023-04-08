@@ -40,7 +40,7 @@ public class AuthenticationComponentUI : MonoBehaviour
     {
         return Input.text;
     }
-    public void SetString(string input)
+    public void SetText(string input)
     {
         Input.SetTextWithoutNotify(input);
     }

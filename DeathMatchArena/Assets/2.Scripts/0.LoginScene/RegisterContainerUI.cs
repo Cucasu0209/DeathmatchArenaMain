@@ -15,11 +15,11 @@ public class RegisterContainerUI : MonoBehaviour
     private Dictionary<RegisterResultType, string> NotificationLog = new Dictionary<RegisterResultType, string>()
     {
         {RegisterResultType.Success, "Register Success."},
-        {RegisterResultType.UsernameExisted, "Username existed !"},
-        {RegisterResultType.IncorrectFormatUsername, "Username incorrect format !"},
-        {RegisterResultType.IncorrectFormatPassword, "Password incorrect format !"},
-        {RegisterResultType.TwoPasswordNotSame, "Two password are not the same !"},
-        {RegisterResultType.IsnotLongEnough, "Username and password both have more than 8 words !"},
+        {RegisterResultType.UsernameExisted, "Username has already existed. Try again !"},
+        {RegisterResultType.IncorrectFormatUsername, "Username incorrect format. Try again !"},
+        {RegisterResultType.IncorrectFormatPassword, "Password incorrect format. Try again !"},
+        {RegisterResultType.TwoPasswordNotSame, "Two password are not the same. Try again !"},
+        {RegisterResultType.IsnotLongEnough, "Username and password both have more than 8 words. Try again !"},
     };
     private void OnEnable()
     {
@@ -36,12 +36,16 @@ public class RegisterContainerUI : MonoBehaviour
     {
         Notification.SetText("");
         PopupController.ShowLoadingPopup(LoginSceneController.Instance.MainCanvas);
-        AuthenticationController.Instance.Register(Username.GetText(), Password.GetText(),Password2.GetText(), ActionRegisterResult);
+        AuthenticationController.Instance.Register(Username.GetText(), Password.GetText(), Password2.GetText(), ActionRegisterResult);
     }
 
     public void ActionRegisterResult(RegisterResultType result)
     {
         Notification.SetText(NotificationLog[result]);
+        if (result == RegisterResultType.Success)
+        {
+            PopupController.ShowLoginAfterRegisterPopupPopup(Username.GetText(), Password.GetText(), LoginSceneController.Instance.MainCanvas);
+        }
         PopupController.HideLoadingPopup();
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Doozy.Runtime.UIManager.Containers;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class LoginContainerUI : MonoBehaviour
 {
@@ -14,10 +15,15 @@ public class LoginContainerUI : MonoBehaviour
     private Dictionary<LoginResultType, string> NotificationLog = new Dictionary<LoginResultType, string>()
     {
         {LoginResultType.Success, "Login Success."},
-        {LoginResultType.Invalid, "Username or password incorrect !"},
-        {LoginResultType.IncorrectFormatUsername, "Username incorrect format !"},
-        {LoginResultType.IncorrectFormatPassword, "Password incorrect format !"},
+        {LoginResultType.Invalid, "Username or password incorrect. Register Now !"},
+        {LoginResultType.IncorrectFormatUsername, "Username incorrect format. Try again !"},
+        {LoginResultType.IncorrectFormatPassword, "Password incorrect format. Try again !"},
     };
+    private void Start()
+    {
+        Username.SetText(LocalClientData.LoadUsername());
+        Password.SetText(LocalClientData.LoadPassword());
+    }
     private void OnEnable()
     {
         Notification.SetText("");
@@ -37,7 +43,26 @@ public class LoginContainerUI : MonoBehaviour
     public void ActionLoginResult(LoginResultType result)
     {
         Notification.SetText(NotificationLog[result]);
-        PopupController.HideLoadingPopup();
+        if (result == LoginResultType.Success)
+        {
+            AuthenticationController.Instance.GetNickName((result, nickname) =>
+            {
+                PopupController.HideLoadingPopup();
+                if (result == GetNickNameResult.NotExist)
+                {
+                    LoginSceneController.Instance?.ShowStartNameContainer();
+                }
+                else
+                {
+                    LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.MainMenu);
+                }
+            });
+        }
+        else
+        {
+            PopupController.HideLoadingPopup();
+        }
+
     }
 
 }

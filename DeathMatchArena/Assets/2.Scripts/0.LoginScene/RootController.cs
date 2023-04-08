@@ -19,7 +19,7 @@ public class RootController : MonoBehaviour
         {
             Logo.DOFade(0, 1).SetDelay(3).OnComplete(() =>
             {
-                SceneManager.LoadScene("2.Login");
+                LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.Login);
             });
         });
 

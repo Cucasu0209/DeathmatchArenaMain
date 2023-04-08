@@ -8,32 +8,21 @@ public class LoadingPopup : BasePopup
     public static LoadingPopup Instance;
     public TextMeshProUGUI LoadingText;
 
-    private void Awake()
+    public override void Awake()
     {
         if (Instance == null) Instance = this;
         else if (Instance != this) Destroy(gameObject);
 
-        Container.rectTransform.localScale = Vector3.zero;
-        Overlay.color = new Color(Overlay.color.r, Overlay.color.g, Overlay.color.b, 0);
+        base.Awake();
     }
     public override void Show()
     {
-        gameObject.SetActive(true);
-        base.Show();
-        Container.rectTransform.DOScale(Vector3.one, 0.2f);
-        Overlay.DOFade(0.3f, 0.2f);
+        base.Show();   
         StartCoroutine(IELoading());
     }
     public override void Hide()
     {
-        base.Hide();
-        Container.rectTransform.DOKill();
-        Overlay.DOKill();
-        Container.rectTransform.DOScale(Vector3.zero, 0.2f);
-        Overlay.DOFade(0, 0.2f).OnComplete(() =>
-        {
-            gameObject.SetActive(false);
-        });
+        base.Hide();  
         StopAllCoroutines();
     }
     IEnumerator IELoading()
