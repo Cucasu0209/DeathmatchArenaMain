@@ -376,6 +376,8 @@
 -r:"Library/Bee/artifacts/1300b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1300b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/2.Scripts/0.RootScene/RootController.cs"
+"Assets/2.Scripts/1.Loading/LoadingController.cs"
+"Assets/2.Scripts/1.Loading/LoadingUI.cs"
 "Assets/2.Scripts/2.LoginScene/AuthenticationComponentUI.cs"
 "Assets/2.Scripts/2.LoginScene/LoginContainerUI.cs"
 "Assets/2.Scripts/2.LoginScene/LoginSceneController.cs"
