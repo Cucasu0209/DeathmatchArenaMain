@@ -74,6 +74,7 @@ public class LoadSceneSmoothController : MonoBehaviour
     }
     public void LoadScene(SceneEnum.Type scene)
     {
+        if (SceneManager.GetActiveScene().name == SceneEnum.GetSceneString(scene)) return;
         if (LoadSceneSmoothEntity.Instance == null)
         {
             GameObject myEffect = Resources.Load<GameObject>(LoadSceneSmoothEntityLink);

@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-
+using System;
+using PlayFab;
 public class PlayfabController : MonoBehaviour
 {
     #region Singleton
@@ -58,4 +59,43 @@ public class PlayfabController : MonoBehaviour
     }
     public void InitInstance() { }
     #endregion
+
+    #region Variables Playfab
+    private readonly string STATISTIC_ATTENDANCE_NUMBER = "AttendanceNumber";
+    #endregion
+
+    #region General Variables
+    private int NUMBER_PLAYER_GET_EACH_TURN = 30;
+    #endregion
+
+    #region Playfab Call API
+    private void SetAttendanceNumberPlayfab(Action OnComplete)
+    {
+
+    }
+    private void GetAllPlayersPlayfab(int index,Action<List<string>> OnComplete)
+    {
+        PlayFabClientAPI.GetLeaderboard(new PlayFab.ClientModels.GetLeaderboardRequest()
+        {
+
+        },
+        (result) =>
+        {
+
+        },
+        (error) =>
+        {
+
+        });
+    }
+    #endregion
+
+    #region Actions
+    #endregion
+}
+
+public class MinimalPlayerInformation
+{
+    public string Nickname;
+    public string Id;
 }
