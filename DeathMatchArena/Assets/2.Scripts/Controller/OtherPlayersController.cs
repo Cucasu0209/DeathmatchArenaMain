@@ -61,6 +61,9 @@ public class OtherPlayersController : MonoBehaviour
 
     #region Variables
     private Dictionary<string, PlayerPlayfabInformation> _tempOtherPlayer= new Dictionary<string, PlayerPlayfabInformation>();
+    
+    public static Action OnPlayerFocusChange;
+    public PlayerPlayfabInformation currentFocus;
     #endregion
 
 
@@ -77,5 +80,28 @@ public class OtherPlayersController : MonoBehaviour
             OnComplete?.Invoke();
         });
     }
+    public Dictionary<string, PlayerPlayfabInformation> GetTempAllPlayers()
+    {
+        return _tempOtherPlayer;
+    }
+    public string GetIdFocus()
+    {
+        if (currentFocus == null) return "";
+        return currentFocus.PlayFabId;
+    }
+    public bool IsPlayerInInvitationList(string playfabId)
+    {
+        return false;
+    }
+    public bool IsPlayerInFriendList(string playfabId)
+    {
+        return false;
+    }
+
+    public bool IsPlayerInRequestList(string playfabId)
+    {
+        return false;
+    }
+
     #endregion
 }
