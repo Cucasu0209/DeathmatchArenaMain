@@ -61,10 +61,6 @@ namespace Friend.Container.Friend
             
 
         }
-        protected override void OnEnable()
-        {
-            RetrieveDataAndUpdate(500);
-        }
 
         // This is called initially, as many times as needed to fill the viewport, 
         // and anytime the viewport's size grows, thus allowing more items to be displayed
@@ -96,8 +92,7 @@ namespace Friend.Container.Friend
 
             MyListItemModel model = Data[newOrRecycled.ItemIndex];
 
-            newOrRecycled.Name.text = model.name;
-            newOrRecycled.Id.text = model.id;
+            newOrRecycled.Player.SetInformation(model.player);
 
         }
 
@@ -106,12 +101,14 @@ namespace Friend.Container.Friend
         // download request, if it's still in progress when the item goes out of the viewport.
         // <newItemIndex> will be non-negative if this item will be recycled as opposed to just being disabled
         // *For the method's full description check the base implementation
-        /*
+        
 		protected override void OnBeforeRecycleOrDisableViewsHolder(MyListItemViewsHolder inRecycleBinOrVisible, int newItemIndex)
 		{
 			base.OnBeforeRecycleOrDisableViewsHolder(inRecycleBinOrVisible, newItemIndex);
-		}
-		*/
+
+            inRecycleBinOrVisible.Player.ClearInformation();
+        }
+		
 
         // You only need to care about this if changing the item count by other means than ResetItems, 
         // case in which the existing items will not be re-created, but only their indices will change.
@@ -183,16 +180,7 @@ namespace Friend.Container.Friend
 
             // Retrieve your data here
 
-            for (int i = 0; i < count; ++i)
-            {
-                var model = new MyListItemModel()
-                {
-                    name = "Cucasu" + UnityEngine.Random.Range(1, 1000),
-                    id = "id: " + UnityEngine.Random.Range(100000, 30000000),
-
-                };
-                newItems[i] = model;
-            }
+           
 
 
             OnDataRetrieved(newItems);
@@ -207,9 +195,7 @@ namespace Friend.Container.Friend
     // Class containing the data associated with an item
     public class MyListItemModel
     {
-
-        public string name;
-        public string id;
+        public PlayerPlayfabInformation player;
 
     }
 
@@ -219,9 +205,7 @@ namespace Friend.Container.Friend
     public class MyListItemViewsHolder : BaseItemViewsHolder
     {
 
-        public TextMeshProUGUI Name;
-        public TextMeshProUGUI Id;
-        public Image Background;
+        public PlayerUIItem Player;
 
 
 
@@ -233,9 +217,7 @@ namespace Friend.Container.Friend
             // GetComponentAtPath is a handy extension method from frame8.Logic.Misc.Other.Extensions
             // which infers the variable's component from its type, so you won't need to specify it yourself
 
-            root.GetComponentAtPath("Name", out Name);
-            root.GetComponentAtPath("Id", out Id);
-            root.GetComponentAtPath("Background", out Background);
+            root.GetComponentAtPath("Player", out Player);
 
         }
 
