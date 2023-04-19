@@ -4,11 +4,31 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using Doozy.Runtime.UIManager.Containers;
+using Friend.Container.Friend;
+using Friend.Container.FindPlayer;
+using Friend.Container.Request;
+using Friend.Container.Invitation;
+using System;
 
 public class FriendUI : MonoBehaviour
 {
+    public static FriendUI Instance;
+
+
+    #region UIComponent
     public Image FriendBtnBG, RequestBtnBG, FindBtnBG, InvitationBtnBG;
     public UIContainer FriendContainer, RequestContainer, FindContainer, InvitationContainer;
+    public Transform detailPanel;
+
+    public GameObject AcceptButton;
+    public GameObject RefuseButton;
+    public GameObject AddfriendButton;
+    public GameObject RemovefriendButton;
+    public GameObject CancelRequestButton;
+
+    #endregion
+
+    #region Variables
     public enum FriendContainerUIType
     {
         Friend,
@@ -16,11 +36,24 @@ public class FriendUI : MonoBehaviour
         Find,
         Invitation
     }
-
     private FriendContainerUIType currentContainer;
 
+
+
+    public PlayerDetailUI detail;
+    public FriendListAdapter friendList;
+    public FindPlayerListAdapter findList;
+    public RequestListAdapter requestList;
+    public InvitationListAdapter invitationList;
+
+
+    #endregion
+
+    #region Unity
     private void Awake()
     {
+        Instance = this;
+
         FriendBtnBG.color = new Color(FriendBtnBG.color.r, FriendBtnBG.color.g, FriendBtnBG.color.b, 1);
         RequestBtnBG.color = new Color(RequestBtnBG.color.r, RequestBtnBG.color.g, RequestBtnBG.color.b, 0);
         FindBtnBG.color = new Color(FindBtnBG.color.r, FindBtnBG.color.g, FindBtnBG.color.b, 0);
@@ -38,10 +71,13 @@ public class FriendUI : MonoBehaviour
     {
 
     }
+    #endregion
 
+    #region Actions
     public void ShowFriendContainer()
     {
         ShowContainer(FriendContainerUIType.Friend);
+
     }
     public void ShowRequestContainer()
     {
@@ -50,13 +86,17 @@ public class FriendUI : MonoBehaviour
     public void ShowFindContainer()
     {
         ShowContainer(FriendContainerUIType.Find);
+        List<Friend.Container.FindPlayer.MyListItemModel> items = new List<Friend.Container.FindPlayer.MyListItemModel>();
+        foreach (var player in OtherPlayersController.Instance.GetTempAllPlayers().Values)
+        {
+            items.Add(new Friend.Container.FindPlayer.MyListItemModel() { player = player });
+        }
+        findList.SetItems(items);
     }
-
     public void ShowInvitationContainer()
     {
         ShowContainer(FriendContainerUIType.Invitation);
     }
-
     public void ShowContainer(FriendContainerUIType container)
     {
         if (container == currentContainer) return;
@@ -95,5 +135,55 @@ public class FriendUI : MonoBehaviour
         }
 
     }
+    #endregion
 
+    #region ShowDetail
+    public void ShowDetail(PlayerPlayfabInformation player)
+    {
+        if (player == null)
+        {
+            detailPanel.gameObject.SetActive(false);
+            OtherPlayersController.Instance.currentFocus = null;
+        }
+        else if (player.PlayFabId == OtherPlayersController.Instance.GetIdFocus())
+        {
+            detailPanel.gameObject.SetActive(false);
+            OtherPlayersController.Instance.currentFocus = null;
+        }
+        else
+        {
+            detailPanel.gameObject.SetActive(true);
+            OtherPlayersController.Instance.currentFocus = player;
+        }
+        OtherPlayersController.OnPlayerFocusChange?.Invoke();
+
+        if (OtherPlayersController.Instance.currentFocus != null)
+        {
+            detail.DisplayInfomation(OtherPlayersController.Instance.currentFocus);
+            RemovefriendButton.SetActive(false);
+            AcceptButton.SetActive(false);
+            RefuseButton.SetActive(false);
+            CancelRequestButton.SetActive(false);
+            AddfriendButton.SetActive(false);
+            if (OtherPlayersController.Instance.IsPlayerInFriendList(OtherPlayersController.Instance.currentFocus.PlayFabId))
+            {
+                RemovefriendButton.SetActive(true);
+            }else if (OtherPlayersController.Instance.IsPlayerInInvitationList(OtherPlayersController.Instance.currentFocus.PlayFabId))
+            {
+                AcceptButton.SetActive(true);
+                RefuseButton.SetActive(true);
+            }
+            else if (OtherPlayersController.Instance.IsPlayerInRequestList(OtherPlayersController.Instance.currentFocus.PlayFabId))
+            {
+                CancelRequestButton.SetActive(true);
+            }
+            else
+            {
+                AddfriendButton.SetActive(true);
+            }
+        }
+    }
+
+
+    #endregion
 }

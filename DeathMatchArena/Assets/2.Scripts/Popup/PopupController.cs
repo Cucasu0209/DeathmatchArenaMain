@@ -10,10 +10,29 @@ public class PopupController
     private static readonly string LoginAfterRegisterPopupLink = "Popup/LoginAfterRegisterPopup";
     private static readonly string RenamePopupLink = "Popup/RenamePopup";
     private static readonly string ConfirmLogoutPopupLink = "Popup/ConfirmLogoutPopup";
+    private static readonly string PopupCanvasLink = "Popup/PopupCanvas";
     #endregion
 
     #region Action
-    public static void ShowLoadingPopup(Canvas holder)
+    public static PopupCanvas GetPopupCanvas()
+    {
+        if (PopupCanvas.Instance != null)
+        {
+            return PopupCanvas.Instance;
+        }
+
+        GameObject popupCanvas = Resources.Load<GameObject>(PopupCanvasLink);
+        if (popupCanvas != null)
+        {
+            return GameObject.Instantiate(popupCanvas, null).GetComponent<PopupCanvas>();
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+    public static void ShowLoadingPopup()
     {
         if (LoadingPopup.Instance != null)
         {
@@ -22,10 +41,11 @@ public class PopupController
         }
         else
         {
+
             GameObject myPopup = Resources.Load<GameObject>(LoadingPopupLink);
             if (myPopup != null)
             {
-                GameObject NewPopup = GameObject.Instantiate(myPopup, holder.transform);
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
                 NewPopup.GetComponent<BasePopup>()?.Show();
                 NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
             }
@@ -40,7 +60,7 @@ public class PopupController
         }
 
     }
-    public static void ShowLoginAfterRegisterPopupPopup(string username, string password, Canvas holder)
+    public static void ShowLoginAfterRegisterPopupPopup(string username, string password)
     {
         if (LoginAfterRegisterPopup.Instance != null)
         {
@@ -52,7 +72,7 @@ public class PopupController
             GameObject myPopup = Resources.Load<GameObject>(LoginAfterRegisterPopupLink);
             if (myPopup != null)
             {
-                GameObject NewPopup = GameObject.Instantiate(myPopup, holder.transform);
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
                 NewPopup.GetComponent<BasePopup>()?.Show();
                 NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
                 NewPopup.GetComponent<LoginAfterRegisterPopup>()?.SetInformation(username, password);
@@ -68,7 +88,7 @@ public class PopupController
         }
 
     }
-    public static void ShowRenamePopup(Canvas holder)
+    public static void ShowRenamePopup()
     {
         if (RenamePopup.Instance != null)
         {
@@ -80,7 +100,7 @@ public class PopupController
             GameObject myPopup = Resources.Load<GameObject>(RenamePopupLink);
             if (myPopup != null)
             {
-                GameObject NewPopup = GameObject.Instantiate(myPopup, holder.transform);
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
                 NewPopup.GetComponent<BasePopup>()?.Show();
                 NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
             }
@@ -95,7 +115,7 @@ public class PopupController
         }
 
     }
-    public static void ShowConfirmLogoutPopup(Canvas holder)
+    public static void ShowConfirmLogoutPopup()
     {
         if (ConfirmLogoutPopup.Instance != null)
         {
@@ -107,7 +127,7 @@ public class PopupController
             GameObject myPopup = Resources.Load<GameObject>(ConfirmLogoutPopupLink);
             if (myPopup != null)
             {
-                GameObject NewPopup = GameObject.Instantiate(myPopup, holder.transform);
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
                 NewPopup.GetComponent<BasePopup>()?.Show();
                 NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
             }

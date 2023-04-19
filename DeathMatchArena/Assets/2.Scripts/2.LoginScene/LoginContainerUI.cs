@@ -35,7 +35,7 @@ public class LoginContainerUI : MonoBehaviour
     public void Login()
     {
         Notification.SetText("");
-        PopupController.ShowLoadingPopup(LoginSceneController.Instance.MainCanvas);
+        PopupController.ShowLoadingPopup();
         AuthenticationController.Instance.Login(Username.GetText(), Password.GetText(), ActionLoginResult);
 
     }

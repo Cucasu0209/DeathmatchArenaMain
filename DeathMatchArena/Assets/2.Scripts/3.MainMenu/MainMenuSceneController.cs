@@ -14,7 +14,6 @@ public class MainMenuSceneController : MonoBehaviour
         Rank,
     }
     public static MainMenuSceneController Instance;
-    public Canvas MainCanvas;
     public UIContainer PlayGameContainer;
     public UIContainer SettingContainer;
     public UIContainer FriendContainer;
@@ -32,7 +31,7 @@ public class MainMenuSceneController : MonoBehaviour
 
         if (AuthenticationController.Instance.IsLogin() == false)
         {
-            PopupController.ShowLoadingPopup(MainCanvas);
+            PopupController.ShowLoadingPopup();
             AuthenticationController.Instance.LoginDefault((result) =>
             {
                 PopupController.HideLoadingPopup();
@@ -59,6 +58,6 @@ public class MainMenuSceneController : MonoBehaviour
     }
     public void Quit()
     {
-        PopupController.ShowConfirmLogoutPopup(MainCanvas);
+        PopupController.ShowConfirmLogoutPopup();
     }
 }

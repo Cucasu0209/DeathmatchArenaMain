@@ -7,6 +7,7 @@ public class LoadingPopup : BasePopup
 {
     public static LoadingPopup Instance;
     public TextMeshProUGUI LoadingText;
+    public TextMeshProUGUI PercentText;
 
     public override void Awake()
     {
@@ -15,15 +16,28 @@ public class LoadingPopup : BasePopup
 
         base.Awake();
     }
+    private void OnEnable()
+    {
+        PercentText.SetText("");
+        LoadingController.OnIncreaseProgress += Setpercent;
+    }
+    private void OnDisable()
+    {
+        LoadingController.OnIncreaseProgress -= Setpercent;
+    }
     public override void Show()
     {
-        base.Show();   
+        base.Show();
         StartCoroutine(IELoading());
     }
     public override void Hide()
     {
-        base.Hide();  
+        base.Hide();
         StopAllCoroutines();
+    }
+    public void Setpercent()
+    {
+        PercentText.SetText(Mathf.CeilToInt(LoadingController.Instance.numberOfDoneTask * 100f / LoadingController.Instance.maxTask).ToString());
     }
     IEnumerator IELoading()
     {

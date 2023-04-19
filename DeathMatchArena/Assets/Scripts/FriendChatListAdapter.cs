@@ -35,14 +35,13 @@ using Com.TheFallenGames.OSA.Core;
 using Com.TheFallenGames.OSA.CustomParams;
 using Com.TheFallenGames.OSA.DataHelpers;
 using TMPro;
-using DG.Tweening;
 
 // You should modify the namespace to your own or - if you're sure there won't ever be conflicts - remove it altogether
-namespace Friend.Container.FindPlayer
+namespace Chat.Container.Friend
 {
 	// There are 2 important callbacks you need to implement, apart from Start(): CreateViewsHolder() and UpdateViewsHolder()
 	// See explanations below
-	public class FindPlayerListAdapter : OSA<BaseParamsWithPrefab, MyListItemViewsHolder>
+	public class FriendChatListAdapter : OSA<BaseParamsWithPrefab, MyListItemViewsHolder>
 	{
 		// Helper that stores data and notifies the adapter when items count changes
 		// Can be iterated and can also have its elements accessed by the [] operator
@@ -62,7 +61,10 @@ namespace Friend.Container.FindPlayer
 			RetrieveDataAndUpdate(500);
 			*/
 		}
-		
+		protected override void OnEnable()
+		{
+			RetrieveDataAndUpdate(500);
+		}
 
 		// This is called initially, as many times as needed to fill the viewport, 
 		// and anytime the viewport's size grows, thus allowing more items to be displayed
@@ -91,9 +93,12 @@ namespace Friend.Container.FindPlayer
 			// In this callback, "newOrRecycled.ItemIndex" is guaranteed to always reflect the
 			// index of item that should be represented by this views holder. You'll use this index
 			// to retrieve the model from your data set
+			/*
 			MyListItemModel model = Data[newOrRecycled.ItemIndex];
 
-			newOrRecycled.Player.SetInformation(model.player);
+			newOrRecycled.backgroundImage.color = model.color;
+			newOrRecycled.titleText.text = model.title + " #" + newOrRecycled.ItemIndex;
+			*/
 		}
 
 		// This is the best place to clear an item's views in order to prepare it from being recycled, but this is not always needed, 
@@ -101,15 +106,12 @@ namespace Friend.Container.FindPlayer
 		// download request, if it's still in progress when the item goes out of the viewport.
 		// <newItemIndex> will be non-negative if this item will be recycled as opposed to just being disabled
 		// *For the method's full description check the base implementation
-		
+		/*
 		protected override void OnBeforeRecycleOrDisableViewsHolder(MyListItemViewsHolder inRecycleBinOrVisible, int newItemIndex)
 		{
 			base.OnBeforeRecycleOrDisableViewsHolder(inRecycleBinOrVisible, newItemIndex);
-			MyListItemModel model = Data[inRecycleBinOrVisible.ItemIndex];
-
-			inRecycleBinOrVisible.Player.ClearInformation();
 		}
-		
+		*/
 
 		// You only need to care about this if changing the item count by other means than ResetItems, 
 		// case in which the existing items will not be re-created, but only their indices will change.
@@ -119,14 +121,14 @@ namespace Friend.Container.FindPlayer
 		// so we update its title when its index changes. At this point, the Data list is already updated and 
 		// shiftedViewsHolder.ItemIndex was correctly shifted so you can use it to retrieve the associated model
 		// Also check the base implementation for complementary info
-		
+		/*
 		protected override void OnItemIndexChangedDueInsertOrRemove(MyListItemViewsHolder shiftedViewsHolder, int oldIndex, bool wasInsert, int removeOrInsertIndex)
 		{
 			base.OnItemIndexChangedDueInsertOrRemove(shiftedViewsHolder, oldIndex, wasInsert, removeOrInsertIndex);
 
-			
+			shiftedViewsHolder.titleText.text = Data[shiftedViewsHolder.ItemIndex].title + " #" + shiftedViewsHolder.ItemIndex;
 		}
-		
+		*/
 		#endregion
 
 		// These are common data manipulation methods
@@ -177,7 +179,21 @@ namespace Friend.Container.FindPlayer
 			// Simulating data retrieving delay
 			yield return new WaitForSeconds(.5f);
 			
-			
+			var newItems = new MyListItemModel[count];
+
+			// Retrieve your data here
+			for (int i = 0; i < count; ++i)
+			{
+				var model = new MyListItemModel()
+				{
+					name = "Friends" + UnityEngine.Random.Range(1, 1000),
+
+				};
+				newItems[i] = model;
+			}
+
+
+			OnDataRetrieved(newItems);
 		}
 
 		void OnDataRetrieved(MyListItemModel[] newItems)
@@ -189,7 +205,8 @@ namespace Friend.Container.FindPlayer
 	// Class containing the data associated with an item
 	public class MyListItemModel
 	{
-		public PlayerPlayfabInformation player;
+		public string name;
+
 	}
 
 
@@ -197,7 +214,8 @@ namespace Friend.Container.FindPlayer
 	// Your views holder should extend BaseItemViewsHolder for ListViews and CellViewsHolder for GridViews
 	public class MyListItemViewsHolder : BaseItemViewsHolder
 	{
-		public PlayerUIItem Player;
+		public TextMeshProUGUI Name;
+		public Image Background;
 
 
 		// Retrieving the views from the item's root GameObject
@@ -205,9 +223,8 @@ namespace Friend.Container.FindPlayer
 		{
 			base.CollectViews();
 
-			// GetComponentAtPath is a handy extension method from frame8.Logic.Misc.Other.Extensions
-			// which infers the variable's component from its type, so you won't need to specify it yourself
-			root.GetComponentAtPath("Player", out Player);
+			root.GetComponentAtPath("Name", out Name);
+			root.GetComponentAtPath("Background", out Background);
 		}
 
 		// Override this if you have children layout groups or a ContentSizeFitter on root that you'll use. 

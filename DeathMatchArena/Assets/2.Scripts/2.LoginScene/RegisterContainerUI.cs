@@ -35,7 +35,7 @@ public class RegisterContainerUI : MonoBehaviour
     public void Register()
     {
         Notification.SetText("");
-        PopupController.ShowLoadingPopup(LoginSceneController.Instance.MainCanvas);
+        PopupController.ShowLoadingPopup();
         AuthenticationController.Instance.Register(Username.GetText(), Password.GetText(), Password2.GetText(), ActionRegisterResult);
     }
 
@@ -44,7 +44,7 @@ public class RegisterContainerUI : MonoBehaviour
         Notification.SetText(NotificationLog[result]);
         if (result == RegisterResultType.Success)
         {
-            PopupController.ShowLoginAfterRegisterPopupPopup(Username.GetText(), Password.GetText(), LoginSceneController.Instance.MainCanvas);
+            PopupController.ShowLoginAfterRegisterPopupPopup(Username.GetText(), Password.GetText());
         }
         PopupController.HideLoadingPopup();
     }

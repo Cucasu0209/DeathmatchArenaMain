@@ -29,7 +29,7 @@ public class StartNameContainerUI : MonoBehaviour
     {
         Notification.SetText("");
         string nickname = NickName.GetText();
-        PopupController.ShowLoadingPopup(LoginSceneController.Instance.MainCanvas);
+        PopupController.ShowLoadingPopup();
         AuthenticationController.Instance.ChangeNickName(nickname, ActionChangeNameResult);
     }
     public void ActionChangeNameResult(NickNameChangeResult result)
