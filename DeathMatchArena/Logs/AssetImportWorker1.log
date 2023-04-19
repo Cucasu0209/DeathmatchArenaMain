@@ -15,7 +15,7 @@ A:/UnitySourceCode/DeathmatchArenaMain/DeathMatchArena
 -logFile
 Logs/AssetImportWorker1.log
 -srvPort
-53003
+59579
 Successfully changed project path to: A:/UnitySourceCode/DeathmatchArenaMain/DeathMatchArena
 A:/UnitySourceCode/DeathmatchArenaMain/DeathMatchArena
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,7 +47,7 @@ A:/UnitySourceCode/DeathmatchArenaMain/DeathMatchArena
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Refreshing native plugins compatible for Editor in 118.97 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 106.87 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.3.1f1 (3b70a0754835)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/Resources/UnitySubsystems
@@ -63,93 +63,93 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56552
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56976
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.003973 seconds.
+Registered in 0.003484 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Refreshing native plugins compatible for Editor in 112.02 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 99.26 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.723 seconds
+- Completed reload, in  0.600 seconds
 Domain Reload Profiling:
-	ReloadAssembly (724ms)
-		BeginReloadAssembly (79ms)
+	ReloadAssembly (600ms)
+		BeginReloadAssembly (61ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (1ms)
-		EndReloadAssembly (526ms)
-			LoadAssemblies (77ms)
+		EndReloadAssembly (447ms)
+			LoadAssemblies (59ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (139ms)
+			SetupTypeCache (102ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (27ms)
-			SetupLoadedEditorAssemblies (309ms)
+			RebuildScriptCaches (25ms)
+			SetupLoadedEditorAssemblies (278ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (57ms)
+				InitializePlatformSupportModulesInManaged (49ms)
 				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (112ms)
+				RefreshPlugins (99ms)
 				BeforeProcessingInitializeOnLoad (1ms)
-				ProcessInitializeOnLoadAttributes (93ms)
-				ProcessInitializeOnLoadMethodAttributes (46ms)
+				ProcessInitializeOnLoadAttributes (86ms)
+				ProcessInitializeOnLoadMethodAttributes (42ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.003060 seconds.
+Registered in 0.003364 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image A:\UnitySourceCode\DeathmatchArenaMain\DeathMatchArena\Library\PackageCache\com.unity.visualscripting@1.7.6\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory is not a mono symbol file
 Symbol file LoadedFromMemory doesn't match image A:\UnitySourceCode\DeathmatchArenaMain\DeathMatchArena\Library\PackageCache\com.unity.visualscripting@1.7.6\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Refreshing native plugins compatible for Editor in 1.37 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 0.86 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.383 seconds
+- Completed reload, in  1.427 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1383ms)
-		BeginReloadAssembly (207ms)
+	ReloadAssembly (1429ms)
+		BeginReloadAssembly (221ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
+			DisableScriptedObjects (7ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (129ms)
-		EndReloadAssembly (1061ms)
-			LoadAssemblies (90ms)
+			CreateAndSetChildDomain (125ms)
+		EndReloadAssembly (1086ms)
+			LoadAssemblies (94ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
 			SetupTypeCache (293ms)
 			ReleaseScriptCaches (1ms)
 			RebuildScriptCaches (75ms)
-			SetupLoadedEditorAssemblies (557ms)
+			SetupLoadedEditorAssemblies (584ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (15ms)
-				SetLoadedEditorAssemblies (1ms)
+				InitializePlatformSupportModulesInManaged (11ms)
+				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (85ms)
-				ProcessInitializeOnLoadAttributes (426ms)
-				ProcessInitializeOnLoadMethodAttributes (24ms)
-				AfterProcessingInitializeOnLoad (5ms)
+				BeforeProcessingInitializeOnLoad (74ms)
+				ProcessInitializeOnLoadAttributes (453ms)
+				ProcessInitializeOnLoadMethodAttributes (38ms)
+				AfterProcessingInitializeOnLoad (7ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
+			AwakeInstancesAfterBackupRestoration (9ms)
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 1.28 ms, found 3 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
+Refreshing native plugins compatible for Editor in 1.86 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4496 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 31 unused Assets / (56.3 KB). Loaded Objects now: 4961.
-Memory consumption went from 161.9 MB to 161.9 MB.
-Total: 4.582700 ms (FindLiveObjects: 0.545000 ms CreateObjectMapping: 0.387200 ms MarkObjects: 3.562200 ms  DeleteObjects: 0.087300 ms)
+Unloading 4497 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 31 unused Assets / (55.9 KB). Loaded Objects now: 4963.
+Memory consumption went from 161.8 MB to 161.8 MB.
+Total: 3.274100 ms (FindLiveObjects: 0.400400 ms CreateObjectMapping: 0.198100 ms MarkObjects: 2.610100 ms  DeleteObjects: 0.064400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -164,66 +164,227 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 435740.824639 seconds.
-  path: Assets/2.Scripts/Controller/SceneEnum.cs
-  artifactKey: Guid(5b24b9b2346c8d544a495a6f10641179) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/2.Scripts/Controller/SceneEnum.cs using Guid(5b24b9b2346c8d544a495a6f10641179) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0be891799272e301ed8403ddb50580ac') in 0.030695 seconds 
+  Time since last request: 497271.457214 seconds.
+  path: Assets/3.Texture/2.Login/TextBox1Login.png
+  artifactKey: Guid(69cedd54751e1174f9ce8fcad29266a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/2.Login/TextBox1Login.png using Guid(69cedd54751e1174f9ce8fcad29266a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '77c3ccaa3f4711f1486ba0e5c52c18ca') in 0.126180 seconds 
 ========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.002927 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image A:\UnitySourceCode\DeathmatchArenaMain\DeathMatchArena\Library\PackageCache\com.unity.visualscripting@1.7.6\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
-Symbol file LoadedFromMemory is not a mono symbol file
-Symbol file LoadedFromMemory doesn't match image A:\UnitySourceCode\DeathmatchArenaMain\DeathMatchArena\Library\PackageCache\com.unity.visualscripting@1.7.6\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Refreshing native plugins compatible for Editor in 1.75 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.186 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1187ms)
-		BeginReloadAssembly (120ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (4ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (34ms)
-		EndReloadAssembly (970ms)
-			LoadAssemblies (89ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (289ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (54ms)
-			SetupLoadedEditorAssemblies (492ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (19ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (71ms)
-				ProcessInitializeOnLoadAttributes (367ms)
-				ProcessInitializeOnLoadMethodAttributes (26ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (7ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.55 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4471 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 21 unused Assets / (24.9 KB). Loaded Objects now: 4966.
-Memory consumption went from 160.4 MB to 160.4 MB.
-Total: 2.547900 ms (FindLiveObjects: 0.277100 ms CreateObjectMapping: 0.187300 ms MarkObjects: 2.053400 ms  DeleteObjects: 0.028500 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+Received Import Request.
+  Time since last request: 0.000025 seconds.
+  path: Assets/3.Texture/2.Login/button2Login.png
+  artifactKey: Guid(6f573f9e087008f498fcf7e1762d81ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/2.Login/button2Login.png using Guid(6f573f9e087008f498fcf7e1762d81ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '289e1c6956204ed9a3e7d10b68102ceb') in 0.024392 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 13.071557 seconds.
+  path: Assets/3.Texture/1.Loading/Processer.png
+  artifactKey: Guid(92235afb5f36ef9408a9c2a7c1eb74df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/1.Loading/Processer.png using Guid(92235afb5f36ef9408a9c2a7c1eb74df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '551348e4c55b1034eced50689eaf0e31') in 0.023806 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.421289 seconds.
+  path: Assets/3.Texture/3.MainMenu/ChatBox/chatboxOption.png
+  artifactKey: Guid(7b279a424f39f9b48a63a80a291d22ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/ChatBox/chatboxOption.png using Guid(7b279a424f39f9b48a63a80a291d22ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ff9e2e5d959cded0bd22a6a343234d60') in 0.021329 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.259879 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/Close button.png
+  artifactKey: Guid(211c68aa82bd3644098799494de765d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/Close button.png using Guid(211c68aa82bd3644098799494de765d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '07274268d923a224c6b6651d92d41682') in 0.025460 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/icon setting.png
+  artifactKey: Guid(09d70d491ed29f64b87f2dafc226d307) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/icon setting.png using Guid(09d70d491ed29f64b87f2dafc226d307) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f3f4bf11bef7a7e12602fdaab8120d02') in 0.027760 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.748947 seconds.
+  path: Assets/3.Texture/3.MainMenu/NewChatbox/textchat.png
+  artifactKey: Guid(3461e6a9658433a4c995596a4a425291) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/NewChatbox/textchat.png using Guid(3461e6a9658433a4c995596a4a425291) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aff1c09c518b0812ab4fe53dd9f89d3b') in 0.025099 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.349594 seconds.
+  path: Assets/3.Texture/3.MainMenu/Ping/pping3.png
+  artifactKey: Guid(c257b9aa528557a4dae8240cbc8d256b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/Ping/pping3.png using Guid(c257b9aa528557a4dae8240cbc8d256b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4c2ba21f531b7d4e681eb38ba2d5a566') in 0.022583 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.363098 seconds.
+  path: Assets/3.Texture/3.MainMenu/Shop/shop separete.png
+  artifactKey: Guid(084fc225c3ce61f4d8a3ad6b8f24dc4e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/Shop/shop separete.png using Guid(084fc225c3ce61f4d8a3ad6b8f24dc4e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '558a9a568b647da709f197c620a27f05') in 0.035377 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 15.884815 seconds.
+  path: Assets/3.Texture/3.MainMenu/PlayerDetail/PlayerReviewbox.png
+  artifactKey: Guid(35e1baf7523bd164681b079e91849105) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/PlayerDetail/PlayerReviewbox.png using Guid(35e1baf7523bd164681b079e91849105) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '80306439c5d322b7e4b887be9cce17f2') in 0.036313 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 15.055097 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/badge_light.png
+  artifactKey: Guid(a53c02988091cd94fb00c1cc178c059c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/badge_light.png using Guid(a53c02988091cd94fb00c1cc178c059c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '94cb1c880d758f1f3d112a923e161d2d') in 0.033555 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000022 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bell-on_light.png
+  artifactKey: Guid(36253c4436dd9e041b4554db476a3f61) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bell-on_light.png using Guid(36253c4436dd9e041b4554db476a3f61) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '211153fa8a619c1de732d0064a00098f') in 0.027286 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000019 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/book_solid.png
+  artifactKey: Guid(bfca54a1495dded4d874090722b39ec2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/book_solid.png using Guid(bfca54a1495dded4d874090722b39ec2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c98ad832e25d8dcbce5346d6d03d6416') in 0.025844 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bell-slash_regular.png
+  artifactKey: Guid(61517a68634fab44f9800b953b5ad67c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bell-slash_regular.png using Guid(61517a68634fab44f9800b953b5ad67c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7d1c7ee87603598783cb773adfa17594') in 0.023040 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000041 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bookmark_light.png
+  artifactKey: Guid(959209e4904ffad4580801ef8a091c0f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bookmark_light.png using Guid(959209e4904ffad4580801ef8a091c0f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd2c49a1765dbe06698caab0a1287c522') in 0.020746 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bag-shopping_solid.png
+  artifactKey: Guid(f115eff581c0c9f4fa77ee994396ca90) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bag-shopping_solid.png using Guid(f115eff581c0c9f4fa77ee994396ca90) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b354baa4c3a71f8dd074589e7ceaea1c') in 0.022351 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Brands/bitcoin.png
+  artifactKey: Guid(e90bc2bf42639ed468f739a7aed1e5f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Brands/bitcoin.png using Guid(e90bc2bf42639ed468f739a7aed1e5f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f4488ed344f1230d75bdcdb0c2d8163') in 0.021819 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bell-slash_solid.png
+  artifactKey: Guid(b9b362579a9c40c41a9843e998d145c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bell-slash_solid.png using Guid(b9b362579a9c40c41a9843e998d145c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '19d1648132e0cfc8b323ca2948fdaaa8') in 0.022544 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bell-on_solid.png
+  artifactKey: Guid(f690337035c4b8b41ac1513e779092f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bell-on_solid.png using Guid(f690337035c4b8b41ac1513e779092f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5b9474d59e6b82f6e887772629db96d6') in 0.024010 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/book_light.png
+  artifactKey: Guid(df530ff99195ee34abee164207ececc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/book_light.png using Guid(df530ff99195ee34abee164207ececc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '40941a44bc49f73acd037a3956d41299') in 0.022738 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000021 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bars_light.png
+  artifactKey: Guid(ff255c5dd3240a44cab747646c2dd545) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bars_light.png using Guid(ff255c5dd3240a44cab747646c2dd545) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b752760e3dcb2ba69949d9cbbd60ee7a') in 0.024505 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000022 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/binoculars_light.png
+  artifactKey: Guid(6c0c6f074b510514c8a8210352118002) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/binoculars_light.png using Guid(6c0c6f074b510514c8a8210352118002) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9e97d2e03f748415815eb55f66e35465') in 0.018448 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bell_light.png
+  artifactKey: Guid(e1c16dca918b7e1409ca935ced895af1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bell_light.png using Guid(e1c16dca918b7e1409ca935ced895af1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '085fbd10aa4a0c7e2357f530761901e8') in 0.022325 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000044 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bolt_regular.png
+  artifactKey: Guid(667d5e9edcaa90b49b76ee6ba6be80a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bolt_regular.png using Guid(667d5e9edcaa90b49b76ee6ba6be80a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c93f4ed2bf7f319795fe7e7c05ab0487') in 0.023382 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/briefcase_light.png
+  artifactKey: Guid(fcd04df391ab5a3408c87c27b8e0ba5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/briefcase_light.png using Guid(fcd04df391ab5a3408c87c27b8e0ba5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aba09e2d342743d37cc376ffc33e5cfe') in 0.019062 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000040 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/badge_regular.png
+  artifactKey: Guid(9231e12deabf3e545b934a81759bafb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/badge_regular.png using Guid(9231e12deabf3e545b934a81759bafb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ccfaabd704cb5e3065469e6f24b90ca6') in 0.020726 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.719865 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Wallpapers/BubblesInLiquid_3.png
+  artifactKey: Guid(4f1a1d6a812b8884ca8011c7a6f1e6f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Wallpapers/BubblesInLiquid_3.png using Guid(4f1a1d6a812b8884ca8011c7a6f1e6f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b9a2cf87b69c11f48df22c8de2c6413b') in 0.059479 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Wallpapers/BubblesInLiquid_9.png
+  artifactKey: Guid(3330f83a9c2f3354d90761854ad5b8fb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Wallpapers/BubblesInLiquid_9.png using Guid(3330f83a9c2f3354d90761854ad5b8fb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4247236f780deb839f11467bc9b919a8') in 0.049544 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Wallpapers/BubblesInLiquid_5.png
+  artifactKey: Guid(d838141756e916546bd87409c7c56fef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Wallpapers/BubblesInLiquid_5.png using Guid(d838141756e916546bd87409c7c56fef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '13f948d61884bb0e1320940e01379ba7') in 0.049885 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000040 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bullhorn_solid.png
+  artifactKey: Guid(26e19e981dd761c4b847674c8333922c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bullhorn_solid.png using Guid(26e19e981dd761c4b847674c8333922c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '850503b040376c0364d9c36746a59fb2') in 0.020681 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Icons/bullseye_solid.png
+  artifactKey: Guid(8fd12411254d896419bc9a571ba74fb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Icons/bullseye_solid.png using Guid(8fd12411254d896419bc9a571ba74fb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7fde52a2608b3c0a5eb3e573cb4b1155') in 0.021873 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/Doozy/_Extras/Sprites/Wallpapers/BubblesInLiquid_6.png
+  artifactKey: Guid(355df39bedabbc74b95ab32aa29ac693) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Sprites/Wallpapers/BubblesInLiquid_6.png using Guid(355df39bedabbc74b95ab32aa29ac693) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0560443383238775d8b47906982603ba') in 0.047172 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 50.309429 seconds.
+  path: Assets/Doozy/_Extras/Fonts/Inter-ExtraBold SDF.asset
+  artifactKey: Guid(bbe3fed5db2c99b4b81038c30bd2aa6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Fonts/Inter-ExtraBold SDF.asset using Guid(bbe3fed5db2c99b4b81038c30bd2aa6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1d54a101e7022718d847f84ca29b7b14') in 0.082458 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000020 seconds.
+  path: Assets/Doozy/_Extras/Fonts/Inter-Light SDF.asset
+  artifactKey: Guid(36b9d0351ad47bd41a745de98c893214) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Fonts/Inter-Light SDF.asset using Guid(36b9d0351ad47bd41a745de98c893214) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '642b7245b007d44485eb36cb42a679b2') in 0.032856 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
+  artifactKey: Guid(8f586378b4e144a9851e7b34d9b748ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset using Guid(8f586378b4e144a9851e7b34d9b748ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '98b09c6608f06103f96bdb3d043c07a0') in 0.081882 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/6.Font/Style2.asset
+  artifactKey: Guid(0b64f78ff579c9b4393576aad5aa2d26) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6.Font/Style2.asset using Guid(0b64f78ff579c9b4393576aad5aa2d26) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9a80e01426297eaffb01d1d4491ebaa3') in 0.022329 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000043 seconds.
+  path: Assets/Doozy/_Extras/Fonts/Inter-Medium SDF.asset
+  artifactKey: Guid(b5dcbb5be6b1ca648b5d823993f8ff8b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Doozy/_Extras/Fonts/Inter-Medium SDF.asset using Guid(b5dcbb5be6b1ca648b5d823993f8ff8b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7ae7f1319dc7dbbe23fea878e8d5801e') in 0.031002 seconds 
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0

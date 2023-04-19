@@ -1,0 +1,254 @@
+Using pre-set license
+Built from '2021.3/staging' branch; Version is '2021.3.1f1 (3b70a0754835) revision 3895456'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 11  (10.0.22621) 64bit Professional' Language: 'en' Physical Memory: 16265 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.3.1f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+A:/UnitySourceCode/DeathmatchArenaMain/DeathMatchArena
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+54358
+Successfully changed project path to: A:/UnitySourceCode/DeathmatchArenaMain/DeathMatchArena
+A:/UnitySourceCode/DeathmatchArenaMain/DeathMatchArena
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Refreshing native plugins compatible for Editor in 98.10 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.3.1f1 (3b70a0754835)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path A:/UnitySourceCode/DeathmatchArenaMain/DeathMatchArena/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 2060 (ID=0x1e89)
+    Vendor:   NVIDIA
+    VRAM:     5958 MB
+    Driver:   31.0.15.2741
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56036
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.1f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.003948 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for Android target not found
+Refreshing native plugins compatible for Editor in 102.60 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.572 seconds
+Domain Reload Profiling:
+	ReloadAssembly (572ms)
+		BeginReloadAssembly (57ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (1ms)
+		EndReloadAssembly (426ms)
+			LoadAssemblies (56ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (85ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (24ms)
+			SetupLoadedEditorAssemblies (275ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (51ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (103ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (84ms)
+				ProcessInitializeOnLoadMethodAttributes (36ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.003195 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image A:\UnitySourceCode\DeathmatchArenaMain\DeathMatchArena\Library\PackageCache\com.unity.visualscripting@1.7.6\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory is not a mono symbol file
+Symbol file LoadedFromMemory doesn't match image A:\UnitySourceCode\DeathmatchArenaMain\DeathMatchArena\Library\PackageCache\com.unity.visualscripting@1.7.6\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Native extension for Android target not found
+Refreshing native plugins compatible for Editor in 1.26 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.717 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1718ms)
+		BeginReloadAssembly (202ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (120ms)
+		EndReloadAssembly (1389ms)
+			LoadAssemblies (123ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (446ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (136ms)
+			SetupLoadedEditorAssemblies (612ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (17ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (117ms)
+				ProcessInitializeOnLoadAttributes (444ms)
+				ProcessInitializeOnLoadMethodAttributes (28ms)
+				AfterProcessingInitializeOnLoad (6ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (5ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
+Refreshing native plugins compatible for Editor in 1.63 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 4496 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 31 unused Assets / (55.9 KB). Loaded Objects now: 4962.
+Memory consumption went from 162.0 MB to 161.9 MB.
+Total: 3.315900 ms (FindLiveObjects: 0.303900 ms CreateObjectMapping: 0.167200 ms MarkObjects: 2.758100 ms  DeleteObjects: 0.085100 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 477752.532363 seconds.
+  path: Assets/2.Scripts/Friend/FriendUI.cs
+  artifactKey: Guid(3bd2c876b20616d4185c4e04e01819fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2.Scripts/Friend/FriendUI.cs using Guid(3bd2c876b20616d4185c4e04e01819fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3444dc71b501f8848e12176451991076') in 0.035616 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2207.156256 seconds.
+  path: Assets/3.Texture/3.MainMenu/ChatBox/chat.png
+  artifactKey: Guid(adf2fcfc8ada7c3489c281eb210ea439) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/ChatBox/chat.png using Guid(adf2fcfc8ada7c3489c281eb210ea439) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8536121ff569cf3c84445602e8e1a97c') in 0.117921 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000424 seconds.
+  path: Assets/3.Texture/3.MainMenu/ChatBox/chatboxOption.png
+  artifactKey: Guid(7b279a424f39f9b48a63a80a291d22ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/ChatBox/chatboxOption.png using Guid(7b279a424f39f9b48a63a80a291d22ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '16438cb4699bc5a3bb66bbfc2fae1b85') in 0.025120 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 10.693315 seconds.
+  path: Assets/3.Texture/3.MainMenu/newFriend/Friend.png
+  artifactKey: Guid(5b21d5bae9e67a4419905f68d7d0ea94) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/newFriend/Friend.png using Guid(5b21d5bae9e67a4419905f68d7d0ea94) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6a9302bc6376e2f95ee81fdc5ce664a5') in 0.056526 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.623461 seconds.
+  path: Assets/3.Texture/3.MainMenu/PlayerDetail/boxItem.png
+  artifactKey: Guid(968c3b1aa06d99b46a7cd2f1ca5b30a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/PlayerDetail/boxItem.png using Guid(968c3b1aa06d99b46a7cd2f1ca5b30a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1420319aae41e27e9858467b2cbe94e6') in 0.034276 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/3.Texture/3.MainMenu/PlayerDetail/review_chiso.png
+  artifactKey: Guid(84369d6d0a7e1c04683867ca3c7fcd48) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/PlayerDetail/review_chiso.png using Guid(84369d6d0a7e1c04683867ca3c7fcd48) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '54176f8127e8b71855962089acd48320') in 0.040123 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.358596 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/Avatar.png
+  artifactKey: Guid(0b33e31d8b96d954280b7a5c0a71e6fb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/Avatar.png using Guid(0b33e31d8b96d954280b7a5c0a71e6fb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cc9bd9e326b514d25c7fc07fdc98db11') in 0.031528 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000021 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/iconShop.png
+  artifactKey: Guid(dd12e81491cc1484091da2e5c19cc15c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/iconShop.png using Guid(dd12e81491cc1484091da2e5c19cc15c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0bb379da8f32cbcd8e9b77b966313eb2') in 0.039876 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/iconHome.png
+  artifactKey: Guid(a55aeb74df8d7524882503042c4d03a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/iconHome.png using Guid(a55aeb74df8d7524882503042c4d03a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4b6b6e5b88c533ecfce02ceb4ed15b15') in 0.040411 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/quit.png
+  artifactKey: Guid(e96f78ed57cc860498637d08f5480edb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/quit.png using Guid(e96f78ed57cc860498637d08f5480edb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dee7224f57319d68a4c3fa52d58d2338') in 0.039072 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/rename.png
+  artifactKey: Guid(f19b2ef380c118b409dd5b16ab86471c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/rename.png using Guid(f19b2ef380c118b409dd5b16ab86471c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a99cdf9794730e13d7493522c8cd498b') in 0.030836 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000022 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/PlayRank.png
+  artifactKey: Guid(67d3163a2f68dc24d83c89941361a5bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/PlayRank.png using Guid(67d3163a2f68dc24d83c89941361a5bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fed48c20a565eada7bf77b9a8436f3af') in 0.059039 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000019 seconds.
+  path: Assets/3.Texture/3.MainMenu/GeneralMainmenu/icon friend.png
+  artifactKey: Guid(4095110bce7901e4e9c51f0129aa3bc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/GeneralMainmenu/icon friend.png using Guid(4095110bce7901e4e9c51f0129aa3bc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8ac6c254857c9d7aca750ddbe6a28c3b') in 0.033639 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.131465 seconds.
+  path: Assets/3.Texture/3.MainMenu/NewChatbox/asdasd.png
+  artifactKey: Guid(8dcb5f1c028f66644951e5122f303d36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/NewChatbox/asdasd.png using Guid(8dcb5f1c028f66644951e5122f303d36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a5624d766a4ebf95bb94405e5892e8d3') in 0.024798 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000017 seconds.
+  path: Assets/3.Texture/3.MainMenu/NewChatbox/textchat.png
+  artifactKey: Guid(3461e6a9658433a4c995596a4a425291) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3.Texture/3.MainMenu/NewChatbox/textchat.png using Guid(3461e6a9658433a4c995596a4a425291) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6b7eae99398d77fbb8169ebadf0a026d') in 0.026720 seconds 
