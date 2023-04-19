@@ -19,6 +19,7 @@ public class FriendUI : MonoBehaviour
     public Image FriendBtnBG, RequestBtnBG, FindBtnBG, InvitationBtnBG;
     public UIContainer FriendContainer, RequestContainer, FindContainer, InvitationContainer;
     public Transform detailPanel;
+    public AuthenticationComponentUI SearchField;
 
     public GameObject AcceptButton;
     public GameObject RefuseButton;
@@ -135,6 +136,23 @@ public class FriendUI : MonoBehaviour
         }
 
     }
+
+
+    public void SearchPlayer()
+    {
+        string _p = SearchField.GetText().ToLower();
+        findList.ResetItems(0);
+        List<Friend.Container.FindPlayer.MyListItemModel> items = new List<Friend.Container.FindPlayer.MyListItemModel>();
+        foreach (var player in OtherPlayersController.Instance.GetTempAllPlayers().Values)
+        {
+            if (player.DisplayName.ToLower().Contains(_p) || player.PlayFabId.Contains(_p))
+            {
+                items.Add(new Friend.Container.FindPlayer.MyListItemModel() { player = player });
+            }
+
+        }
+        findList.SetItems(items);
+    }
     #endregion
 
     #region ShowDetail
@@ -168,7 +186,8 @@ public class FriendUI : MonoBehaviour
             if (OtherPlayersController.Instance.IsPlayerInFriendList(OtherPlayersController.Instance.currentFocus.PlayFabId))
             {
                 RemovefriendButton.SetActive(true);
-            }else if (OtherPlayersController.Instance.IsPlayerInInvitationList(OtherPlayersController.Instance.currentFocus.PlayFabId))
+            }
+            else if (OtherPlayersController.Instance.IsPlayerInInvitationList(OtherPlayersController.Instance.currentFocus.PlayFabId))
             {
                 AcceptButton.SetActive(true);
                 RefuseButton.SetActive(true);

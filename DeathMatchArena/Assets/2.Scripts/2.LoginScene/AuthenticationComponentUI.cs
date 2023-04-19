@@ -8,7 +8,7 @@ using System.Linq;
 
 public class AuthenticationComponentUI : MonoBehaviour
 {
-    public string allowedCharacters = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM._@:1234567890";
+    [HideInInspector] public string allowedCharacters = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM._@:1234567890";
     public TMP_InputField Input;
     public Image Arrow;
 

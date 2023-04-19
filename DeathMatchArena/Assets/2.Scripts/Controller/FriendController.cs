@@ -58,4 +58,12 @@ public class FriendController : MonoBehaviour
     }
     public void InitInstance() { }
     #endregion
+
+    #region Variables
+
+    #endregion
+
+    #region Actions
+
+    #endregion
 }

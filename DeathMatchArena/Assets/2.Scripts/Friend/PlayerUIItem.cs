@@ -31,11 +31,15 @@ public class PlayerUIItem : MonoBehaviour
         {
             Arrow.DOKill();
             Arrow.DOFade(1, 0.2f);
+            btn.transform.DOKill();
+            btn.transform.DOScale(Vector3.one * 1.1f, 0.2f);
         }
         else
         {
             Arrow.DOKill();
             Arrow.DOFade(0, 0.2f);
+            btn.transform.DOKill();
+            btn.transform.DOScale(Vector3.one, 0.2f);
         }
     }
 
@@ -44,7 +48,7 @@ public class PlayerUIItem : MonoBehaviour
     {
         myInfo = player;
         Name.SetText(player.DisplayName);
-        Id.SetText(player.PlayFabId);
+        Id.SetText("Id:" + player.PlayFabId);
         btn.onClick.AddListener(() => FriendUI.Instance.ShowDetail(player));
     }
     public void ClearInformation()
