@@ -4,6 +4,8 @@ using System.Reflection;
 using UnityEngine;
 using System;
 using PlayFab;
+using Newtonsoft.Json;
+
 public class PlayfabController : MonoBehaviour
 {
     #region Singleton
@@ -61,7 +63,8 @@ public class PlayfabController : MonoBehaviour
     #endregion
 
     #region Variables Playfab
-    private readonly string STATISTIC_ATTENDANCE_NUMBER = "AttendanceNumber";
+    private readonly string PlayfabFunctionCloud_Attendance = "attendance";
+    private readonly string PlayfabFunctionCloud_GetAllPlayers = "getAllPlayers";
     #endregion
 
     #region General Variables
@@ -69,33 +72,80 @@ public class PlayfabController : MonoBehaviour
     #endregion
 
     #region Playfab Call API
-    private void SetAttendanceNumberPlayfab(Action OnComplete)
+    private void AttendancePlayfab(Action OnComplete)
     {
-
-    }
-    private void GetAllPlayersPlayfab(int index,Action<List<string>> OnComplete)
-    {
-        PlayFabClientAPI.GetLeaderboard(new PlayFab.ClientModels.GetLeaderboardRequest()
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
         {
-
+            FunctionName = PlayfabFunctionCloud_Attendance,
         },
         (result) =>
         {
+            if (result.FunctionResult != null)
+            {
+                Debug.Log($"[{this.name}]:Attendance {result.FunctionResult}");
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:Attendance fail");
+            }
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Attendance fail");
+            OnComplete?.Invoke();
+        });
+    }
+    public void GetAllPlayersPlayfab(int index, Action<List<PlayerPlayfabInformation>> OnComplete)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
+        {
+            FunctionName = PlayfabFunctionCloud_GetAllPlayers,
+            FunctionParameter = new { startPos = index }
+        },
+        (result) =>
+        {
+            if (result.FunctionResult != null)
+            {
+
+                List<PlayerPlayfabInformation> Players = JsonConvert.DeserializeObject<List<PlayerPlayfabInformation>>(result.FunctionResult.ToString());
+                Debug.Log($"[{this.name}]:Get All Players {Players.Count}");
+                foreach (var player in Players)
+                {
+                    Debug.Log(player.getInf());
+                }
+                OnComplete?.Invoke(Players);
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:Get All Players Fail");
+            }
 
         },
         (error) =>
         {
-
+            Debug.Log($"[{this.name}]:Get All Players Fail");
         });
     }
     #endregion
 
     #region Actions
+    public void ActionImediatelyAfterLogin(Action onComplete)
+    {
+        AttendancePlayfab(onComplete);
+    }
     #endregion
 }
 
-public class MinimalPlayerInformation
+public class PlayerPlayfabInformation
 {
-    public string Nickname;
-    public string Id;
+    public string DisplayName;
+    public string PlayFabId;
+    public string Position;
+    public int StatValue;
+
+    public string getInf()
+    {
+        return DisplayName + ":" + PlayFabId;
+    }
 }

@@ -19,7 +19,7 @@ public class LoginAfterRegisterPopup : BasePopup
     public void ClickYes()
     {
 
-        PopupController.ShowLoadingPopup(LoginSceneController.Instance.MainCanvas);
+        PopupController.ShowLoadingPopup();
         AuthenticationController.Instance.Login(username, password, ActionLoginResult);
         PopupController.HideLoginAfterRegisterPopupPopup();
     }

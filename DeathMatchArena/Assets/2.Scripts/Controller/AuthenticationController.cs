@@ -85,7 +85,8 @@ public class AuthenticationController : MonoBehaviour
             LocalClientData.SaveUsername(username);
             LocalClientData.SavePassword(password);
             PlayerData.SetId(MyPlayfabId);
-            OnComplete?.Invoke(LoginResultType.Success);
+            LoadDataAfterLogin(() => OnComplete?.Invoke(LoginResultType.Success));
+
 
         },
         (error) =>
@@ -192,6 +193,13 @@ public class AuthenticationController : MonoBehaviour
     {
         Login(LocalClientData.LoadUsername(), LocalClientData.LoadPassword(), OnComplete);
     }
+    private void LoadDataAfterLogin(Action OnComplete)
+    {
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.ActionImediatelyAfterLogin(oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetAllPlayers(0, oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetAllPlayers(1, oncomplete));
+        LoadingController.Instance.StartLoading(OnComplete);
+    }
     #endregion
 
     #region Action
@@ -258,7 +266,7 @@ public class AuthenticationController : MonoBehaviour
     }
     public void Logout()
     {
-        LogoutPlayfab();   
+        LogoutPlayfab();
     }
     public void LoginDefault(Action<LoginResultType> OnComplete)
     {
@@ -279,6 +287,7 @@ public class AuthenticationController : MonoBehaviour
     {
         return IsClientLoggedIn();
     }
+
     #endregion
 
     #region Validate

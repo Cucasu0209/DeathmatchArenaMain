@@ -9,7 +9,6 @@ using Doozy.Runtime.UIManager.Containers;
 public class LoginSceneController : MonoBehaviour
 {
     public static LoginSceneController Instance;
-    public Canvas MainCanvas;
     public UIContainer LoginContainer;
     public UIContainer RegisterContainer;
     public UIContainer StartNameContainer;

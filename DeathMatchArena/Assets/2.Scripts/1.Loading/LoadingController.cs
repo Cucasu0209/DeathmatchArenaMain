@@ -80,7 +80,7 @@ public class LoadingController : MonoBehaviour
 
     public void StartLoading(Action OnLoaingComplete)
     {
-        LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.Loading);
+        PopupController.ShowLoadingPopup();
         isloading = true;
         numberOfDoneTask = 0;
         maxTask = ListAction.Count;
@@ -97,50 +97,14 @@ public class LoadingController : MonoBehaviour
         {
             ListAction.Clear();
             isloading = false;
+            PopupController.HideLoadingPopup();
             OnLoaingComplete?.Invoke();
         }
     }
 
     private void Start()
     {
-
-        RegisterEventPrepare((Action) =>
-        {
-            AuthenticationController.Instance.LoginDefault((a) => { Action?.Invoke(); });
-        });
-        RegisterEventPrepare((Action) =>
-        {
-            AuthenticationController.Instance.LoginDefault((a) =>
-            {
-                UpdateLeaderboard(() => { Action?.Invoke(); });
-
-            });
-        });
-        StartLoading(() => { LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.MainMenu); });
+   
     }
 
-    public void UpdateLeaderboard(Action oncomplete)
-    {
-
-        // Set up the request to call the updateLeaderboard Cloud Script function
-        var request = new ExecuteCloudScriptRequest
-        {
-            FunctionName = "updateLeaderboard",
-        };
-
-        // Call the ExecuteCloudScript API to execute the updateLeaderboard function
-        PlayFabClientAPI.ExecuteCloudScript(request, (a) => { OnUpdateLeaderboardSuccess(a); oncomplete?.Invoke(); }, OnUpdateLeaderboardError);
-    }
-
-    private void OnUpdateLeaderboardSuccess(ExecuteCloudScriptResult result)
-    {
-        Debug.Log(result.Error.Error+" "+result.Error.StackTrace);
-        Debug.Log(result.FunctionResult.ToString());
-        Debug.Log("Leaderboard updated successfully!");
-    }
-
-    private void OnUpdateLeaderboardError(PlayFabError error)
-    {
-        Debug.LogError("Error updating leaderboard: " + error.GenerateErrorReport());
-    }
 }

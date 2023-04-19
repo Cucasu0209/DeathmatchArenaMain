@@ -37,7 +37,7 @@ public class RenamePopup : BasePopup
         Notification.SetText("");
         string nickname = NickName.GetText();
         if (MainMenuSceneController.Instance != null)
-            PopupController.ShowLoadingPopup(MainMenuSceneController.Instance.MainCanvas);
+            PopupController.ShowLoadingPopup();
         AuthenticationController.Instance.ChangeNickName(nickname, ActionChangeNameResult);
     }
     public void ClickCancel()
