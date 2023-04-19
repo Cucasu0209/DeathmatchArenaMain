@@ -7,13 +7,14 @@ using Doozy.Runtime.UIManager.Containers;
 
 public class FriendUI : MonoBehaviour
 {
-    public Image FriendBtnBG, RequestBtnBG, FindBtnBG;
-    public UIContainer FriendContainer, RequestContainer, FindContainer;
+    public Image FriendBtnBG, RequestBtnBG, FindBtnBG, InvitationBtnBG;
+    public UIContainer FriendContainer, RequestContainer, FindContainer, InvitationContainer;
     public enum FriendContainerUIType
     {
         Friend,
         Request,
-        Find
+        Find,
+        Invitation
     }
 
     private FriendContainerUIType currentContainer;
@@ -23,9 +24,11 @@ public class FriendUI : MonoBehaviour
         FriendBtnBG.color = new Color(FriendBtnBG.color.r, FriendBtnBG.color.g, FriendBtnBG.color.b, 1);
         RequestBtnBG.color = new Color(RequestBtnBG.color.r, RequestBtnBG.color.g, RequestBtnBG.color.b, 0);
         FindBtnBG.color = new Color(FindBtnBG.color.r, FindBtnBG.color.g, FindBtnBG.color.b, 0);
+        InvitationBtnBG.color = new Color(InvitationBtnBG.color.r, InvitationBtnBG.color.g, InvitationBtnBG.color.b, 0);
         FriendContainer.InstantShow();
         RequestContainer.InstantHide();
         FindContainer.InstantHide();
+        InvitationContainer.InstantHide();
     }
     private void OnEnable()
     {
@@ -49,6 +52,11 @@ public class FriendUI : MonoBehaviour
         ShowContainer(FriendContainerUIType.Find);
     }
 
+    public void ShowInvitationContainer()
+    {
+        ShowContainer(FriendContainerUIType.Invitation);
+    }
+
     public void ShowContainer(FriendContainerUIType container)
     {
         if (container == currentContainer) return;
@@ -57,10 +65,12 @@ public class FriendUI : MonoBehaviour
         FriendBtnBG.DOFade(0, 0.2f);
         RequestBtnBG.DOFade(0, 0.2f);
         FindBtnBG.DOFade(0, 0.2f);
+        InvitationBtnBG.DOFade(0, 0.2f);
 
         FriendContainer.Hide();
         RequestContainer.Hide();
         FindContainer.Hide();
+        InvitationContainer.Hide();
 
 
         if (container == FriendContainerUIType.Friend)
@@ -78,7 +88,11 @@ public class FriendUI : MonoBehaviour
             FindBtnBG.DOKill(); FindBtnBG.DOFade(1, 0.2f);
             FindContainer.Show();
         }
-
+        else if (container == FriendContainerUIType.Invitation)
+        {
+            InvitationBtnBG.DOKill(); InvitationBtnBG.DOFade(1, 0.2f);
+            InvitationContainer.Show();
+        }
 
     }
 
