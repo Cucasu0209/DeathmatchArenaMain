@@ -18,7 +18,7 @@ public class FriendUI : MonoBehaviour
     #region UIComponent
     public Image FriendBtnBG, RequestBtnBG, FindBtnBG, InvitationBtnBG;
     public UIContainer FriendContainer, RequestContainer, FindContainer, InvitationContainer;
-    public Transform detailPanel;
+    public RectTransform detailPanel;
     public AuthenticationComponentUI SearchField;
 
     public GameObject AcceptButton;
@@ -160,21 +160,46 @@ public class FriendUI : MonoBehaviour
     {
         if (player == null)
         {
-            detailPanel.gameObject.SetActive(false);
+            detailPanel.DOKill();
+            detailPanel.DOAnchorPosX(-300, 0.2f);
+            //detailPanel.gameObject.SetActive(false);
             OtherPlayersController.Instance.currentFocus = null;
         }
         else if (player.PlayFabId == OtherPlayersController.Instance.GetIdFocus())
         {
-            detailPanel.gameObject.SetActive(false);
+            detailPanel.DOKill();
+            detailPanel.DOAnchorPosX(-300, 0.2f);
+            //detailPanel.gameObject.SetActive(false);
             OtherPlayersController.Instance.currentFocus = null;
         }
         else
         {
-            detailPanel.gameObject.SetActive(true);
             OtherPlayersController.Instance.currentFocus = player;
+            if (detailPanel.anchoredPosition.x > 0)
+            {
+                detailPanel.DOKill();
+                detailPanel.DOAnchorPosX(-300, 0.2f).OnComplete(() =>
+                {
+                    DisplayInforDetail();
+                    detailPanel.DOAnchorPosX(341, 0.2f).SetDelay(0.1f).SetEase(Ease.InOutSine);
+                });
+            }
+            else
+            {
+                detailPanel.DOKill();
+                DisplayInforDetail();
+                detailPanel.DOAnchorPosX(341, 0.2f).SetDelay(0.1f).SetEase(Ease.InOutSine);
+            }
+            //detailPanel.gameObject.SetActive(true);
+          
         }
         OtherPlayersController.OnPlayerFocusChange?.Invoke();
 
+
+    }
+
+    private void DisplayInforDetail()
+    {
         if (OtherPlayersController.Instance.currentFocus != null)
         {
             detail.DisplayInfomation(OtherPlayersController.Instance.currentFocus);
