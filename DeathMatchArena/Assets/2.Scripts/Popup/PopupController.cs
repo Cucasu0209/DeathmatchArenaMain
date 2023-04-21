@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 public class PopupController
 {
     #region Link
+    private static readonly string PopupCanvasLink = "Popup/PopupCanvas";
     private static readonly string LoadingPopupLink = "Popup/LoadingPopup";
     private static readonly string LoginAfterRegisterPopupLink = "Popup/LoginAfterRegisterPopup";
     private static readonly string RenamePopupLink = "Popup/RenamePopup";
     private static readonly string ConfirmLogoutPopupLink = "Popup/ConfirmLogoutPopup";
-    private static readonly string PopupCanvasLink = "Popup/PopupCanvas";
+    private static readonly string YesNoPopupLink = "Popup/YesNoPopup";
+    
     #endregion
 
     #region Action
@@ -66,6 +68,7 @@ public class PopupController
         {
             LoginAfterRegisterPopup.Instance.Show();
             LoginAfterRegisterPopup.Instance.transform.SetAsLastSibling();
+            LoginAfterRegisterPopup.Instance.SetInformation(username, password);
         }
         else
         {
@@ -130,6 +133,7 @@ public class PopupController
                 GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
                 NewPopup.GetComponent<BasePopup>()?.Show();
                 NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+
             }
         }
 
@@ -139,6 +143,36 @@ public class PopupController
         if (ConfirmLogoutPopup.Instance != null)
         {
             ConfirmLogoutPopup.Instance.Hide();
+        }
+
+    }
+    public static void ShowYesNoPopup(string notifyMessage,Action Yes, Action No)
+    {
+        if (YesNoPopup.Instance != null)
+        {
+            YesNoPopup.Instance.Show();
+            YesNoPopup.Instance.transform.SetAsLastSibling();
+            YesNoPopup.Instance.SetInformation(notifyMessage, Yes, No);
+        }
+        else
+        {
+            GameObject myPopup = Resources.Load<GameObject>(YesNoPopupLink);
+            if (myPopup != null)
+            {
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
+                NewPopup.GetComponent<BasePopup>()?.Show();
+                NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+                NewPopup.GetComponent<YesNoPopup>()?.SetInformation(notifyMessage, Yes, No);
+
+            }
+        }
+
+    }
+    public static void HideYesNoPopup()
+    {
+        if (YesNoPopup.Instance != null)
+        {
+            YesNoPopup.Instance.Hide();
         }
 
     }

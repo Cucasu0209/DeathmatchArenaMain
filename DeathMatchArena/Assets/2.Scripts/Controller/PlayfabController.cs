@@ -65,6 +65,11 @@ public class PlayfabController : MonoBehaviour
     #region Variables Playfab
     private readonly string PlayfabFunctionCloud_Attendance = "attendance";
     private readonly string PlayfabFunctionCloud_GetAllPlayers = "getAllPlayers";
+
+
+    private readonly string PlayfabDataName_RequestAddFriend = "RequestAddFriend";
+    private readonly string PlayfabDataName_InvitationFriend = "InvitationFriend";
+
     #endregion
 
     #region General Variables
@@ -126,6 +131,159 @@ public class PlayfabController : MonoBehaviour
         {
             Debug.Log($"[{this.name}]:Get All Players Fail");
         });
+    }
+    public void GetRequestAddfriend(Action<List<string>> OnComplete)
+    {
+        PlayFabClientAPI.GetUserData(new PlayFab.ClientModels.GetUserDataRequest()
+        {
+            Keys = new List<string>() { PlayfabDataName_RequestAddFriend },
+        },
+        (result) =>
+        {
+            if (result.Data.ContainsKey(PlayfabDataName_RequestAddFriend))
+            {
+                List<string> listReqest = JsonConvert.DeserializeObject<List<string>>(result.Data[PlayfabDataName_RequestAddFriend].Value);
+                Debug.Log($"[{this.name}]:Get Request Addfriend - Request Count {listReqest.Count}");
+                OnComplete?.Invoke(listReqest);
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:Get Request Addfriend - No Request");
+                OnComplete?.Invoke(new List<string>());
+            }
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Get Request Addfriend fail {error.ErrorMessage}");
+            OnComplete?.Invoke(new List<string>());
+        });
+    }
+    public void UpdateRequestAddfriend(List<string> newList, Action Oncomplete)
+    {
+        PlayFabClientAPI.UpdateUserData(new PlayFab.ClientModels.UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>()
+            {
+                {PlayfabDataName_RequestAddFriend, JsonConvert.SerializeObject(newList)},
+            }
+        },
+        (result) =>
+        {
+            Debug.Log($"[{this.name}]:Update Request Addfriend success");
+            Oncomplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Update Request Addfriend success { error.ErrorMessage}");
+            Oncomplete?.Invoke();
+        });
+    }
+    public void GetInvitationfriend(Action<List<string>> OnComplete)
+    {
+        PlayFabClientAPI.GetUserData(new PlayFab.ClientModels.GetUserDataRequest()
+        {
+            Keys = new List<string>() { PlayfabDataName_InvitationFriend },
+        },
+        (result) =>
+        {
+            if (result.Data.ContainsKey(PlayfabDataName_InvitationFriend))
+            {
+                List<string> listReqest = JsonConvert.DeserializeObject<List<string>>(result.Data[PlayfabDataName_InvitationFriend].Value);
+                Debug.Log($"[{this.name}]:Get Invitation friend - Request Count {listReqest.Count}");
+                OnComplete?.Invoke(listReqest);
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:Get Invitation friend - No Request");
+                OnComplete?.Invoke(new List<string>());
+            }
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Get Invitation friend fail {error.ErrorMessage}");
+            OnComplete?.Invoke(new List<string>());
+        });
+    }
+    public void UpdateInvitationfriend(List<string> newList, Action Oncomplete)
+    {
+        PlayFabClientAPI.UpdateUserData(new PlayFab.ClientModels.UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>()
+            {
+                {PlayfabDataName_InvitationFriend, JsonConvert.SerializeObject(newList)},
+            }
+        },
+        (result) =>
+        {
+            Debug.Log($"[{this.name}]:Update Invitation friend success");
+            Oncomplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Update Invitation friend success { error.ErrorMessage}");
+            Oncomplete?.Invoke();
+        });
+    }
+    public void GetAllFriendPlayfab(Action<List<PlayerPlayfabInformation>> OnComplete)
+    {
+        PlayFabClientAPI.GetFriendsList(new PlayFab.ClientModels.GetFriendsListRequest()
+        {
+
+        },
+        (result) =>
+        {
+            Debug.Log($"[{this.name}]:Get all friend success");
+            List<PlayerPlayfabInformation> friends = new List<PlayerPlayfabInformation>();
+            foreach (var friend in result.Friends)
+            {
+                friends.Add(new PlayerPlayfabInformation()
+                {
+                    PlayFabId = friend.FriendPlayFabId,
+                    DisplayName = friend.TitleDisplayName
+                });
+            }
+            OnComplete?.Invoke(friends);
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Get all friend fail { error.ErrorMessage}");
+            OnComplete?.Invoke(new List<PlayerPlayfabInformation>());
+        });
+    }
+    public void AddNewFriendPlayfab(string playfabid, Action OnComplete)
+    {
+        PlayFabClientAPI.AddFriend(new PlayFab.ClientModels.AddFriendRequest()
+        {
+            FriendPlayFabId = playfabid,
+        },
+        (result) =>
+        {
+            Debug.Log($"[{this.name}]:Add friend success");
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Add friend fail { error.ErrorMessage}");
+            OnComplete?.Invoke();
+        });
+    }
+    public void RemoveFriendPlayfab(string playfabid, Action OnComplete)
+    {
+        PlayFabClientAPI.RemoveFriend(new PlayFab.ClientModels.RemoveFriendRequest
+        {
+            FriendPlayFabId = playfabid
+        },
+        (result) =>
+        {
+            Debug.Log($"[{this.name}]:Remove friend success");
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Remove friend fail { error.ErrorMessage}");
+            OnComplete?.Invoke();
+        }); ;
+     
     }
     #endregion
 
