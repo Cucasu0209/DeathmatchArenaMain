@@ -2,7 +2,7 @@ using Doozy.Runtime.UIManager.Containers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class MainMenuSceneController : MonoBehaviour
 {
     public enum ContainerType
@@ -22,6 +22,8 @@ public class MainMenuSceneController : MonoBehaviour
 
     public ContainerType CurrentContainer = ContainerType.PlayGame;
 
+    public TextMeshProUGUI FriendNotiCount;
+
     private void Awake()
     {
         Instance = this;
@@ -38,6 +40,15 @@ public class MainMenuSceneController : MonoBehaviour
             });
         }
 
+    }
+    private void Update()
+    {
+        if (OtherPlayersController.Instance.GetTempInvitaion().Count > 0)
+        {
+            FriendNotiCount.transform.parent.gameObject.SetActive(true);
+            FriendNotiCount.SetText(OtherPlayersController.Instance.GetTempInvitaion().Count.ToString());
+        }
+        else FriendNotiCount.transform.parent.gameObject.SetActive(false);
     }
     public void ShowContainer(ContainerType type)
     {

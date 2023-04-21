@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using PlayFab;
 using Newtonsoft.Json;
+using PlayFab.DataModels;
 
 public class PlayfabController : MonoBehaviour
 {
@@ -76,7 +77,7 @@ public class PlayfabController : MonoBehaviour
     private int NUMBER_PLAYER_GET_EACH_TURN = 30;
     #endregion
 
-    #region Playfab Call API
+    #region Playfab Call API Yourself
     private void AttendancePlayfab(Action OnComplete)
     {
         PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
@@ -282,8 +283,87 @@ public class PlayfabController : MonoBehaviour
         {
             Debug.Log($"[{this.name}]:Remove friend fail { error.ErrorMessage}");
             OnComplete?.Invoke();
-        }); ;
-     
+        });
+
+    }
+    #endregion
+
+    #region Playfab Call Group API
+    public void GetSubscribedGroupChat(Action OnComplete)
+    {
+        var data = new Dictionary<string, object>()
+        {
+            {"fsdfsdfsdf", 100},
+            {"Mana", 10000}
+        };
+        var dataList = new List<SetObject>()
+        {
+            new SetObject()
+            {
+                ObjectName = "PlayerData",
+                DataObject = data
+            },
+    // A free-tier customer may store up to 3 objects on each entity
+        };
+
+
+        PlayFabGroupsAPI.ListMembership(new PlayFab.GroupsModels.ListMembershipRequest()
+        {
+        },
+        (result) =>
+        {
+            string debu = "";
+            foreach (var group in result.Groups)
+            {
+                debu += group.GroupName + ",";
+                PlayFabGroupsAPI.ListGroupMembers(new PlayFab.GroupsModels.ListGroupMembersRequest()
+                {
+                    Group = group.Group,
+                },
+                (result) =>
+                {
+                    string debua = "";
+                    foreach (var member in result.Members)
+                    {
+                        //debua += $"({member.Members[0].Key.Id},{member.RoleId},{member.RoleName})";
+                        foreach (var membe in member.Members)
+                        {
+                            debua += $"({membe.Key.Id},{member.RoleId},{member.RoleName})";
+
+                        }
+                    }
+                    Debug.Log($"[{this.name}]:Get Groups member success group:{group.GroupName}, {debua}");
+                },
+                (error) =>
+                {
+                    Debug.Log($"[{this.name}]:Get Groups member fail { error.ErrorMessage}");
+                });
+
+                PlayFabDataAPI.SetObjects(new SetObjectsRequest()
+                {
+                    Entity = new EntityKey() { Id = group.Group.Id, Type = group.Group.Type }, // Saved from GetEntityToken, or a specified key created from a titlePlayerId, CharacterId, etc
+                    Objects = dataList,
+                    
+                },
+                (result) =>
+                {
+
+                    Debug.Log($"[{this.name}]:update Groups data success {group.GroupName}");
+                },
+                (error) =>
+                {
+                    Debug.Log($"[{this.name}]:update Groups data member fail {group.GroupName} { error.ErrorMessage}");
+                });
+
+            }
+            Debug.Log($"[{this.name}]:Get Groups success {debu}, {result.Groups.Count}");
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Remove friend fail { error.ErrorMessage}");
+            OnComplete?.Invoke();
+        });
     }
     #endregion
 
