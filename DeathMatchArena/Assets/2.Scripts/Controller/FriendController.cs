@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -60,10 +61,40 @@ public class FriendController : MonoBehaviour
     #endregion
 
     #region Variables
-
+    private List<string> _tempFriend = new List<string>();
     #endregion
 
     #region Actions
+    public bool IsFriend(string PlayfabId)
+    {
+        return _tempFriend.Contains(PlayfabId);
+    }
+    public void GetFriends(Action OnComplete)
+    {
+        PlayfabController.Instance.GetAllFriendPlayfab((friends) =>
+        {
+            foreach (var friend in friends)
+            {
+                OtherPlayersController.Instance.AddTempPlayer(friend);
+                if (_tempFriend.Contains(friend.PlayFabId) == false) _tempFriend.Add(friend.PlayFabId);
+            }
+            OnComplete?.Invoke();
+        });
+    }
+    public List<string> GetTempFriend()
+    {
+        return _tempFriend;
+    }
+    public void SaveNewFriend(string PlayfabId)
+    {
+        if (_tempFriend.Contains(PlayfabId) == false) _tempFriend.Add(PlayfabId);
+        PlayfabController.Instance.AddNewFriendPlayfab(PlayfabId, null);
+    }
 
+    public void SaveRemoveFriend(string PlayfabId)
+    {
+        if (_tempFriend.Contains(PlayfabId) == true) _tempFriend.Remove(PlayfabId);
+        PlayfabController.Instance.RemoveFriendPlayfab(PlayfabId, null);
+    }
     #endregion
 }

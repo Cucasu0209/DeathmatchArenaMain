@@ -9,6 +9,7 @@ using Friend.Container.FindPlayer;
 using Friend.Container.Request;
 using Friend.Container.Invitation;
 using System;
+using TMPro;
 
 public class FriendUI : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class FriendUI : MonoBehaviour
     public GameObject AddfriendButton;
     public GameObject RemovefriendButton;
     public GameObject CancelRequestButton;
+
+    public TextMeshProUGUI RequestCount;
+    public TextMeshProUGUI InvitationCount;
+
 
     #endregion
 
@@ -66,11 +71,54 @@ public class FriendUI : MonoBehaviour
     }
     private void OnEnable()
     {
-
+        OtherPlayersController.OnTempListChange += OnChatMessageCome;
     }
     private void OnDisable()
     {
+        OtherPlayersController.OnTempListChange += OnChatMessageCome;
+    }
+    private void Update()
+    {
+        if (OtherPlayersController.Instance.GetTempRequest().Count > 0)
+        {
+            RequestCount.transform.parent.gameObject.SetActive(true);
+            RequestCount.SetText(OtherPlayersController.Instance.GetTempRequest().Count.ToString());
+        }
+        else RequestCount.transform.parent.gameObject.SetActive(false);
 
+        if (OtherPlayersController.Instance.GetTempInvitaion().Count > 0)
+        {
+            InvitationCount.transform.parent.gameObject.SetActive(true);
+            InvitationCount.SetText(OtherPlayersController.Instance.GetTempInvitaion().Count.ToString());
+        }
+        else InvitationCount.transform.parent.gameObject.SetActive(false);
+    }
+    private void OnChatMessageCome(ChatMessage message)
+    {
+        string cache = OtherPlayersController.Instance.GetIdFocus();
+        ShowDetail(null);
+        if (message.type == ChatMessageType.RequestFriend)
+        {
+            if (currentContainer == FriendContainerUIType.Invitation) ShowInvitationContainer();
+        }
+        else if (message.type == ChatMessageType.CancelRequestFriend)
+        {
+            if (currentContainer == FriendContainerUIType.Invitation) ShowInvitationContainer();
+        }
+        else if (message.type == ChatMessageType.AcceptRequestFriend)
+        {
+            if (currentContainer == FriendContainerUIType.Friend) ShowFriendContainer();
+            if (currentContainer == FriendContainerUIType.Request) ShowRequestContainer();
+        }
+        else if (message.type == ChatMessageType.RefuserequestFriend)
+        {
+            if (currentContainer == FriendContainerUIType.Request) ShowRequestContainer();
+        }
+        else if (message.type == ChatMessageType.RemoveFriend)
+        {
+            if (currentContainer == FriendContainerUIType.Friend) ShowFriendContainer();
+        }
+        ShowDetail(OtherPlayersController.Instance.GetInfFromId(cache));
     }
     #endregion
 
@@ -78,11 +126,24 @@ public class FriendUI : MonoBehaviour
     public void ShowFriendContainer()
     {
         ShowContainer(FriendContainerUIType.Friend);
-
+        List<Friend.Container.Friend.MyListItemModel> items = new List<Friend.Container.Friend.MyListItemModel>();
+        foreach (var playerId in FriendController.Instance.GetTempFriend())
+        {
+            items.Add(new Friend.Container.Friend.MyListItemModel() { player = OtherPlayersController.Instance.GetInfFromId(playerId) });
+        }
+        friendList.SetItems(items);
+        ShowDetail(null);
     }
     public void ShowRequestContainer()
     {
         ShowContainer(FriendContainerUIType.Request);
+        List<Friend.Container.Request.MyListItemModel> items = new List<Friend.Container.Request.MyListItemModel>();
+        foreach (var playerId in OtherPlayersController.Instance.GetTempRequest())
+        {
+            items.Add(new Friend.Container.Request.MyListItemModel() { player = OtherPlayersController.Instance.GetInfFromId(playerId) });
+        }
+        requestList.SetItems(items);
+        ShowDetail(null);
     }
     public void ShowFindContainer()
     {
@@ -93,10 +154,18 @@ public class FriendUI : MonoBehaviour
             items.Add(new Friend.Container.FindPlayer.MyListItemModel() { player = player });
         }
         findList.SetItems(items);
+        ShowDetail(null);
     }
     public void ShowInvitationContainer()
     {
         ShowContainer(FriendContainerUIType.Invitation);
+        List<Friend.Container.Invitation.MyListItemModel> items = new List<Friend.Container.Invitation.MyListItemModel>();
+        foreach (var playerId in OtherPlayersController.Instance.GetTempInvitaion())
+        {
+            items.Add(new Friend.Container.Invitation.MyListItemModel() { player = OtherPlayersController.Instance.GetInfFromId(playerId) });
+        }
+        invitationList.SetItems(items);
+        ShowDetail(null);
     }
     public void ShowContainer(FriendContainerUIType container)
     {
@@ -136,8 +205,6 @@ public class FriendUI : MonoBehaviour
         }
 
     }
-
-
     public void SearchPlayer()
     {
         string _p = SearchField.GetText().ToLower();
@@ -191,13 +258,12 @@ public class FriendUI : MonoBehaviour
                 detailPanel.DOAnchorPosX(341, 0.2f).SetDelay(0.1f).SetEase(Ease.InOutSine);
             }
             //detailPanel.gameObject.SetActive(true);
-          
+
         }
         OtherPlayersController.OnPlayerFocusChange?.Invoke();
 
 
     }
-
     private void DisplayInforDetail()
     {
         if (OtherPlayersController.Instance.currentFocus != null)
@@ -208,7 +274,11 @@ public class FriendUI : MonoBehaviour
             RefuseButton.SetActive(false);
             CancelRequestButton.SetActive(false);
             AddfriendButton.SetActive(false);
-            if (OtherPlayersController.Instance.IsPlayerInFriendList(OtherPlayersController.Instance.currentFocus.PlayFabId))
+            if (OtherPlayersController.Instance.IsMe(OtherPlayersController.Instance.currentFocus.PlayFabId))
+            {
+
+            }
+            else if (OtherPlayersController.Instance.IsPlayerInFriendList(OtherPlayersController.Instance.currentFocus.PlayFabId))
             {
                 RemovefriendButton.SetActive(true);
             }
@@ -227,7 +297,39 @@ public class FriendUI : MonoBehaviour
             }
         }
     }
-
+    public void AddfriendButtonClick()
+    {
+        OtherPlayersController.Instance.AddFriend();
+        DisplayInforDetail();
+    }
+    public void CancelRequestButtonClick()
+    {
+        OtherPlayersController.Instance.CancelRequestFriend();
+        DisplayInforDetail();
+        if (currentContainer == FriendContainerUIType.Request) ShowRequestContainer();
+    }
+    public void AcceptInvitationButtonClick()
+    {
+        OtherPlayersController.Instance.AcceptInvitationFriend();
+        DisplayInforDetail();
+        if (currentContainer == FriendContainerUIType.Invitation) ShowInvitationContainer();
+    }
+    public void RefuseInvitationButtonClick()
+    {
+        OtherPlayersController.Instance.RefuseInvitationFriend();
+        DisplayInforDetail();
+        if (currentContainer == FriendContainerUIType.Invitation) ShowInvitationContainer();
+    }
+    public void RemoveFriendButtonClick()
+    {
+        string notifyMessage = $"Are you sure to Remove friend \"{OtherPlayersController.Instance.GetInfFromId().DisplayName}\"?";
+        PopupController.ShowYesNoPopup(notifyMessage, () =>
+        {
+            OtherPlayersController.Instance.RemoveFriend();
+            DisplayInforDetail();
+            if (currentContainer == FriendContainerUIType.Friend) ShowFriendContainer();
+        }, null); 
+    }
 
     #endregion
 }

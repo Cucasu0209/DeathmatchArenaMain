@@ -198,6 +198,11 @@ public class AuthenticationController : MonoBehaviour
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.ActionImediatelyAfterLogin(oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetAllPlayers(0, oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetAllPlayers(1, oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetRequestAddfriend(oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetInvitationfriend(oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => FriendController.Instance.GetFriends(oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => NetworkController_Chat.Instance.Connect(oncomplete));
+
         LoadingController.Instance.StartLoading(OnComplete);
     }
     #endregion
