@@ -74,7 +74,7 @@ public class PlayfabController : MonoBehaviour
     #endregion
 
     #region General Variables
-    private int NUMBER_PLAYER_GET_EACH_TURN = 30;
+
     #endregion
 
     #region Playfab Call API Yourself
@@ -379,8 +379,7 @@ public class PlayerPlayfabInformation
 {
     public string DisplayName;
     public string PlayFabId;
-    public string Position;
-    public int StatValue;
+    public int status;
 
     public string getInf()
     {

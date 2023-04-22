@@ -8,7 +8,7 @@ using System.Linq;
 
 public class AuthenticationComponentUI : MonoBehaviour
 {
-    [HideInInspector] public string allowedCharacters = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM._@:1234567890";
+    [HideInInspector] public string allowedCharacters = "abcdefghij klmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM._@:1234567890";
     public TMP_InputField Input;
     public Image Arrow;
 
@@ -39,7 +39,7 @@ public class AuthenticationComponentUI : MonoBehaviour
     }
     private void OnInputFieldValueChanged(string value)
     {
-        string filteredValue = new string(value.Where(c => allowedCharacters.Contains(c)).ToArray());
+        string filteredValue = new string(value.Where(c => allowedCharacters.Contains(c) || c == ' ').ToArray() );
         if (filteredValue != value)
         {
             Input.text = filteredValue;

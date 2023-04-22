@@ -66,7 +66,7 @@ public class OtherPlayersController : MonoBehaviour
     private List<string> _tempInvitation = new List<string>();
 
     public static Action OnPlayerFocusChange;
-    public static Action<ChatMessage> OnTempListChange;
+    public static Action<ChatMessage_Photon> OnTempListChange;
     public PlayerPlayfabInformation currentFocus;
     #endregion
 
@@ -93,29 +93,29 @@ public class OtherPlayersController : MonoBehaviour
         if (currentFocus == null) return "";
         return currentFocus.PlayFabId;
     }
-    public void OnChatMessageCome(ChatMessage message)
+    public void OnChatMessageCome(ChatMessage_Photon message)
     {
-        if (message.type == ChatMessageType.RequestFriend)
+        if (message.type == ChatMessageType_Photon.RequestFriend)
         {
             NewRequestCome(message.senderId);
             OnTempListChange?.Invoke(message);
         }
-        else if (message.type == ChatMessageType.CancelRequestFriend)
+        else if (message.type == ChatMessageType_Photon.CancelRequestFriend)
         {
             NewCancelRequestCome(message.senderId);
             OnTempListChange?.Invoke(message);
         }
-        else if (message.type == ChatMessageType.AcceptRequestFriend)
+        else if (message.type == ChatMessageType_Photon.AcceptRequestFriend)
         {
             NewAcceptInvitationCome(message.senderId);
             OnTempListChange?.Invoke(message);
         }
-        else if (message.type == ChatMessageType.RefuserequestFriend)
+        else if (message.type == ChatMessageType_Photon.RefuserequestFriend)
         {
             NewRefuseInvitationCome(message.senderId);
             OnTempListChange?.Invoke(message);
         }
-        else if (message.type == ChatMessageType.RemoveFriend)
+        else if (message.type == ChatMessageType_Photon.RemoveFriend)
         {
             NewRemoveFriendCome(message.senderId);
             OnTempListChange?.Invoke(message);

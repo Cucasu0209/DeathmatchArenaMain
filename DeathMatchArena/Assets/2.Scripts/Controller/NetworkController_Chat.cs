@@ -67,7 +67,7 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     #region Variables
     public ChatClient chatClient;
     private Action OnConnecctCompleted;
-    public static event Action<ChatMessage> OnChatMessageCome;
+    public static event Action<ChatMessage_Photon> OnChatMessageCome;
     #endregion
 
     #region Unity
@@ -75,6 +75,11 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     {
         if (chatClient != null) chatClient.Service();
     }
+    private void OnDisable()
+    {
+        this.chatClient?.Disconnect();
+    }
+
     #endregion
 
     #region Chat Callbacks
@@ -84,11 +89,11 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     }
     void IChatClientListener.OnDisconnected()
     {
-        throw new System.NotImplementedException();
+        Debug.Log($"[{this.name}]: Disconnected .");
     }
     void IChatClientListener.OnConnected()
     {
-        Debug.Log($"[{this.name}]: Connect Succced.");
+        Debug.Log($"[{this.name}]: Connect Succced {this.chatClient.AuthValues.UserId}.");
         OnConnecctCompleted?.Invoke();
     }
     void IChatClientListener.OnChatStateChange(ChatState state)
@@ -102,33 +107,41 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     void IChatClientListener.OnPrivateMessage(string sender, object message, string channelName)
     {
         Debug.Log($"[{this.name}]: PrivateMessage - {sender}: {message}");
-        if (sender == PlayerData.GetId()) return;
-        ChatMessage _m = JsonConvert.DeserializeObject<ChatMessage>(message.ToString());
-        if (_m != null && _m.senderId == sender)
+
+        ChatMessage_Photon _m = JsonConvert.DeserializeObject<ChatMessage_Photon>(message.ToString());
+        if (_m != null)
         {
-            if (_m.type == ChatMessageType.RequestFriend)
+            if (sender != PlayerData.GetId())
             {
-                Debug.Log($"[{this.name}]: RequestFriend message from {_m.senderDisplayName}-{_m.senderId}");
-                OnChatMessageCome?.Invoke(_m);
+                if (_m.type == ChatMessageType_Photon.RequestFriend)
+                {
+                    Debug.Log($"[{this.name}]: RequestFriend message from {_m.senderDisplayName}-{_m.senderId}");
+                    OnChatMessageCome?.Invoke(_m);
+                }
+                else if (_m.type == ChatMessageType_Photon.CancelRequestFriend)
+                {
+                    Debug.Log($"[{this.name}]: Cancel RequestFriend message from {_m.senderDisplayName}-{_m.senderId}");
+                    OnChatMessageCome?.Invoke(_m);
+                }
+                else if (_m.type == ChatMessageType_Photon.AcceptRequestFriend)
+                {
+                    Debug.Log($"[{this.name}]: Aceept Friend message from {_m.senderDisplayName}-{_m.senderId}");
+                    OnChatMessageCome?.Invoke(_m);
+                }
+                else if (_m.type == ChatMessageType_Photon.RefuserequestFriend)
+                {
+                    Debug.Log($"[{this.name}]: Refuse Friend message from {_m.senderDisplayName}-{_m.senderId}");
+                    OnChatMessageCome?.Invoke(_m);
+                }
+                else if (_m.type == ChatMessageType_Photon.RemoveFriend)
+                {
+                    Debug.Log($"[{this.name}]:  Remove Friend message from {_m.senderDisplayName}-{_m.senderId}");
+                    OnChatMessageCome?.Invoke(_m);
+                }
             }
-            else if (_m.type == ChatMessageType.CancelRequestFriend)
+            if (_m.type == ChatMessageType_Photon.ChatFriend)
             {
-                Debug.Log($"[{this.name}]: Cancel RequestFriend message from {_m.senderDisplayName}-{_m.senderId}");
-                OnChatMessageCome?.Invoke(_m);
-            }
-            else if (_m.type == ChatMessageType.AcceptRequestFriend)
-            {
-                Debug.Log($"[{this.name}]: Aceept Friend message from {_m.senderDisplayName}-{_m.senderId}");
-                OnChatMessageCome?.Invoke(_m);
-            }
-            else if (_m.type == ChatMessageType.RefuserequestFriend)
-            {
-                Debug.Log($"[{this.name}]: Refuse Friend message from {_m.senderDisplayName}-{_m.senderId}");
-                OnChatMessageCome?.Invoke(_m);
-            }
-            else if (_m.type == ChatMessageType.RemoveFriend)
-            {
-                Debug.Log($"[{this.name}]:  Remove Friend message from {_m.senderDisplayName}-{_m.senderId}");
+                Debug.Log($"[{this.name}]: Chat message from {_m.senderDisplayName}-{_m.senderId}");
                 OnChatMessageCome?.Invoke(_m);
             }
         }
@@ -143,6 +156,7 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     }
     void IChatClientListener.OnStatusUpdate(string user, int status, bool gotMessage, object message)
     {
+
         Debug.Log($"[{this.name}]: Status update -  {user}: {status}.");
     }
     void IChatClientListener.OnUserSubscribed(string channel, string user)
@@ -174,9 +188,9 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
 
     public void SendRequestFriendMessage(string playfabId)
     {
-        ChatMessage _mess = new ChatMessage()
+        ChatMessage_Photon _mess = new ChatMessage_Photon()
         {
-            type = ChatMessageType.RequestFriend,
+            type = ChatMessageType_Photon.RequestFriend,
             senderId = PlayerData.GetId(),
             senderDisplayName = PlayerData.GetNickName(),
             message = ""
@@ -185,9 +199,9 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     }
     public void SendCancelRequestFriendMessage(string playfabId)
     {
-        ChatMessage _mess = new ChatMessage()
+        ChatMessage_Photon _mess = new ChatMessage_Photon()
         {
-            type = ChatMessageType.CancelRequestFriend,
+            type = ChatMessageType_Photon.CancelRequestFriend,
             senderId = PlayerData.GetId(),
             senderDisplayName = PlayerData.GetNickName(),
             message = ""
@@ -196,9 +210,9 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     }
     public void SendAcceptInvitaionFriendMessage(string playfabId)
     {
-        ChatMessage _mess = new ChatMessage()
+        ChatMessage_Photon _mess = new ChatMessage_Photon()
         {
-            type = ChatMessageType.AcceptRequestFriend,
+            type = ChatMessageType_Photon.AcceptRequestFriend,
             senderId = PlayerData.GetId(),
             senderDisplayName = PlayerData.GetNickName(),
             message = ""
@@ -207,9 +221,9 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     }
     public void SendRefuseInvitationFriendMessage(string playfabId)
     {
-        ChatMessage _mess = new ChatMessage()
+        ChatMessage_Photon _mess = new ChatMessage_Photon()
         {
-            type = ChatMessageType.RefuserequestFriend,
+            type = ChatMessageType_Photon.RefuserequestFriend,
             senderId = PlayerData.GetId(),
             senderDisplayName = PlayerData.GetNickName(),
             message = ""
@@ -218,12 +232,23 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     }
     public void SendRemoveFriendMessage(string playfabId)
     {
-        ChatMessage _mess = new ChatMessage()
+        ChatMessage_Photon _mess = new ChatMessage_Photon()
         {
-            type = ChatMessageType.RemoveFriend,
+            type = ChatMessageType_Photon.RemoveFriend,
             senderId = PlayerData.GetId(),
             senderDisplayName = PlayerData.GetNickName(),
             message = ""
+        };
+        this.chatClient.SendPrivateMessage(playfabId, JsonConvert.SerializeObject(_mess));
+    }
+    public void SendChatFriendMessage(string playfabId, string message)
+    {
+        ChatMessage_Photon _mess = new ChatMessage_Photon()
+        {
+            type = ChatMessageType_Photon.ChatFriend,
+            senderId = PlayerData.GetId(),
+            senderDisplayName = PlayerData.GetNickName(),
+            message = message
         };
         this.chatClient.SendPrivateMessage(playfabId, JsonConvert.SerializeObject(_mess));
     }
@@ -231,18 +256,20 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
 
 }
 
-public enum ChatMessageType
+public enum ChatMessageType_Photon
 {
     RequestFriend,
     CancelRequestFriend,
     AcceptRequestFriend,
     RefuserequestFriend,
-    RemoveFriend
+    RemoveFriend,
+    ChatFriend,
+    ChatChannel
 }
 
-public class ChatMessage
+public class ChatMessage_Photon
 {
-    public ChatMessageType type;
+    public ChatMessageType_Photon type;
     public string senderId;
     public string senderDisplayName;
     public string message;

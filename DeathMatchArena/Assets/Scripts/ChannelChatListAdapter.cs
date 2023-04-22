@@ -61,10 +61,7 @@ namespace Chat.Container.Channel
 			RetrieveDataAndUpdate(500);
 			*/
 		}
-		protected override void OnEnable()
-		{
-			RetrieveDataAndUpdate(500);
-		}
+		
 
 		// This is called initially, as many times as needed to fill the viewport, 
 		// and anytime the viewport's size grows, thus allowing more items to be displayed
@@ -95,7 +92,7 @@ namespace Chat.Container.Channel
 			// to retrieve the model from your data set
 			MyListItemModel model = Data[newOrRecycled.ItemIndex];
 
-			newOrRecycled.Name.text = model.name;
+			newOrRecycled.Item.SetInformation(model.player);
 
 		}
 
@@ -104,12 +101,14 @@ namespace Chat.Container.Channel
 		// download request, if it's still in progress when the item goes out of the viewport.
 		// <newItemIndex> will be non-negative if this item will be recycled as opposed to just being disabled
 		// *For the method's full description check the base implementation
-		/*
+		
 		protected override void OnBeforeRecycleOrDisableViewsHolder(MyListItemViewsHolder inRecycleBinOrVisible, int newItemIndex)
 		{
 			base.OnBeforeRecycleOrDisableViewsHolder(inRecycleBinOrVisible, newItemIndex);
+
+			inRecycleBinOrVisible.Item.ClearInformation();
 		}
-		*/
+		
 
 		// You only need to care about this if changing the item count by other means than ResetItems, 
 		// case in which the existing items will not be re-created, but only their indices will change.
@@ -177,20 +176,8 @@ namespace Chat.Container.Channel
 			// Simulating data retrieving delay
 			yield return new WaitForSeconds(.5f);
 			
-			var newItems = new MyListItemModel[count];
+			
 
-			// Retrieve your data here
-			for (int i = 0; i < count; ++i)
-			{
-				var model = new MyListItemModel()
-				{
-					name = "Channel" + UnityEngine.Random.Range(1, 1000),
-
-				};
-				newItems[i] = model;
-			}
-
-			OnDataRetrieved(newItems);
 		}
 
 		void OnDataRetrieved(MyListItemModel[] newItems)
@@ -202,8 +189,7 @@ namespace Chat.Container.Channel
 	// Class containing the data associated with an item
 	public class MyListItemModel
 	{
-		public string name;
-
+		public PlayerPlayfabInformation player;
 	}
 
 
@@ -211,16 +197,14 @@ namespace Chat.Container.Channel
 	// Your views holder should extend BaseItemViewsHolder for ListViews and CellViewsHolder for GridViews
 	public class MyListItemViewsHolder : BaseItemViewsHolder
 	{
-		public TextMeshProUGUI Name;
-		public Image Background;
+		public ChatFriendUIItem Item;
 
 		// Retrieving the views from the item's root GameObject
 		public override void CollectViews()
 		{
 			base.CollectViews();
 
-			root.GetComponentAtPath("Name", out Name);
-			root.GetComponentAtPath("Background", out Background);
+			root.GetComponentAtPath("Item", out Item);
 		}
 
 		// Override this if you have children layout groups or a ContentSizeFitter on root that you'll use. 
