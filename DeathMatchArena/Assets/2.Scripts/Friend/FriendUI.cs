@@ -75,7 +75,7 @@ public class FriendUI : MonoBehaviour
     }
     private void OnDisable()
     {
-        OtherPlayersController.OnTempListChange += OnChatMessageCome;
+        OtherPlayersController.OnTempListChange -= OnChatMessageCome;
     }
     private void Update()
     {
@@ -93,28 +93,28 @@ public class FriendUI : MonoBehaviour
         }
         else InvitationCount.transform.parent.gameObject.SetActive(false);
     }
-    private void OnChatMessageCome(ChatMessage message)
+    private void OnChatMessageCome(ChatMessage_Photon message)
     {
         string cache = OtherPlayersController.Instance.GetIdFocus();
         ShowDetail(null);
-        if (message.type == ChatMessageType.RequestFriend)
+        if (message.type == ChatMessageType_Photon.RequestFriend)
         {
             if (currentContainer == FriendContainerUIType.Invitation) ShowInvitationContainer();
         }
-        else if (message.type == ChatMessageType.CancelRequestFriend)
+        else if (message.type == ChatMessageType_Photon.CancelRequestFriend)
         {
             if (currentContainer == FriendContainerUIType.Invitation) ShowInvitationContainer();
         }
-        else if (message.type == ChatMessageType.AcceptRequestFriend)
+        else if (message.type == ChatMessageType_Photon.AcceptRequestFriend)
         {
             if (currentContainer == FriendContainerUIType.Friend) ShowFriendContainer();
             if (currentContainer == FriendContainerUIType.Request) ShowRequestContainer();
         }
-        else if (message.type == ChatMessageType.RefuserequestFriend)
+        else if (message.type == ChatMessageType_Photon.RefuserequestFriend)
         {
             if (currentContainer == FriendContainerUIType.Request) ShowRequestContainer();
         }
-        else if (message.type == ChatMessageType.RemoveFriend)
+        else if (message.type == ChatMessageType_Photon.RemoveFriend)
         {
             if (currentContainer == FriendContainerUIType.Friend) ShowFriendContainer();
         }
