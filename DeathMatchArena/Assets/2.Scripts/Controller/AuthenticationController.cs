@@ -64,6 +64,8 @@ public class AuthenticationController : MonoBehaviour
     private string MyPlayfabId = "";
     private string MyDisplayName = "";
     private const string atMailDotCom = "@gmail.com";
+    private string entityId = "";
+    private string entityType = "";
     #endregion
 
     #region General Variables
@@ -82,6 +84,11 @@ public class AuthenticationController : MonoBehaviour
         {
             Debug.Log($"[{this.name}]:Login {result.PlayFabId}");
             MyPlayfabId = result.PlayFabId;
+            entityId = result.EntityToken.Entity.Id;
+            entityType = result.EntityToken.Entity.Type;
+
+
+
             LocalClientData.SaveUsername(username);
             LocalClientData.SavePassword(password);
             PlayerData.SetId(MyPlayfabId);
@@ -201,15 +208,22 @@ public class AuthenticationController : MonoBehaviour
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetRequestAddfriend(oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetInvitationfriend(oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => FriendController.Instance.GetFriends(oncomplete));
-        LoadingController.Instance.RegisterEventPrepare((oncomplete) => NetworkController_Chat.Instance.Connect(oncomplete)); 
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => NetworkController_Chat.Instance.Connect(oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => ChatController.Instance.GetAllFriendChatMessage(oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => ChatController.Instance.GetAllGroupChat(oncomplete));
 
-        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetSubscribedGroupChat(oncomplete)); 
+        //LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetSubscribedGroupChat(oncomplete));
 
         LoadingController.Instance.StartLoading(OnComplete);
     }
     #endregion
 
     #region Action
+    public PlayFab.DataModels.EntityKey GetEntityKey()
+    {
+        Debug.Log("My Type " + entityType);
+        return new PlayFab.DataModels.EntityKey() { Id = entityId, Type = entityType };
+    }
     public void Login(string username, string password, Action<LoginResultType> OnComplete)
     {
         if (IsAlphabetNumber(username) == false

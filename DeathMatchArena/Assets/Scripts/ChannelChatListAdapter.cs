@@ -92,7 +92,7 @@ namespace Chat.Container.Channel
 			// to retrieve the model from your data set
 			MyListItemModel model = Data[newOrRecycled.ItemIndex];
 
-			newOrRecycled.Item.SetInformation(model.player);
+			newOrRecycled.ChannelItem.SetInformation(model.channelId, model.channelName);
 
 		}
 
@@ -106,7 +106,7 @@ namespace Chat.Container.Channel
 		{
 			base.OnBeforeRecycleOrDisableViewsHolder(inRecycleBinOrVisible, newItemIndex);
 
-			inRecycleBinOrVisible.Item.ClearInformation();
+			inRecycleBinOrVisible.ChannelItem.ClearInformation();
 		}
 		
 
@@ -189,7 +189,8 @@ namespace Chat.Container.Channel
 	// Class containing the data associated with an item
 	public class MyListItemModel
 	{
-		public PlayerPlayfabInformation player;
+		public string channelId;
+		public string channelName;
 	}
 
 
@@ -197,14 +198,14 @@ namespace Chat.Container.Channel
 	// Your views holder should extend BaseItemViewsHolder for ListViews and CellViewsHolder for GridViews
 	public class MyListItemViewsHolder : BaseItemViewsHolder
 	{
-		public ChatFriendUIItem Item;
+		public ChatChannelUIItem ChannelItem;
 
 		// Retrieving the views from the item's root GameObject
 		public override void CollectViews()
 		{
 			base.CollectViews();
 
-			root.GetComponentAtPath("Item", out Item);
+			root.GetComponentAtPath("ChannelItem", out ChannelItem);
 		}
 
 		// Override this if you have children layout groups or a ContentSizeFitter on root that you'll use. 

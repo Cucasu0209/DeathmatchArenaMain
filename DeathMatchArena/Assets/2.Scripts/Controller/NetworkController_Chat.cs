@@ -65,6 +65,7 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     #endregion
 
     #region Variables
+    private List<string> DefaultChannel =  new List<string> { "General" };
     public ChatClient chatClient;
     private Action OnConnecctCompleted;
     public static event Action<ChatMessage_Photon> OnChatMessageCome;
