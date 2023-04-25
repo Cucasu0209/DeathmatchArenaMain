@@ -12,6 +12,8 @@ public class PopupController
     private static readonly string RenamePopupLink = "Popup/RenamePopup";
     private static readonly string ConfirmLogoutPopupLink = "Popup/ConfirmLogoutPopup";
     private static readonly string YesNoPopupLink = "Popup/YesNoPopup";
+    private static readonly string NewGroupChatPopupLink = "Popup/NewGroupChatPopup";
+    private static readonly string FriendListToAddGroupPopupLink = "Popup/FriendListToAddGroupPopup";
     
     #endregion
 
@@ -173,6 +175,62 @@ public class PopupController
         if (YesNoPopup.Instance != null)
         {
             YesNoPopup.Instance.Hide();
+        }
+
+    }
+    public static void ShowNewGroupChatPopup()
+    {
+        if (NewGroupChatPopup.Instance != null)
+        {
+            NewGroupChatPopup.Instance.Show();
+            NewGroupChatPopup.Instance.transform.SetAsLastSibling();
+        }
+        else
+        {
+            GameObject myPopup = Resources.Load<GameObject>(NewGroupChatPopupLink);
+            if (myPopup != null)
+            {
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
+                NewPopup.GetComponent<BasePopup>()?.Show();
+                NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+            }
+        }
+
+    }
+    public static void HideNewGroupChatPopup()
+    {
+        if (NewGroupChatPopup.Instance != null)
+        {
+            NewGroupChatPopup.Instance.Hide();
+        }
+
+    }
+    public static void ShowFriendListToAddGroupPopup(GroupChatInfomation group)
+    {
+        if (FriendListToAddGroupPopup.Instance != null)
+        {
+            FriendListToAddGroupPopup.Instance.Show();
+            FriendListToAddGroupPopup.Instance.transform.SetAsLastSibling();
+            FriendListToAddGroupPopup.Instance.ShowList(group);
+        }
+        else
+        {
+            GameObject myPopup = Resources.Load<GameObject>(FriendListToAddGroupPopupLink);
+            if (myPopup != null)
+            {
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
+                NewPopup.GetComponent<BasePopup>()?.Show();
+                NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+                NewPopup.GetComponent<FriendListToAddGroupPopup>()?.ShowList(group);
+            }
+        }
+
+    }
+    public static void HideFriendListToAddGroupPopup()
+    {
+        if (FriendListToAddGroupPopup.Instance != null)
+        {
+            FriendListToAddGroupPopup.Instance.Hide();
         }
 
     }
