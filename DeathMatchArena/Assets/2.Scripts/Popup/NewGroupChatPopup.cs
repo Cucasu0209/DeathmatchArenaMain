@@ -49,6 +49,11 @@ public class NewGroupChatPopup : BasePopup
         PopupController.HideLoadingPopup();
         if (result == GroupCreateResultEnum.Success)
         {
+            if (ChatUI.Instance != null)
+            {
+                ChatUI.Instance.ChangeToChannels();
+                ChatUI.Instance.ChangePartnerChatWith(new ChatPartner() { Id = group.GroupEntity.Id, Type = ChatPartnerType.Channel });
+            }
             ClickCancel();
             PopupController.ShowFriendListToAddGroupPopup(group);
         }

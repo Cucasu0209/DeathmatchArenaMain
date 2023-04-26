@@ -5,9 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChatChannelUIItem : MonoBehaviour
+public class ChatInvitationUIItem : MonoBehaviour
 {
-    private string channelID;
+    private GroupOpportunityForm myInfo;
     public TextMeshProUGUI Name;
     public Button btn;
     public Image BG;
@@ -24,8 +24,9 @@ public class ChatChannelUIItem : MonoBehaviour
 
     public void OnPlayerFocusChange()
     {
-        if (channelID == null) return;
-        if (channelID == ChatController.Instance.GetIdFocus())
+        if (myInfo == null) return;
+        if (myInfo.group.GroupEntity.Id ==
+            ChatController.Instance.GetIdFocus())
         {
             BG.DOKill();
             BG.DOFade(1, 0.2f);
@@ -42,11 +43,11 @@ public class ChatChannelUIItem : MonoBehaviour
     }
 
 
-    public void SetInformation(string channelId, string channelName)
+    public void SetInformation(GroupOpportunityForm invitation)
     {
-        channelID = channelId;
-        Name?.SetText(channelName);
-        btn?.onClick.AddListener(() => ChatUI.Instance.ChangePartnerChatWith(new ChatPartner() { Id = channelID, Type = ChatPartnerType.Channel }));
+        myInfo = invitation;
+        Name?.SetText(invitation.group.GroupName);
+        btn?.onClick.AddListener(() => ChatUI.Instance.ChangePartnerChatWith(new ChatPartner() { Id = invitation.group.GroupEntity.Id, Type = ChatPartnerType.Channel }));
     }
     public void ClearInformation()
     {

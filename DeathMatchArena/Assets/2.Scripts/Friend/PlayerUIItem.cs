@@ -23,7 +23,7 @@ public class PlayerUIItem : MonoBehaviour
         OtherPlayersController.OnPlayerFocusChange -= OnPlayerFocusChange;
     }
 
-    private void OnPlayerFocusChange()
+    public void OnPlayerFocusChange()
     {
         if (myInfo == null) return;
         if (myInfo.PlayFabId ==

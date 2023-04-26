@@ -93,6 +93,7 @@ namespace Friend.Container.Friend
             MyListItemModel model = Data[newOrRecycled.ItemIndex];
 
             newOrRecycled.Player.SetInformation(model.player);
+            newOrRecycled.Player.OnPlayerFocusChange();
 
         }
 

@@ -73,8 +73,10 @@ public class PlayfabController : MonoBehaviour
     private readonly string PlayfabDataName_RequestAddFriend = "RequestAddFriend";
     private readonly string PlayfabDataName_InvitationFriend = "InvitationFriend";
     private readonly string PlayfabDataName_FriendChatMessage = "FriendChatMessage";
+    private readonly string PlayfabDataName_GroupChatMessage = "GroupChatMessage";
 
-
+    public string GroupRoleMember = "members";
+    public string GroupRoleAdmin = "admins";
     //Files
     private readonly Dictionary<string, string> _entityFileJson = new Dictionary<string, string>();
     private readonly Dictionary<string, string> _tempUpdates = new Dictionary<string, string>();
@@ -125,10 +127,9 @@ public class PlayfabController : MonoBehaviour
             {
                 List<PlayerPlayfabInformation> Players = JsonConvert.DeserializeObject<List<PlayerPlayfabInformation>>(result.FunctionResult.ToString());
                 Debug.Log($"[{this.name}]:Get All Players {Players.Count}");
-                Debug.Log("trung " + result.FunctionResult.ToString());
                 foreach (var player in Players)
                 {
-                    Debug.Log(player.getInf());
+                    Debug.Log($"[{this.name}]: player inf" + player.getInf());
                 }
                 OnComplete?.Invoke(Players);
             }
@@ -340,22 +341,47 @@ public class PlayfabController : MonoBehaviour
         {
             string debua = "";
             List<GroupChatPlayerRole> members = new List<GroupChatPlayerRole>();
+            int numberOfLoaded = 0;
+            int maxmember = 0;
+            foreach (var member in result.Members)
+            {
+                maxmember += member.Members.Count;
+            }
+            if (maxmember == 0)
+            {
+                OnComplete?.Invoke(members);
+            }
             foreach (var member in result.Members)
             {
                 //debua += $"({member.Members[0].Key.Id},{member.RoleId},{member.RoleName})";
                 foreach (var membe in member.Members)
                 {
-                    debua += $"({membe.Key.Id},{member.RoleId},{member.RoleName})";
-                    members.Add(new GroupChatPlayerRole()
+                    debua += $"({membe.Key.Id},{member.RoleId},{member.RoleName}, { membe.Lineage["master_player_account"].Id})";
+                    GetDisplayNameFromPlayFabID(membe.Lineage["master_player_account"].Id, (displayname) =>
                     {
-                        playfabID = membe.Key.Id,
-                        playerRoleId = member.RoleId,
-                        playerRoleName = member.RoleName,
+                        GroupChatPlayerRole newPlayerRole = new GroupChatPlayerRole()
+                        {
+                            DisplayName = displayname,
+                            PlayfabId = membe.Lineage["master_player_account"].Id,
+                            titleId = membe.Key.Id,
+                            playerRoleId = member.RoleId,
+                            playerRoleName = member.RoleName,
+                        };
+                        members.Add(newPlayerRole);
+                        numberOfLoaded++;
+                        Debug.Log("trungloz  " + GroupInf.GroupName + " " + numberOfLoaded + "/" + result.Members.Count);
+                        if (maxmember == numberOfLoaded)
+                        {
+                            OnComplete?.Invoke(members);
+                        }
                     });
+
+
+
                 }
             }
             Debug.Log($"[{this.name}]:Get Groups member success group:{GroupInf.GroupName}- {GroupInf.GroupEntity.Id} - {debua}");
-            OnComplete?.Invoke(members);
+
         },
         (error) =>
         {
@@ -393,7 +419,7 @@ public class PlayfabController : MonoBehaviour
             OnComplete?.Invoke(new GroupChatInfomation());
         });
     }
-    public void InviteMemberToGroupChat(GroupChatInfomation group, string playfabId, Action<GroupChatInfomation> OnComplete)
+    public void InviteMemberToGroupChat(GroupChatInfomation group, string playfabId, Action OnComplete)
     {
         GetTittlePlayerAccountID(playfabId, (entity) =>
         {
@@ -405,10 +431,12 @@ public class PlayfabController : MonoBehaviour
             (result) =>
             {
                 Debug.Log($"[{this.name}]:Invite 1 memeber to Groups  success");
+                OnComplete?.Invoke();
             },
             (error) =>
             {
                 Debug.Log($"[{this.name}]:Invite 0 memeber to Groups fail { error.ErrorMessage}");
+                OnComplete?.Invoke();
             });
         });
 
@@ -437,6 +465,13 @@ public class PlayfabController : MonoBehaviour
         {
             string _de_ = "";
             List<GroupOpportunityForm> ListOppotunities = new List<GroupOpportunityForm>();
+            int loadedInvitations = 0;
+            Debug.Log("aaaaaa " + group.GroupName);
+            if (result.Invitations.Count == 0)
+            {
+                Debug.Log("Noinvi" + group.GroupName);
+                OnComplete?.Invoke(ListOppotunities);
+            }
             foreach (var request in result.Invitations)
             {
                 _de_ += $"{request.InvitedByEntity.Key.Id} invite {request.InvitedEntity.Key.Id} to group\n";
@@ -448,14 +483,31 @@ public class PlayfabController : MonoBehaviour
                     MasterInvitedByEntity = request.InvitedByEntity.Lineage["master_player_account"],
                     MasterInvitedEntity = request.InvitedEntity.Lineage["master_player_account"],
                 };
-                ListOppotunities.Add(newop);
+                GetDisplayNameFromPlayFabID(newop.MasterInvitedEntity.Id, (MasterInvitedEntityName) =>
+                {
+                    GetDisplayNameFromPlayFabID(newop.MasterInvitedByEntity.Id, (MasterInvitedByEntityName) =>
+                    {
+                        GetGroupNameFromId(newop.group, (GroupName) =>
+                        {
+                            loadedInvitations++;
+                            newop.group.GroupName = GroupName;
+                            newop.InvitedByEntityName = MasterInvitedByEntityName;
+                            newop.InvitedEntityName = MasterInvitedEntityName;
+                            ListOppotunities.Add(newop);
+                            Debug.Log("trung hesdahe " + loadedInvitations + "/" + result.Invitations.Count);
+                            if (loadedInvitations == result.Invitations.Count)
+                            {
+                                OnComplete?.Invoke(ListOppotunities);
+                            }
+                        });
+                    });
+                });
             }
             Debug.Log($"[{this.name}]:get Group request {_de_} group {group.GroupName}");
-            OnComplete?.Invoke(ListOppotunities);
         },
         (error) =>
         {
-            Debug.Log($"[{this.name}]:get Group fail ");
+            Debug.Log($"[{this.name}]:get Group fail {error.ErrorMessage}");
             OnComplete?.Invoke(new List<GroupOpportunityForm>());
         });
     }
@@ -473,14 +525,20 @@ public class PlayfabController : MonoBehaviour
         {
             string _de_ = "";
             List<GroupOpportunityForm> ListOppotunities = new List<GroupOpportunityForm>();
+            int loadedInvitations = 0;
+            if (result.Invitations.Count == 0)
+            {
+                OnComplete?.Invoke(ListOppotunities);
+            }
             foreach (var request in result.Invitations)
             {
                 string s = "";
-                foreach(var a in request.InvitedByEntity.Lineage)
+                foreach (var a in request.InvitedByEntity.Lineage)
                 {
-                    s +=  a.Key+ " ,(id " + a.Value.Id + " type " + a.Value.Type + ")";
+                    s += a.Key + " ,(id " + a.Value.Id + " type " + a.Value.Type + ")";
                 }
                 _de_ += $" be invite by {s} invite {request.InvitedEntity.Key.Id} to group { request.Group.Id}\n";
+
                 GroupOpportunityForm newop = new GroupOpportunityForm()
                 {
                     group = new GroupChatInfomation() { GroupEntity = request.Group },
@@ -489,10 +547,27 @@ public class PlayfabController : MonoBehaviour
                     MasterInvitedByEntity = request.InvitedByEntity.Lineage["master_player_account"],
                     MasterInvitedEntity = request.InvitedEntity.Lineage["master_player_account"],
                 };
-                ListOppotunities.Add(newop);
+                GetDisplayNameFromPlayFabID(newop.MasterInvitedEntity.Id, (MasterInvitedEntityName) =>
+                {
+                    GetDisplayNameFromPlayFabID(newop.MasterInvitedByEntity.Id, (MasterInvitedByEntityName) =>
+                    {
+                        GetGroupNameFromId(newop.group, (GroupName) =>
+                        {
+                            loadedInvitations++;
+                            newop.group.GroupName = GroupName;
+                            newop.InvitedByEntityName = MasterInvitedByEntityName;
+                            newop.InvitedEntityName = MasterInvitedEntityName;
+                            ListOppotunities.Add(newop);
+
+                            if (loadedInvitations == result.Invitations.Count)
+                            {
+                                OnComplete?.Invoke(ListOppotunities);
+                            }
+                        });
+                    });
+                });
             }
             Debug.Log($"[{this.name}]:get Group Opportunities {_de_} ");
-            OnComplete?.Invoke(ListOppotunities);
         },
         (error) =>
         {
@@ -501,7 +576,7 @@ public class PlayfabController : MonoBehaviour
         });
 
     }
-    public void AcceptMembershipOpportunities(GroupChatInfomation group, Action OnComplete)
+    public void AcceptMembershipOpportunities(GroupChatInfomation group, Action<bool> OnComplete)
     {
         PlayFabGroupsAPI.AcceptGroupInvitation(new PlayFab.GroupsModels.AcceptGroupInvitationRequest()
         {
@@ -515,12 +590,12 @@ public class PlayfabController : MonoBehaviour
         (result) =>
         {
             Debug.Log($"[{this.name}]: Accept Group {group.GroupEntity.Id} success ");
-            OnComplete?.Invoke();
+            OnComplete?.Invoke(true);
         },
         (error) =>
         {
             Debug.Log($"[{this.name}]:Accept Group {group.GroupEntity.Id} fail");
-            OnComplete?.Invoke();
+            OnComplete?.Invoke(false);
         });
     }
     public void RefuseMembershipOpportunities(GroupChatInfomation group, Action OnComplete)
@@ -542,6 +617,76 @@ public class PlayfabController : MonoBehaviour
         (error) =>
         {
             Debug.Log($"[{this.name}]:Remove Group {group.GroupEntity.Id} Invitation fail");
+            OnComplete?.Invoke();
+        });
+    }
+    public void GetGroupNameFromId(GroupChatInfomation group, Action<string> OnComplete)
+    {
+        PlayFabGroupsAPI.GetGroup(new PlayFab.GroupsModels.GetGroupRequest()
+        {
+            Group = group.GroupEntity,
+        },
+        (result) =>
+        {
+            Debug.Log($"[{this.name}]: Group name {group.GroupEntity.Id} success");
+            OnComplete?.Invoke(result.GroupName);
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]: Group name {error.Error} fail");
+            OnComplete?.Invoke("");
+        });
+    }
+    public void GetDisplayNameFromPlayFabID(string id, Action<string> OnComplete)
+    {
+        PlayFabClientAPI.GetAccountInfo(new PlayFab.ClientModels.GetAccountInfoRequest()
+        {
+            PlayFabId = id
+        },
+        (result) =>
+        {
+            OnComplete?.Invoke(result.AccountInfo.TitleInfo.DisplayName);
+        },
+        (error) =>
+        {
+            OnComplete?.Invoke("");
+        });
+    }
+    public void RemoveMember(PlayFab.GroupsModels.EntityKey member, GroupChatInfomation group, Action OnComplete)
+    {
+        PlayFabGroupsAPI.RemoveMembers(new PlayFab.GroupsModels.RemoveMembersRequest()
+        {
+            Group = group.GroupEntity,
+            Members = new List<PlayFab.GroupsModels.EntityKey>()
+            {
+                member
+            }
+        },
+        (result) =>
+        {
+            Debug.Log($"[{this.name}]: remove memeber Group {group.GroupEntity.Id} success ");
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]: remove memeber Group {group.GroupEntity.Id} fail");
+            OnComplete?.Invoke();
+        });
+    }
+    public void DeleteGroup(GroupChatInfomation group, Action OnComplete)
+    {
+        PlayFabGroupsAPI.DeleteGroup(new PlayFab.GroupsModels.DeleteGroupRequest()
+        {
+            Group = group.GroupEntity
+        },
+        (result) =>
+        {
+            Debug.Log($"[{this.name}]: remove Group {group.GroupEntity.Id} success ");
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]: remove Group {group.GroupEntity.Id} fail");
             OnComplete?.Invoke();
         });
     }
@@ -574,9 +719,73 @@ public class PlayfabController : MonoBehaviour
             PlayfabDataName_FriendChatMessage,
             content);
     }
+
+    public void GetGroupChatMessage(GroupChatInfomation group, Action<List<ChatPartnerMessageInfomation>> Oncomplete)
+    {
+        LoadFiles(new EntityKey()
+        {
+            Id = group.GroupEntity.Id,
+            Type = group.GroupEntity.Type,
+        },
+                PlayfabDataName_GroupChatMessage,
+                (payload) =>
+                {
+                    List<ChatPartnerMessageInfomation> allChat;
+                    try
+                    {
+                        allChat = JsonConvert.DeserializeObject<List<ChatPartnerMessageInfomation>>(payload);
+                    }
+                    catch (Exception e)
+                    {
+                        allChat = new List<ChatPartnerMessageInfomation>();
+                    }
+                    Oncomplete?.Invoke(allChat);
+                });
+    }
+    public void SetAllGroupChatMessage(GroupChatInfomation group, List<ChatPartnerMessageInfomation> allFriendMsg)
+    {
+        string content = JsonConvert.SerializeObject(allFriendMsg);
+        UploadFile(new EntityKey()
+        {
+            Id = group.GroupEntity.Id,
+            Type = group.GroupEntity.Type,
+        },
+            PlayfabDataName_GroupChatMessage,
+            content);
+    }
     #endregion
 
     #region Store File
+    int TryLoadIndex = 0;
+    IEnumerator TryLoadFileAgain(EntityKey key, string fileName, Action<string> OnComplete)
+    {
+        TryLoadIndex++;
+        if (TryLoadIndex <= 5)
+        {
+            yield return new WaitForSeconds(2);
+            LoadFiles(key, fileName, OnComplete);
+        }
+        else
+        {
+            OnComplete?.Invoke("");
+            TryLoadIndex = 0;
+        }
+    }
+    int TryUpLoadIndex = 0;
+    IEnumerator TryUploadFileAgain(EntityKey key, string fileName, string payloadStr = "")
+    {
+        TryUpLoadIndex++;
+        if (TryUpLoadIndex <= 5)
+        {
+            yield return new WaitForSeconds(2);
+            UploadFile(key, fileName, payloadStr);
+        }
+        else
+        {
+            TryUpLoadIndex = 0;
+        }
+    }
+
     /// <summary>
     /// GetFile here
     /// </summary>
@@ -587,6 +796,7 @@ public class PlayfabController : MonoBehaviour
     {
         if (GlobalFileLock != 0)
         {
+            StartCoroutine(TryLoadFileAgain(key, fileName, OnComplete));
             return;
         }
         //throw new Exception("This example overly restricts file operations for safety. Careful consideration must be made when doing multiple file operations in parallel to avoid conflict.");
@@ -651,6 +861,7 @@ public class PlayfabController : MonoBehaviour
     {
         if (GlobalFileLock != 0)
         {
+            StartCoroutine(TryUploadFileAgain(key, fileName, payloadStr));
             return;
         }
         ActiveUploadFileName = fileName;
@@ -664,7 +875,7 @@ public class PlayfabController : MonoBehaviour
     }
     void OnInitFailed(EntityKey key, PlayFabError error)
     {
-        Debug.Log($"[{this.name}]: File init fail ");
+        Debug.Log($"[{this.name}]: File init fail {error.ErrorMessage}");
         if (error.Error == PlayFabErrorCode.EntityFileOperationPending)
         {
             // This is an error you should handle when calling InitiateFileUploads, but your resolution path may vary
