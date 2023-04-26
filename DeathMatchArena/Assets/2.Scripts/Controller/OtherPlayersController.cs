@@ -73,11 +73,11 @@ public class OtherPlayersController : MonoBehaviour
     #region Unity
     private void OnEnable()
     {
-        NetworkController_Chat.OnChatMessageCome += OnChatMessageCome;
+        NetworkController_Chat.OnPrivateChatMessageCome += OnChatMessageCome;
     }
     private void OnDisable()
     {
-        NetworkController_Chat.OnChatMessageCome += OnChatMessageCome;
+        NetworkController_Chat.OnPrivateChatMessageCome += OnChatMessageCome;
     }
     #endregion
 

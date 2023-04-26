@@ -22,7 +22,7 @@ public class ChatFriendUIItem : MonoBehaviour
         ChatController.OnChatPartnerForcusChange -= OnPlayerFocusChange;
     }
 
-    private void OnPlayerFocusChange()
+    public void OnPlayerFocusChange()
     {
         if (myInfo == null) return;
         if (myInfo.PlayFabId ==

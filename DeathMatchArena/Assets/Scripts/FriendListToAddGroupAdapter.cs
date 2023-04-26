@@ -94,25 +94,32 @@ namespace Popup.Container.FriendListToAddGroup
 
             newOrRecycled.Name.SetText(model.displayName);
 
-            if (model.isAdded)
+            if (model.isMember)
             {
                 Image _img = newOrRecycled.AddBtn.GetComponent<Image>();
                 _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, 0);
                 newOrRecycled.BtnText.color = Color.white;
-                newOrRecycled.BtnText.text = "Added";
+                newOrRecycled.BtnText.text = "Members";
+            }
+            else if (model.isInvited)
+            {
+                Image _img = newOrRecycled.AddBtn.GetComponent<Image>();
+                _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, 0);
+                newOrRecycled.BtnText.color = Color.white;
+                newOrRecycled.BtnText.text = "Invited";
             }
             else
             {
                 Image _img = newOrRecycled.AddBtn.GetComponent<Image>();
                 _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, 1);
                 newOrRecycled.BtnText.color = Color.black;
-                newOrRecycled.BtnText.text = "Add";
+                newOrRecycled.BtnText.text = "Invite";
                 newOrRecycled.AddBtn.onClick.AddListener(() =>
                 {
                     Image _img = newOrRecycled.AddBtn.GetComponent<Image>();
                     _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, 0);
                     newOrRecycled.BtnText.color = Color.white;
-                    newOrRecycled.BtnText.text = "Added";
+                    newOrRecycled.BtnText.text = "Invited";
                     model.OnClick?.Invoke();
                     newOrRecycled.AddBtn.onClick.RemoveAllListeners();
                 });
@@ -234,7 +241,8 @@ namespace Popup.Container.FriendListToAddGroup
     {
         public string id;
         public string displayName;
-        public bool isAdded;
+        public bool isMember;
+        public bool isInvited;
         public Action OnClick;
     }
 

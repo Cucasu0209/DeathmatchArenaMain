@@ -14,6 +14,7 @@ public class PopupController
     private static readonly string YesNoPopupLink = "Popup/YesNoPopup";
     private static readonly string NewGroupChatPopupLink = "Popup/NewGroupChatPopup";
     private static readonly string FriendListToAddGroupPopupLink = "Popup/FriendListToAddGroupPopup";
+    private static readonly string GroupManagePopupLink = "Popup/GroupManagePopup";
     
     #endregion
 
@@ -231,6 +232,35 @@ public class PopupController
         if (FriendListToAddGroupPopup.Instance != null)
         {
             FriendListToAddGroupPopup.Instance.Hide();
+        }
+
+    }
+    public static void ShowGroupManagePopup(GroupChatInfomation group)
+    {
+        if (GroupManagePopup.Instance != null)
+        {
+            GroupManagePopup.Instance.Show();
+            GroupManagePopup.Instance.transform.SetAsLastSibling();
+            GroupManagePopup.Instance.ShowList(group);
+        }
+        else
+        {
+            GameObject myPopup = Resources.Load<GameObject>(GroupManagePopupLink);
+            if (myPopup != null)
+            {
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
+                NewPopup.GetComponent<BasePopup>()?.Show();
+                NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+                NewPopup.GetComponent<GroupManagePopup>()?.ShowList(group);
+            }
+        }
+
+    }
+    public static void HideGroupManagePopup()
+    {
+        if (GroupManagePopup.Instance != null)
+        {
+            GroupManagePopup.Instance.Hide();
         }
 
     }

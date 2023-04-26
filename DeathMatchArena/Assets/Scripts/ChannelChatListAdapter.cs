@@ -93,6 +93,7 @@ namespace Chat.Container.Channel
 			MyListItemModel model = Data[newOrRecycled.ItemIndex];
 
 			newOrRecycled.ChannelItem.SetInformation(model.channelId, model.channelName);
+			newOrRecycled.ChannelItem.OnPlayerFocusChange();
 
 		}
 

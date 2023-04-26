@@ -211,6 +211,7 @@ public class AuthenticationController : MonoBehaviour
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => NetworkController_Chat.Instance.Connect(oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => ChatController.Instance.GetAllFriendChatMessage(oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => ChatController.Instance.GetAllGroupChat(oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => ChatController.Instance.GetMyMembershipOpportunities(oncomplete));
 
         //LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetSubscribedGroupChat(oncomplete));
 

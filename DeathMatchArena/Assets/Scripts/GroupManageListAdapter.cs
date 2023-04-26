@@ -37,11 +37,11 @@ using Com.TheFallenGames.OSA.DataHelpers;
 using TMPro;
 
 // You should modify the namespace to your own or - if you're sure there won't ever be conflicts - remove it altogether
-namespace Chat.Container.Friend
+namespace Popup.Container.GroupManager
 {
 	// There are 2 important callbacks you need to implement, apart from Start(): CreateViewsHolder() and UpdateViewsHolder()
 	// See explanations below
-	public class FriendChatListAdapter : OSA<BaseParamsWithPrefab, MyListItemViewsHolder>
+	public class GroupManageListAdapter : OSA<BaseParamsWithPrefab, MyListItemViewsHolder>
 	{
 		// Helper that stores data and notifies the adapter when items count changes
 		// Can be iterated and can also have its elements accessed by the [] operator
@@ -61,7 +61,6 @@ namespace Chat.Container.Friend
 			RetrieveDataAndUpdate(500);
 			*/
 		}
-	
 
 		// This is called initially, as many times as needed to fill the viewport, 
 		// and anytime the viewport's size grows, thus allowing more items to be displayed
@@ -90,9 +89,31 @@ namespace Chat.Container.Friend
 			// In this callback, "newOrRecycled.ItemIndex" is guaranteed to always reflect the
 			// index of item that should be represented by this views holder. You'll use this index
 			// to retrieve the model from your data set
+			
 			MyListItemModel model = Data[newOrRecycled.ItemIndex];
-			newOrRecycled.FriendItem.SetInformation(model.player);
-			newOrRecycled.FriendItem.OnPlayerFocusChange();
+
+			newOrRecycled.Name.SetText(model.displayName);
+		
+
+			if (model.amIAdmin)
+			{
+				newOrRecycled.KickBtn.gameObject.SetActive(true);
+				newOrRecycled.KickBtn.onClick.AddListener(() =>
+				{
+					model.OnClick?.Invoke();
+				});
+			}
+			else
+			{
+				newOrRecycled.KickBtn.gameObject.SetActive(false);
+			}
+
+			if (model.isPlayermember) newOrRecycled.Role.SetText("Member");
+			else
+			{
+				newOrRecycled.Role.SetText("Admin");
+				newOrRecycled.KickBtn.gameObject.SetActive(false);
+			}
 		}
 
 		// This is the best place to clear an item's views in order to prepare it from being recycled, but this is not always needed, 
@@ -104,8 +125,7 @@ namespace Chat.Container.Friend
 		protected override void OnBeforeRecycleOrDisableViewsHolder(MyListItemViewsHolder inRecycleBinOrVisible, int newItemIndex)
 		{
 			base.OnBeforeRecycleOrDisableViewsHolder(inRecycleBinOrVisible, newItemIndex);
-
-			inRecycleBinOrVisible.FriendItem.ClearInformation();
+			inRecycleBinOrVisible.KickBtn.onClick.RemoveAllListeners();
 		}
 		
 
@@ -177,7 +197,23 @@ namespace Chat.Container.Friend
 			
 			var newItems = new MyListItemModel[count];
 
-
+			// Retrieve your data here
+			/*
+			for (int i = 0; i < count; ++i)
+			{
+				var model = new MyListItemModel()
+				{
+					title = "Random item ",
+					color = new Color(
+								UnityEngine.Random.Range(0f, 1f),
+								UnityEngine.Random.Range(0f, 1f),
+								UnityEngine.Random.Range(0f, 1f),
+								UnityEngine.Random.Range(0f, 1f)
+							)
+				};
+				newItems[i] = model;
+			}
+			*/
 
 			OnDataRetrieved(newItems);
 		}
@@ -191,8 +227,11 @@ namespace Chat.Container.Friend
 	// Class containing the data associated with an item
 	public class MyListItemModel
 	{
-		public PlayerPlayfabInformation player;
-
+		public string id;
+		public string displayName;
+		public bool amIAdmin;
+		public bool isPlayermember;
+		public Action OnClick;
 	}
 
 
@@ -200,7 +239,10 @@ namespace Chat.Container.Friend
 	// Your views holder should extend BaseItemViewsHolder for ListViews and CellViewsHolder for GridViews
 	public class MyListItemViewsHolder : BaseItemViewsHolder
 	{
-		public ChatFriendUIItem FriendItem;
+		public Button KickBtn;
+		public TextMeshProUGUI Role;
+		public TextMeshProUGUI Name;
+
 
 
 		// Retrieving the views from the item's root GameObject
@@ -208,7 +250,13 @@ namespace Chat.Container.Friend
 		{
 			base.CollectViews();
 
-			root.GetComponentAtPath("FriendItem", out FriendItem);
+			// GetComponentAtPath is a handy extension method from frame8.Logic.Misc.Other.Extensions
+			// which infers the variable's component from its type, so you won't need to specify it yourself
+			
+			root.GetComponentAtPath("List/KickBtn", out KickBtn);
+			root.GetComponentAtPath("List/Role", out Role);
+			root.GetComponentAtPath("List/Name", out Name);
+			
 		}
 
 		// Override this if you have children layout groups or a ContentSizeFitter on root that you'll use. 

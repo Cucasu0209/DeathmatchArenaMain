@@ -94,6 +94,7 @@ namespace Friend.Container.FindPlayer
 			MyListItemModel model = Data[newOrRecycled.ItemIndex];
 
 			newOrRecycled.Player.SetInformation(model.player);
+			newOrRecycled.Player.OnPlayerFocusChange();
 		}
 
 		// This is the best place to clear an item's views in order to prepare it from being recycled, but this is not always needed, 

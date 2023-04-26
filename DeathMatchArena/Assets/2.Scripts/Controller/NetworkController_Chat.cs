@@ -65,10 +65,11 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     #endregion
 
     #region Variables
-    private List<string> DefaultChannel =  new List<string> { "General" };
+    private List<string> DefaultChannel = new List<string> { "General" };
     public ChatClient chatClient;
     private Action OnConnecctCompleted;
-    public static event Action<ChatMessage_Photon> OnChatMessageCome;
+    public static event Action<ChatMessage_Photon> OnPrivateChatMessageCome;
+    public static event Action<string, ChatMessage_Photon> OnPublicChatMessageCome;
     #endregion
 
     #region Unity
@@ -95,6 +96,10 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     void IChatClientListener.OnConnected()
     {
         Debug.Log($"[{this.name}]: Connect Succced {this.chatClient.AuthValues.UserId}.");
+        foreach (string channel in DefaultChannel)
+        {
+            this.chatClient.Subscribe(channel);
+        }
         OnConnecctCompleted?.Invoke();
     }
     void IChatClientListener.OnChatStateChange(ChatState state)
@@ -104,6 +109,19 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
     void IChatClientListener.OnGetMessages(string channelName, string[] senders, object[] messages)
     {
         Debug.Log($"[{this.name}]: PublicMessage - {channelName}");
+        foreach (var message in messages)
+        {
+            ChatMessage_Photon _m = JsonConvert.DeserializeObject<ChatMessage_Photon>(message.ToString());
+            if (_m != null)
+            {
+                if (_m.type == ChatMessageType_Photon.ChatChannel)
+                {
+                    Debug.Log($"[{this.name}]: Chat message from {_m.senderDisplayName} to group {channelName}");
+                    OnPublicChatMessageCome?.Invoke(channelName,_m);
+                }
+            }
+        }
+
     }
     void IChatClientListener.OnPrivateMessage(string sender, object message, string channelName)
     {
@@ -117,33 +135,33 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
                 if (_m.type == ChatMessageType_Photon.RequestFriend)
                 {
                     Debug.Log($"[{this.name}]: RequestFriend message from {_m.senderDisplayName}-{_m.senderId}");
-                    OnChatMessageCome?.Invoke(_m);
+                    OnPrivateChatMessageCome?.Invoke(_m);
                 }
                 else if (_m.type == ChatMessageType_Photon.CancelRequestFriend)
                 {
                     Debug.Log($"[{this.name}]: Cancel RequestFriend message from {_m.senderDisplayName}-{_m.senderId}");
-                    OnChatMessageCome?.Invoke(_m);
+                    OnPrivateChatMessageCome?.Invoke(_m);
                 }
                 else if (_m.type == ChatMessageType_Photon.AcceptRequestFriend)
                 {
                     Debug.Log($"[{this.name}]: Aceept Friend message from {_m.senderDisplayName}-{_m.senderId}");
-                    OnChatMessageCome?.Invoke(_m);
+                    OnPrivateChatMessageCome?.Invoke(_m);
                 }
                 else if (_m.type == ChatMessageType_Photon.RefuserequestFriend)
                 {
                     Debug.Log($"[{this.name}]: Refuse Friend message from {_m.senderDisplayName}-{_m.senderId}");
-                    OnChatMessageCome?.Invoke(_m);
+                    OnPrivateChatMessageCome?.Invoke(_m);
                 }
                 else if (_m.type == ChatMessageType_Photon.RemoveFriend)
                 {
                     Debug.Log($"[{this.name}]:  Remove Friend message from {_m.senderDisplayName}-{_m.senderId}");
-                    OnChatMessageCome?.Invoke(_m);
+                    OnPrivateChatMessageCome?.Invoke(_m);
                 }
             }
             if (_m.type == ChatMessageType_Photon.ChatFriend)
             {
                 Debug.Log($"[{this.name}]: Chat message from {_m.senderDisplayName}-{_m.senderId}");
-                OnChatMessageCome?.Invoke(_m);
+                OnPrivateChatMessageCome?.Invoke(_m);
             }
         }
     }
@@ -186,7 +204,11 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
         //this.chatClient.ConnectUsingSettings(PhotonNetwork.PhotonServerSettings.AppSettings.GetChatSettings());
         OnConnecctCompleted = Oncompleted;
     }
-
+    public void SubscribeChat(string channel)
+    {
+        this.chatClient.Subscribe(channel);
+        DefaultChannel.Add(channel);
+    }
     public void SendRequestFriendMessage(string playfabId)
     {
         ChatMessage_Photon _mess = new ChatMessage_Photon()
@@ -252,6 +274,17 @@ public class NetworkController_Chat : MonoBehaviour, IChatClientListener
             message = message
         };
         this.chatClient.SendPrivateMessage(playfabId, JsonConvert.SerializeObject(_mess));
+    }
+    public void SendChatGroupMessage(string groupId, string message)
+    {
+        ChatMessage_Photon _mess = new ChatMessage_Photon()
+        {
+            type = ChatMessageType_Photon.ChatChannel,
+            senderId = PlayerData.GetId(),
+            senderDisplayName = PlayerData.GetNickName(),
+            message = message
+        };
+        this.chatClient.PublishMessage(groupId, JsonConvert.SerializeObject(_mess));
     }
     #endregion
 

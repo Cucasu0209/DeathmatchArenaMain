@@ -36,22 +36,35 @@ public class FriendListToAddGroupPopup : BasePopup
         List<MyListItemModel> items = new List<MyListItemModel>();
         foreach (var friend in FriendController.Instance.GetTempFriend())
         {
-            Debug.Log("trunge " + FriendController.Instance.GetTempFriend().Count);
             string _friend = friend;
-            bool isadded = false;
+            bool isMember = false;
+            bool isInvited = false;
             foreach (var member in group.members)
             {
-                if (member.playfabID == _friend)
+                if (member.PlayfabId == _friend)
                 {
-                    isadded = true;
+                    isMember = true;
                 }
             }
+            if (group.GroupInvitations != null)
+            {
+                foreach (var invitation in group.GroupInvitations)
+                {
+                    if (invitation.MasterInvitedEntity.Id == _friend)
+                    {
+                        isInvited = true;
+                    }
+                }
+            }
+
+
             items.Add(new MyListItemModel()
             {
                 displayName = OtherPlayersController.Instance.GetTempAllPlayers()[_friend].DisplayName,
                 id = _friend,
-                isAdded = isadded,
-                OnClick = () => { ChatController.Instance.AddMembersToGroupChat(group, _friend);  }
+                isInvited = isInvited,
+                isMember = isMember,
+                OnClick = () => { ChatController.Instance.InviteMembersToGroupChat(group, _friend); }
             });
         }
         yield return new WaitForSeconds(0.1f);
