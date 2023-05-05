@@ -5,6 +5,7 @@ using Photon.Realtime;
 
 public class RoomSlotGroup : MonoBehaviour
 {
+
     public RoomSlotUI Slot1_Team1;
     public RoomSlotUI Slot2_Team1;
     public RoomSlotUI Slot1_Team2;
@@ -14,8 +15,8 @@ public class RoomSlotGroup : MonoBehaviour
     private void Start()
     {
         Slot1_Team1?.SetHolder(this, 0);
-        Slot1_Team2?.SetHolder(this, 1);
-        Slot2_Team1?.SetHolder(this, 2);
+        Slot1_Team2?.SetHolder(this, 2);
+        Slot2_Team1?.SetHolder(this, 1);
         Slot2_Team2?.SetHolder(this, 3);
         slots.Add(0, Slot1_Team1);
         slots.Add(1, Slot2_Team1);
@@ -45,6 +46,8 @@ public class RoomSlotGroup : MonoBehaviour
 
     public void SwitchToSlot(int slotId)
     {
+        if (RoomUI.Instance.AmIReady == false)
+            NetworkController_PUN.Instance.SetSlot(slotId);
     }
 
 }
