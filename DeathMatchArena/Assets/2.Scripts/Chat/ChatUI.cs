@@ -19,7 +19,7 @@ public class ChatUI : MonoBehaviour
     public ChannelChatListAdapter channelList;
     public InvitationsChatListAdapter invitationList;
 
-    public AuthenticationComponentUI ChatInput;
+    public TextFieldComponentUI ChatInput;
     public TextMeshProUGUI ChatContent;
 
     [Header("Chat Information")]

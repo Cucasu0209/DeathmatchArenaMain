@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class StartNameContainerUI : MonoBehaviour
 {
     public TextMeshProUGUI Notification;
-    public AuthenticationComponentUI NickName;
+    public TextFieldComponentUI NickName;
 
     private Dictionary<NickNameChangeResult, string> NotificationLog = new Dictionary<NickNameChangeResult, string>()
     {

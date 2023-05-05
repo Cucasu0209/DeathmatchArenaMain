@@ -68,6 +68,8 @@ public class LoadingController : MonoBehaviour
     public bool isloading = false;
     public int numberOfDoneTask;
     public int maxTask;
+    const float MaxTimeLoading = 10;
+
     public void RegisterEventPrepare(Action<Action> _event)
     {
         if (isloading)
@@ -77,34 +79,47 @@ public class LoadingController : MonoBehaviour
         }
         ListAction.Add(_event);
     }
+    IEnumerator CountDownTime(Action OnLoadingComplete)
+    {
+        yield return new WaitForSeconds(MaxTimeLoading);
+        if (isloading)
+            EndLoad(OnLoadingComplete);
+    }
 
-    public void StartLoading(Action OnLoaingComplete)
+    public void StartLoading(Action OnLoadingComplete)
     {
         PopupController.ShowLoadingPopup();
         isloading = true;
         numberOfDoneTask = 0;
         maxTask = ListAction.Count;
+
+        StartCoroutine(CountDownTime(OnLoadingComplete));
         foreach (var _event in ListAction)
         {
-            _event?.Invoke(() => { IncreaseProgress(OnLoaingComplete); });
+            _event?.Invoke(() => { IncreaseProgress(OnLoadingComplete); });
         }
     }
-    private void IncreaseProgress(Action OnLoaingComplete)
+    private void IncreaseProgress(Action OnLoadingComplete)
     {
         numberOfDoneTask++;
         OnIncreaseProgress?.Invoke();
-        if (numberOfDoneTask == maxTask)
+        if (numberOfDoneTask == maxTask && isloading)
         {
-            ListAction.Clear();
-            isloading = false;
-            PopupController.HideLoadingPopup();
-            OnLoaingComplete?.Invoke();
+            EndLoad(OnLoadingComplete);
         }
+    }
+
+    private void EndLoad(Action OnLoadingComplete)
+    {
+        ListAction.Clear();
+        isloading = false;
+        PopupController.HideLoadingPopup();
+        OnLoadingComplete?.Invoke();
     }
 
     private void Start()
     {
-   
+
     }
 
 }

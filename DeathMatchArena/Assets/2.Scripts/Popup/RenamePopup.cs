@@ -7,7 +7,7 @@ public class RenamePopup : BasePopup
 {
     public static RenamePopup Instance;
     public TextMeshProUGUI Notification;
-    public AuthenticationComponentUI NickName;
+    public TextFieldComponentUI NickName;
 
     private Dictionary<NickNameChangeResult, string> NotificationLog = new Dictionary<NickNameChangeResult, string>()
     {
@@ -36,8 +36,7 @@ public class RenamePopup : BasePopup
     {
         Notification.SetText("");
         string nickname = NickName.GetText();
-        if (MainMenuSceneController.Instance != null)
-            PopupController.ShowLoadingPopup();
+        PopupController.ShowLoadingPopup();
         AuthenticationController.Instance.ChangeNickName(nickname, ActionChangeNameResult);
     }
     public void ClickCancel()

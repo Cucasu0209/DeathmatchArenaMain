@@ -20,7 +20,7 @@ public class FriendUI : MonoBehaviour
     public Image FriendBtnBG, RequestBtnBG, FindBtnBG, InvitationBtnBG;
     public UIContainer FriendContainer, RequestContainer, FindContainer, InvitationContainer;
     public RectTransform detailPanel;
-    public AuthenticationComponentUI SearchField;
+    public TextFieldComponentUI SearchField;
 
     public GameObject AcceptButton;
     public GameObject RefuseButton;

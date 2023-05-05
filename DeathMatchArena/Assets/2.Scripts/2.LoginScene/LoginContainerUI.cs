@@ -9,8 +9,8 @@ using UnityEngine.SceneManagement;
 public class LoginContainerUI : MonoBehaviour
 {
     public TextMeshProUGUI Notification;
-    public AuthenticationComponentUI Username;
-    public AuthenticationComponentUI Password;
+    public TextFieldComponentUI Username;
+    public TextFieldComponentUI Password;
 
     private Dictionary<LoginResultType, string> NotificationLog = new Dictionary<LoginResultType, string>()
     {

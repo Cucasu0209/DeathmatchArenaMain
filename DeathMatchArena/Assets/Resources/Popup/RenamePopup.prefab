@@ -923,10 +923,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3780189498027396172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b5fa359d3455104d8737aebf1191603, type: 3}
+  m_Script: {fileID: 11500000, guid: ec7b78b0d70e8bd4fb74fb98ab9d4387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedCharacters: abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM._@:1234567890
+  allowedCharacters: abcdefghij klmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM._@:1234567890
   Input: {fileID: 2177411164935706322}
   Arrow: {fileID: 7548272321136369846}
 --- !u!1 &4208566440602531631
