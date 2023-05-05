@@ -466,10 +466,8 @@ public class PlayfabController : MonoBehaviour
             string _de_ = "";
             List<GroupOpportunityForm> ListOppotunities = new List<GroupOpportunityForm>();
             int loadedInvitations = 0;
-            Debug.Log("aaaaaa " + group.GroupName);
             if (result.Invitations.Count == 0)
             {
-                Debug.Log("Noinvi" + group.GroupName);
                 OnComplete?.Invoke(ListOppotunities);
             }
             foreach (var request in result.Invitations)
@@ -494,7 +492,6 @@ public class PlayfabController : MonoBehaviour
                             newop.InvitedByEntityName = MasterInvitedByEntityName;
                             newop.InvitedEntityName = MasterInvitedEntityName;
                             ListOppotunities.Add(newop);
-                            Debug.Log("trung hesdahe " + loadedInvitations + "/" + result.Invitations.Count);
                             if (loadedInvitations == result.Invitations.Count)
                             {
                                 OnComplete?.Invoke(ListOppotunities);
@@ -948,5 +945,14 @@ public class PlayerPlayfabInformation
     public string getInf()
     {
         return DisplayName + ":" + PlayFabId;
+    }
+    public static PlayerPlayfabInformation GetMyInfomation()
+    {
+        return new PlayerPlayfabInformation()
+        {
+            DisplayName = PlayerData.GetNickName(),
+            PlayFabId = PlayerData.GetId(),
+            status = 1
+        };
     }
 }

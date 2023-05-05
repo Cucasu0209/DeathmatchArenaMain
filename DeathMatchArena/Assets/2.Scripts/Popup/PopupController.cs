@@ -15,7 +15,8 @@ public class PopupController
     private static readonly string NewGroupChatPopupLink = "Popup/NewGroupChatPopup";
     private static readonly string FriendListToAddGroupPopupLink = "Popup/FriendListToAddGroupPopup";
     private static readonly string GroupManagePopupLink = "Popup/GroupManagePopup";
-    
+    private static readonly string CreateRoomFormPopupLink = "Popup/CreateRoomFormPopup";
+
     #endregion
 
     #region Action
@@ -149,7 +150,7 @@ public class PopupController
         }
 
     }
-    public static void ShowYesNoPopup(string notifyMessage,Action Yes, Action No)
+    public static void ShowYesNoPopup(string notifyMessage, Action Yes, Action No)
     {
         if (YesNoPopup.Instance != null)
         {
@@ -261,6 +262,33 @@ public class PopupController
         if (GroupManagePopup.Instance != null)
         {
             GroupManagePopup.Instance.Hide();
+        }
+
+    }
+    public static void ShowCreateRoomFormPopup()
+    {
+        if (CreateRoomFormPopup.Instance != null)
+        {
+            CreateRoomFormPopup.Instance.Show();
+            CreateRoomFormPopup.Instance.transform.SetAsLastSibling();
+        }
+        else
+        {
+            GameObject myPopup = Resources.Load<GameObject>(CreateRoomFormPopupLink);
+            if (myPopup != null)
+            {
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
+                NewPopup.GetComponent<BasePopup>()?.Show();
+                NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+            }
+        }
+
+    }
+    public static void HideCreateRoomFormPopup()
+    {
+        if (CreateRoomFormPopup.Instance != null)
+        {
+            CreateRoomFormPopup.Instance.Hide();
         }
 
     }

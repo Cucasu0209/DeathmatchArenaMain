@@ -7,7 +7,7 @@ public class NewGroupChatPopup : BasePopup
 {
     public static NewGroupChatPopup Instance;
     public TextMeshProUGUI Notification;
-    public AuthenticationComponentUI GroupsName;
+    public TextFieldComponentUI GroupsName;
 
     private Dictionary<GroupCreateResultEnum, string> NotificationLog = new Dictionary<GroupCreateResultEnum, string>()
     {

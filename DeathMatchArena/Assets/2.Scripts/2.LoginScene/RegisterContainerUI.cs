@@ -8,9 +8,9 @@ using Doozy.Runtime.UIManager.Containers;
 public class RegisterContainerUI : MonoBehaviour
 {
     public TextMeshProUGUI Notification;
-    public AuthenticationComponentUI Username;
-    public AuthenticationComponentUI Password;
-    public AuthenticationComponentUI Password2;
+    public TextFieldComponentUI Username;
+    public TextFieldComponentUI Password;
+    public TextFieldComponentUI Password2;
 
     private Dictionary<RegisterResultType, string> NotificationLog = new Dictionary<RegisterResultType, string>()
     {

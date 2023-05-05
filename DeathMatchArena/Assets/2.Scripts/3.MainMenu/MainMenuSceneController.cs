@@ -71,4 +71,10 @@ public class MainMenuSceneController : MonoBehaviour
     {
         PopupController.ShowConfirmLogoutPopup();
     }
+    #region ButtonCallbacks
+    public void GoToLobby()
+    {
+        LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.Lobby);
+    }
+    #endregion
 }

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 
-public class AuthenticationComponentUI : MonoBehaviour
+public class TextFieldComponentUI : MonoBehaviour
 {
     [HideInInspector] public string allowedCharacters = "abcdefghij klmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM._@:1234567890";
     public TMP_InputField Input;
