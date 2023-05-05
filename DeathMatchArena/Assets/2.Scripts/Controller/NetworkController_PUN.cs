@@ -90,6 +90,14 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public string MasterClientId;
     #endregion
 
+    #region Unity
+    public override void OnEnable()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+        base.OnEnable();
+    }
+    #endregion
+
     #region PUN CALLBACKS
     public override void OnConnectedToMaster()
     {
@@ -252,7 +260,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public Dictionary<Player, int> GetPlayersSlot()
     {
         Dictionary<Player, int> PlayerInSlot = new Dictionary<Player, int>();
-
+        if (PhotonNetwork.InRoom == false) return new Dictionary<Player, int>();
         foreach (var player in PhotonNetwork.CurrentRoom.Players.Values)
         {
             object slot;
@@ -313,6 +321,11 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public bool AmIMasterClient()
     {
         return PhotonNetwork.LocalPlayer.IsMasterClient;
+    }
+    public void SetReady(bool isReady)
+    {
+        Hashtable props = new Hashtable { { PLAYER_READY_STATE, isReady } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
     #endregion
 }

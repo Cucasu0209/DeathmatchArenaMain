@@ -76,11 +76,13 @@ public class RoomController : MonoBehaviour
     {
 
         NetworkController_PUN.ActionOnPlayerListChanged += GetPlayers;
+        NetworkController_PUN.ActionOnLeftRoom += ResetSlot;
         GetPlayers();
     }
     private void OnDisable()
     {
         NetworkController_PUN.ActionOnPlayerListChanged -= GetPlayers;
+        NetworkController_PUN.ActionOnLeftRoom -= ResetSlot;
     }
     #endregion
 
@@ -105,6 +107,20 @@ public class RoomController : MonoBehaviour
         if (result is bool) return (bool)result;
         return false;
     }
+    public bool IsEveryOneReady()
+    {
+        if (PlayerInSlot[1] == null && PlayerInSlot[0] == null) return false;
+        if (PlayerInSlot[2] == null && PlayerInSlot[3] == null) return false;
+        foreach(Player p in PlayerInSlot.Values)
+        {
+            if (p != null)
+            {
+                if (GetIsReady(p) == false) return false;
+            }
+        }
+        return true;
+    }
+
     #endregion
 
     #region Private Actions
@@ -112,22 +128,16 @@ public class RoomController : MonoBehaviour
     {
         ClearSlot();
         Dictionary<Player, int> players = NetworkController_PUN.Instance.GetPlayersSlot();
-        Debug.LogError("player count:" + players.Count);
         foreach (var player in players)
         {
             if (player.Value >= 0 && player.Value <= 3)
             {
                 PlayerInSlot[player.Value] = player.Key;
             }
-
         }
         foreach (var player in players)
         {
-            if (player.Value >= 0 && player.Value <= 3)
-            {
-
-            }
-            else if (player.Key.IsLocal)
+            if (player.Key.IsLocal && player.Value == -1)
             {
                 NetworkController_PUN.Instance.SetSlot(GetSlotEmpty());
             }
@@ -136,11 +146,19 @@ public class RoomController : MonoBehaviour
     }
     private int GetSlotEmpty()
     {
-        if (PlayerInSlot[0] == null) return 0;
-        if (PlayerInSlot[2] == null) return 2;
-        if (PlayerInSlot[1] == null) return 1;
-        if (PlayerInSlot[3] == null) return 3;
+        if (PlayerInSlot[0] == null) { return 0; }
+        Debug.LogError($"slot 0 occupy by {PlayerInSlot[0].NickName}");
+        if (PlayerInSlot[2] == null) { return 2; }
+        Debug.LogError($"slot 2 occupy by {PlayerInSlot[2].NickName}");
+        if (PlayerInSlot[1] == null) { return 1; }
+        Debug.LogError($"slot 1 occupy by {PlayerInSlot[1].NickName}");
+        if (PlayerInSlot[3] == null) { return 3; }
+        Debug.LogError($"slot 3 occupy by {PlayerInSlot[3].NickName}");
         return -1;
+    }
+    private void ResetSlot()
+    {
+        NetworkController_PUN.Instance.SetSlot(-1);
     }
     private void ClearSlot()
     {
@@ -149,5 +167,6 @@ public class RoomController : MonoBehaviour
         PlayerInSlot[2] = null;
         PlayerInSlot[3] = null;
     }
+
     #endregion
 }

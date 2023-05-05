@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class LoadSceneSmoothController : MonoBehaviour
 {
@@ -72,7 +73,7 @@ public class LoadSceneSmoothController : MonoBehaviour
             LoadSceneSmoothEntity.Instance?.Hide(null);
         };
     }
-    public void LoadScene(SceneEnum.Type scene)
+    public void LoadScene(SceneEnum.Type scene, bool isloadAsync = false)
     {
         if (SceneManager.GetActiveScene().name == SceneEnum.GetSceneString(scene)) return;
         if (LoadSceneSmoothEntity.Instance == null)
@@ -80,11 +81,11 @@ public class LoadSceneSmoothController : MonoBehaviour
             GameObject myEffect = Resources.Load<GameObject>(LoadSceneSmoothEntityLink);
             if (myEffect != null)
             {
-
                 GameObject newEffect = GameObject.Instantiate(myEffect, null);
                 newEffect.GetComponent<LoadSceneSmoothEntity>()?.Show(() =>
                 {
-                    SceneManager.LoadScene(SceneEnum.GetSceneString(scene));
+                    if (isloadAsync == false) SceneManager.LoadScene(SceneEnum.GetSceneString(scene));
+                    else PhotonNetwork.LoadLevel(SceneEnum.GetSceneString(scene));
                 });
             }
         }
@@ -92,10 +93,10 @@ public class LoadSceneSmoothController : MonoBehaviour
         {
             LoadSceneSmoothEntity.Instance.Show(() =>
             {
-                SceneManager.LoadScene(SceneEnum.GetSceneString(scene));
+                if (isloadAsync == false) SceneManager.LoadScene(SceneEnum.GetSceneString(scene));
+                else PhotonNetwork.LoadLevel(SceneEnum.GetSceneString(scene));
             });
         }
-
     }
 
 }
