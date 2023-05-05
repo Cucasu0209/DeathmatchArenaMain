@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkController_PUN : MonoBehaviourPunCallbacks
 {
@@ -63,11 +64,12 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     #endregion
 
     #region Variables
-    public const int MAX_PLAYER_IN_ROOM = 4;
+    public static readonly int MAX_PLAYER_IN_ROOM = 4;
+    public static readonly string PLAYER_READY_STATE = "PLAYER_READY_STATE";
+    public static readonly string PLAYER_NAME = "PLAYER_NAME";
+    public static readonly string ROOM_SLOT = "ROOM_SLOT";
 
     public Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
-    public List<Player> playersInRoomList = new List<Player>();
-    public Dictionary<Player, ExitGames.Client.Photon.Hashtable> playersProperties = new Dictionary<Player, ExitGames.Client.Photon.Hashtable>();
     private Action OnConnecctCompleted;
     public static event Action ActionOnConnectedToMaster;
     public static event Action ActionOnRoomListUpdate;
@@ -82,6 +84,10 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public static event Action ActionOnPlayerLeftRoom;
     public static event Action ActionOnMasterClientSwitched;
     public static event Action ActionOnPlayerPropertiesUpdate;
+
+    public static event Action ActionOnPlayerListChanged;
+
+    public string MasterClientId;
     #endregion
 
     #region PUN CALLBACKS
@@ -151,34 +157,48 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log($"[{this.name}]:PUN Joined room.");
+        cachedRoomList.Clear();
+
+        Hashtable props = new Hashtable
+        {
+            {PLAYER_READY_STATE, false},
+            {PLAYER_NAME, PlayerData.GetNickName()},
+
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         ActionOnJoinedRoom?.Invoke();
+        ActionOnPlayerListChanged?.Invoke();
     }
     public override void OnLeftRoom()
     {
         Debug.Log($"[{this.name}]:PUN Left room.");
+        JoinLobby();
         ActionOnLeftRoom?.Invoke();
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"[{this.name}]:PUN {newPlayer.NickName} Enter room.");
         ActionOnPlayerEnteredRoom?.Invoke();
+        ActionOnPlayerListChanged?.Invoke();
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log($"[{this.name}]:PUN {otherPlayer.NickName} Left room.");
         ActionOnPlayerLeftRoom?.Invoke();
+        ActionOnPlayerListChanged?.Invoke();
     }
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         Debug.Log($"[{this.name}]:PUN {newMasterClient.NickName} is new master client.");
+        MasterClientId = newMasterClient.NickName;
         ActionOnPlayerLeftRoom?.Invoke();
-
+        ActionOnPlayerListChanged?.Invoke();
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         Debug.Log($"[{this.name}]:PUN {targetPlayer.NickName} changed his properties.");
         ActionOnPlayerPropertiesUpdate?.Invoke();
-
+        ActionOnPlayerListChanged?.Invoke();
     }
     #endregion
 
@@ -210,7 +230,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     }
     public void CreateRoom(string roomName)
     {
-        RoomOptions options = new RoomOptions { MaxPlayers = MAX_PLAYER_IN_ROOM, PlayerTtl = 0 };
+        RoomOptions options = new RoomOptions { MaxPlayers = (byte)MAX_PLAYER_IN_ROOM, PlayerTtl = 0 };
         PhotonNetwork.CreateRoom(roomName, options, null);
     }
     public void JoinRoom(string roomName)
@@ -225,6 +245,74 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+    }
+    #endregion
+
+    #region Player Properties
+    public Dictionary<Player, int> GetPlayersSlot()
+    {
+        Dictionary<Player, int> PlayerInSlot = new Dictionary<Player, int>();
+
+        foreach (var player in PhotonNetwork.CurrentRoom.Players.Values)
+        {
+            object slot;
+            Hashtable data = player.CustomProperties;
+            if (data.TryGetValue(ROOM_SLOT, out slot))
+            {
+                if (slot is int)
+                {
+                    int slotIndex = (int)slot;
+                    if (slotIndex >= 0 && slotIndex <= 3)
+                    {
+                        PlayerInSlot[player] = slotIndex;
+                    }
+                    else
+                    {
+                        PlayerInSlot[player] = -1;
+                    }
+                }
+                else
+                {
+                    PlayerInSlot[player] = -1;
+                }
+            }
+            else
+            {
+                PlayerInSlot[player] = -1;
+            }
+        }
+        return PlayerInSlot;
+    }
+    public bool isSlotEmpty(int slotIndex)
+    {
+        Dictionary<Player, int> players = GetPlayersSlot();
+
+        foreach (var index in players.Values)
+        {
+            if (index == slotIndex) return false;
+        }
+        return true;
+    }
+    public void SetSlot(int slotIndex)
+    {
+        if (isSlotEmpty(slotIndex) == false) return;
+        Hashtable props = new Hashtable { { ROOM_SLOT, slotIndex } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+    public object GetPropertiesValue(Player player, string propName)
+    {
+        object value;
+        Hashtable data = player.CustomProperties;
+        if (data.TryGetValue(propName, out value))
+        {
+            return value;
+        }
+        return null;
+
+    }
+    public bool AmIMasterClient()
+    {
+        return PhotonNetwork.LocalPlayer.IsMasterClient;
     }
     #endregion
 }
