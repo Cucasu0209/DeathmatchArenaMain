@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "MPK2DpD+Trs",
+	"hash": "h+vkGMJRwrw",
 	"spine": "4.1.21",
 	"x": -67.53,
 	"y": -4.27,
@@ -156,6 +156,73 @@
 	}
 ],
 "animations": {
+	"Dash": {
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "value": 0.05 }
+				]
+			},
+			"leg_down_right": {
+				"rotate": [
+					{ "value": -132.3 }
+				]
+			},
+			"leg_up_right": {
+				"rotate": [
+					{ "value": 47.15 }
+				]
+			},
+			"leg_down_left2": {
+				"rotate": [
+					{ "value": -20.02 }
+				]
+			},
+			"leg_up_left": {
+				"rotate": [
+					{ "value": -35.39 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "value": 45.92 }
+				]
+			},
+			"hand_right": {
+				"rotate": [
+					{ "value": 40.29 }
+				]
+			},
+			"arm_right": {
+				"rotate": [
+					{ "value": -56.97 }
+				]
+			},
+			"hand_left": {
+				"rotate": [
+					{ "value": 31.53 }
+				]
+			},
+			"arm_left": {
+				"rotate": [
+					{ "value": -17.26 }
+				]
+			},
+			"body": {
+				"rotate": [
+					{ "value": -68.73 }
+				]
+			},
+			"bone": {
+				"rotate": [
+					{ "value": 0.05 }
+				],
+				"translate": [
+					{ "y": -45.7 }
+				]
+			}
+		}
+	},
 	"Idle": {},
 	"JumpDown": {
 		"bones": {
@@ -215,22 +282,22 @@
 		"bones": {
 			"leg_down_right": {
 				"rotate": [
-					{ "value": -135.14 }
+					{ "value": -126.74 }
 				]
 			},
 			"leg_up_right": {
 				"rotate": [
-					{ "value": 102.48 }
+					{ "value": 102.82 }
 				]
 			},
 			"leg_down_left2": {
 				"rotate": [
-					{ "value": -32.51 }
+					{ "value": -31.26 }
 				]
 			},
 			"leg_up_left": {
 				"rotate": [
-					{ "value": -14.57 }
+					{ "value": -7.4 }
 				]
 			},
 			"Head": {
@@ -240,22 +307,22 @@
 			},
 			"hand_right": {
 				"rotate": [
-					{ "value": 61.41 }
+					{ "value": 40.95 }
 				]
 			},
 			"arm_right": {
 				"rotate": [
-					{ "value": 72 }
+					{ "value": -72.86 }
 				]
 			},
 			"hand_left": {
 				"rotate": [
-					{ "value": 64.9 }
+					{ "value": 799.01 }
 				]
 			},
 			"arm_left": {
 				"rotate": [
-					{ "value": -433.02 }
+					{ "value": -286.53 }
 				]
 			},
 			"body": {
