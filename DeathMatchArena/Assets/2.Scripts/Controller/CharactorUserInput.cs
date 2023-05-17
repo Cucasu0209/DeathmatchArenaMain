@@ -19,5 +19,6 @@ public class CharactorUserInput : MonoBehaviour
         if (Input.GetKey(KeyCode.W)) currenDiractiom += Vector2.up;
         if (Input.GetKey(KeyCode.S)) currenDiractiom += Vector2.down;
         if (Input.GetMouseButtonDown(1)) charactor.Dash(currenDiractiom);
+        if (Input.GetMouseButtonDown(0)) charactor.StrikeAttack();
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
+using Spine;
 
 public class CharactorController : MonoBehaviour
 {
@@ -12,15 +13,19 @@ public class CharactorController : MonoBehaviour
         JumpUp,
         JumpDown,
         Dash,
+        Strike
     }
     public SkeletonAnimation skAnim;
     public Transform CharactorTransform;
-    private Spine.TrackEntry skAnimTrack;
+    private TrackEntry DashTrack;
+    private TrackEntry MoveTrack;
+    private TrackEntry AttackTrack;
     [SpineAnimation] public string RunAnim;
     [SpineAnimation] public string IdleAnim;
     [SpineAnimation] public string JumpUpAnim;
     [SpineAnimation] public string JumpDownAnim;
     [SpineAnimation] public string DashAnim;
+    [SpineAnimation] public string StrikeAnim;
 
     public Rigidbody2D body;
     public float speed = 15;
@@ -30,6 +35,7 @@ public class CharactorController : MonoBehaviour
     private int jumpCountMax = 2;
     private bool isDashing = false;
     private bool canMove = true;
+    private bool canAttack = true;
     #region Unity
 
     private void Start()
@@ -101,6 +107,10 @@ public class CharactorController : MonoBehaviour
         StartCoroutine(IDashing);
 
     }
+    public void StrikeAttack()
+    {
+        SetStrikeAniametion();
+    }
     IEnumerator IDashing;
     IEnumerator IEDash(Vector2 dir)
     {
@@ -125,6 +135,11 @@ public class CharactorController : MonoBehaviour
     #endregion
 
     #region Animation
+    private void SetStrikeAniametion()
+    {
+        if (AttackTrack != null && AttackTrack.IsComplete == false) return;
+        SetAnimationLoop(AnimationType.Strike);
+    }
     private void UpdateAnimationType()
     {
         if (body.velocity.x < 0) CharactorTransform.localScale = new Vector3(-1, 1, 1);
@@ -151,39 +166,52 @@ public class CharactorController : MonoBehaviour
     {
         if (_type == AnimationType.Run)
         {
-            if (skAnimTrack == null || skAnimTrack.Animation.Name != RunAnim)
+            if (MoveTrack == null || MoveTrack.Animation.Name != RunAnim)
             {
-                skAnimTrack = skAnim.state.SetAnimation(0, RunAnim, true);
+                MoveTrack = skAnim.state.SetAnimation(0, RunAnim, true);
             }
         }
         else if (_type == AnimationType.Idle)
         {
-            if (skAnimTrack == null || skAnimTrack.Animation.Name != IdleAnim)
+            if (MoveTrack == null || MoveTrack.Animation.Name != IdleAnim)
             {
-                skAnimTrack = skAnim.state.SetAnimation(0, IdleAnim, true);
+                MoveTrack = skAnim.state.SetAnimation(0, IdleAnim, true);
             }
         }
         else if (_type == AnimationType.JumpUp)
         {
-            if (skAnimTrack == null || skAnimTrack.Animation.Name != JumpUpAnim)
+            if (MoveTrack == null || MoveTrack.Animation.Name != JumpUpAnim)
             {
-                skAnimTrack = skAnim.state.SetAnimation(0, JumpUpAnim, true);
+                MoveTrack = skAnim.state.SetAnimation(0, JumpUpAnim, true);
             }
         }
         else if (_type == AnimationType.JumpDown)
         {
-            if (skAnimTrack == null || skAnimTrack.Animation.Name != JumpDownAnim)
+            if (MoveTrack == null || MoveTrack.Animation.Name != JumpDownAnim)
             {
-                skAnimTrack = skAnim.state.SetAnimation(0, JumpDownAnim, true);
+                MoveTrack = skAnim.state.SetAnimation(0, JumpDownAnim, true);
             }
         }
         else if (_type == AnimationType.Dash)
         {
-            if (skAnimTrack == null || skAnimTrack.Animation.Name != DashAnim)
+
+            DashTrack = skAnim.state.SetAnimation(1, DashAnim, true);
+            DashTrack.Complete += (track) =>
             {
-                skAnimTrack = skAnim.state.SetAnimation(0, DashAnim, true);
-            }
+                skAnim.state.SetEmptyAnimation(1, 0);
+            };
+
         }
+        else if (_type == AnimationType.Strike)
+        {
+
+            AttackTrack = skAnim.state.SetAnimation(2, StrikeAnim, false);
+            AttackTrack.Complete += (track) =>
+            {
+                skAnim.state.SetEmptyAnimation(2, 0.1f);
+            };
+        }
+
     }
     #endregion
 }
