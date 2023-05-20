@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharactorUserInput : MonoBehaviour
 {
-    public CharactorController charactor;
+    public CharacterController2D charactor;
     public Vector2 currenDiractiom;
 
     private void Update()
@@ -19,6 +19,8 @@ public class CharactorUserInput : MonoBehaviour
         if (Input.GetKey(KeyCode.W)) currenDiractiom += Vector2.up;
         if (Input.GetKey(KeyCode.S)) currenDiractiom += Vector2.down;
         if (Input.GetMouseButtonDown(1)) charactor.Dash(currenDiractiom);
-        if (Input.GetMouseButtonDown(0)) charactor.StrikeAttack();
+        if (Input.GetMouseButtonDown(0)) charactor.AttackNormal();
+        if (Input.GetKeyDown(KeyCode.E)) charactor.AttackE();
+        if (Input.GetKeyDown(KeyCode.Q)) charactor.AttackQ();
     }
 }

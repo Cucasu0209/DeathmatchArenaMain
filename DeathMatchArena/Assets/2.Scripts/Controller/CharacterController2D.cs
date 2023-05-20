@@ -4,7 +4,7 @@ using UnityEngine;
 using Spine.Unity;
 using Spine;
 
-public class CharactorController : MonoBehaviour
+public class CharacterController2D : MonoBehaviour
 {
     private enum AnimationType
     {
@@ -12,21 +12,21 @@ public class CharactorController : MonoBehaviour
         Idle,
         JumpUp,
         JumpDown,
-        Dash,
-        Strike
+        Dash
     }
     public SkeletonAnimation skAnim;
     public Transform CharactorTransform;
     private TrackEntry DashTrack;
     private TrackEntry MoveTrack;
     private TrackEntry AttackTrack;
+    [Header("Animations")]
     [SpineAnimation] public string RunAnim;
     [SpineAnimation] public string IdleAnim;
     [SpineAnimation] public string JumpUpAnim;
     [SpineAnimation] public string JumpDownAnim;
     [SpineAnimation] public string DashAnim;
-    [SpineAnimation] public string StrikeAnim;
 
+    [Header("movement")]
     public Rigidbody2D body;
     public float speed = 15;
     public float jumpSpeed = 150;
@@ -35,7 +35,10 @@ public class CharactorController : MonoBehaviour
     private int jumpCountMax = 2;
     private bool isDashing = false;
     private bool canMove = true;
-    private bool canAttack = true;
+
+
+    [Header("Weapon")]
+    public BaseWeapon weapon;
     #region Unity
 
     private void Start()
@@ -107,9 +110,17 @@ public class CharactorController : MonoBehaviour
         StartCoroutine(IDashing);
 
     }
-    public void StrikeAttack()
+    public void AttackNormal()
     {
-        SetStrikeAniametion();
+        weapon.PerformNormal(this, (animName) => DoAttackAnimation(animName));
+    }
+    public void AttackE()
+    {
+        weapon.PerformE(this, (animName) => DoAttackAnimation(animName));
+    }
+    public void AttackQ()
+    {
+        weapon.PerformQ(this, (animName) => DoAttackAnimation(animName));
     }
     IEnumerator IDashing;
     IEnumerator IEDash(Vector2 dir)
@@ -135,10 +146,11 @@ public class CharactorController : MonoBehaviour
     #endregion
 
     #region Animation
-    private void SetStrikeAniametion()
+    private void DoAttackAnimation(string animationName)
     {
         if (AttackTrack != null && AttackTrack.IsComplete == false) return;
-        SetAnimationLoop(AnimationType.Strike);
+        SetAttackAnimation(animationName);
+
     }
     private void UpdateAnimationType()
     {
@@ -202,16 +214,23 @@ public class CharactorController : MonoBehaviour
             };
 
         }
-        else if (_type == AnimationType.Strike)
+
+    }
+    private void SetAttackAnimation(string animName)
+    {
+        try
         {
 
-            AttackTrack = skAnim.state.SetAnimation(2, StrikeAnim, false);
+            AttackTrack = skAnim.state.SetAnimation(2, animName, false);
             AttackTrack.Complete += (track) =>
             {
                 skAnim.state.SetEmptyAnimation(2, 0.1f);
             };
         }
-
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Animation name {animName} doesn't exsit.");
+        }
     }
     #endregion
 }

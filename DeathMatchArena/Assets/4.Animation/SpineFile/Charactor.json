@@ -1,0 +1,52 @@
+{ "skeleton": { "images": "C:/Users/Admin/Desktop/Art/images/" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "Head", "bone": "root", "attachment": "Head" },
+	{ "name": "body", "bone": "root", "attachment": "body" },
+	{ "name": "leg_up_left", "bone": "root", "attachment": "leg_up_left" },
+	{ "name": "leg_down_left", "bone": "root", "attachment": "leg_down_left" },
+	{ "name": "leg_up_right", "bone": "root", "attachment": "leg_up_right" },
+	{ "name": "leg_down_right", "bone": "root", "attachment": "leg_down_right" },
+	{ "name": "arm_left", "bone": "root", "attachment": "arm_left" },
+	{ "name": "hand_left", "bone": "root", "attachment": "hand_left" },
+	{ "name": "arm_right", "bone": "root", "attachment": "arm_right" },
+	{ "name": "hand_right", "bone": "root", "attachment": "hand_right" }
+],
+"skins": {
+	"default": {
+		"Head": {
+			"Head": { "x": 68, "y": -39.5, "width": 86, "height": 81 }
+		},
+		"body": {
+			"body": { "x": 72, "y": -109.5, "width": 16, "height": 79 }
+		},
+		"leg_up_left": {
+			"leg_up_left": { "x": 59, "y": -167.5, "width": 36, "height": 57 }
+		},
+		"leg_down_left": {
+			"leg_down_left": { "x": 45.5, "y": -211.5, "width": 15, "height": 55 }
+		},
+		"leg_up_right": {
+			"leg_up_right": { "x": 79.5, "y": -170, "width": 27, "height": 62 }
+		},
+		"leg_down_right": {
+			"leg_down_right": { "x": 85, "y": -217, "width": 18, "height": 54 }
+		},
+		"arm_left": {
+			"arm_left": { "x": 52, "y": -85.5, "width": 54, "height": 35 }
+		},
+		"hand_left": {
+			"hand_left": { "x": 19.5, "y": -79.5, "width": 41, "height": 51 }
+		},
+		"arm_right": {
+			"arm_right": { "x": 89.5, "y": -93.5, "width": 47, "height": 51 }
+		},
+		"hand_right": {
+			"hand_right": { "x": 122.5, "y": -91.5, "width": 43, "height": 55 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}
