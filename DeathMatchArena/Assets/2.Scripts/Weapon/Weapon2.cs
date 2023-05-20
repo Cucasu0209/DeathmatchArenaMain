@@ -17,6 +17,7 @@ public class Weapon2 : BaseWeapon
         if (MyCollider == null) MyCollider = GetComponent<Collider2D>();
         MyCollider.enabled = false;
         Trail.SetActive(false);
+
     }
     public override void PerformNormal(CharacterController2D _character, Action<string> doAnimation, Action<float> WaitForNextAttack)
     {
@@ -99,14 +100,20 @@ public class Weapon2 : BaseWeapon
 
         }
         WeaponRenderer.DOColor(Color.red, props.TimePerform_Q * 0.77f).SetEase(Ease.Linear);
+        CameraController.Instance.ZoomIn();
 
-        yield return new WaitForSeconds(props.TimePerform_Q * 0.77f);
+        yield return new WaitForSeconds(props.TimePerform_Q * 0.77f - 0.3f);
+        CameraController.Instance.ZoomOut();
+        yield return new WaitForSeconds(0.3f);
+
+
         if (Item != null)
         {
             Item.Hide();
         }
         transform.DOScale(5, props.TimePerform_Q * 0.23f).SetEase(Ease.Linear);
         yield return new WaitForSeconds(props.TimePerform_Q * 0.23f);
+
 
         transform.DOScale(1, 0.2f);
         WeaponRenderer.DOColor(Color.white, 0.2f).SetEase(Ease.Linear);
