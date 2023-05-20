@@ -6,8 +6,8 @@ public abstract class BaseWeapon : MonoBehaviour
 {
     public WeaponProperties props;
 
-    public abstract void PerformNormal(CharacterController2D _charecter,Action<string> doAnimation);
-    public abstract void PerformE(CharacterController2D _charecter, Action<string> doAnimation);
-    public abstract void PerformQ(CharacterController2D _charecter, Action<string> doAnimation);
+    public abstract void PerformNormal(CharacterController2D _charecter, Action<string> doAnimation, Action<float> WaitForNextAttack);
+    public abstract void PerformE(CharacterController2D _charecter, Action<string> doAnimation, Action<float> WaitForNextAttack);
+    public abstract void PerformQ(CharacterController2D _charecter, Action<string> doAnimation, Action<float> FreezeChar);
 
 }

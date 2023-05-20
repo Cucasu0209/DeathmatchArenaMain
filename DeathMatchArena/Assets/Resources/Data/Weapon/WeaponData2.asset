@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896074688d987584d8b9d197f9762d57, type: 3}
   m_Name: WeaponData2
   m_EditorClassIdentifier: 
-  AnimationAttack_Normal: strike1
-  AnimationAttack_E: 
-  AnimationAttack_Q: 
+  AnimationAttack_Normal: Normal_StrikeRound_UpDown
+  AnimationAttack_E: E_RoundSwordStrike
+  AnimationAttack_Q: Q_RoundSwordStrike
   Damage_Normal: 0
   Damage_E: 0
   Damage_Q: 0
   AbilityCooldown_E: 0
   AbilityCooldown_Q: 0
+  TimePerform_Normal: 0.244
+  TimePerform_E: 0.427
+  TimePerform_Q: 1.585

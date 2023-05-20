@@ -30,11 +30,15 @@ public class CharacterController2D : MonoBehaviour
     public Rigidbody2D body;
     public float speed = 15;
     public float jumpSpeed = 150;
+
+
     private bool grounded = false;
     private int jumpCount = 2;
     private int jumpCountMax = 2;
     private bool isDashing = false;
     private bool canMove = true;
+    private bool canAttack = true;
+    private bool isFreezing = false;
 
 
     [Header("Weapon")]
@@ -69,11 +73,23 @@ public class CharacterController2D : MonoBehaviour
     {
         if (body == null) body = gameObject.GetComponent<Rigidbody2D>();
     }
+    private void FreezeSelf()
+    {
+        isFreezing = true;
+        body.velocity = Vector2.zero;
+        body.bodyType = RigidbodyType2D.Kinematic;
+    }
+    private void CancelFreezeSelf()
+    {
+        isFreezing = false;
+        body.bodyType = RigidbodyType2D.Dynamic;
+    }
     #endregion
 
     #region Public Actions
     public void Move(Vector2 direction)
     {
+        if (isFreezing) return;
         if (canMove == false) return;
         if (direction.x > 0)
         {
@@ -90,6 +106,7 @@ public class CharacterController2D : MonoBehaviour
     }
     public void Jump()
     {
+        if (isFreezing) return;
         if (jumpCount > 0)
         {
             body.velocity = new Vector2(body.velocity.x, jumpSpeed);
@@ -98,6 +115,7 @@ public class CharacterController2D : MonoBehaviour
     }
     public void Dash(Vector2 dir)
     {
+        if (isFreezing) return;
         if (isDashing) return;
         if (IDashing != null) StopCoroutine(IDashing);
 
@@ -112,15 +130,27 @@ public class CharacterController2D : MonoBehaviour
     }
     public void AttackNormal()
     {
-        weapon.PerformNormal(this, (animName) => DoAttackAnimation(animName));
+        if (isFreezing) return;
+        if (canAttack == false) return;
+        weapon.PerformNormal(this,
+            (animName) => DoAttackAnimation(animName),
+            (time) => StartCoroutine(IAttackWait(time)));
     }
     public void AttackE()
     {
-        weapon.PerformE(this, (animName) => DoAttackAnimation(animName));
+        if (isFreezing) return;
+        if (canAttack == false) return;
+        weapon.PerformE(this,
+            (animName) => DoAttackAnimation(animName),
+            (time) => StartCoroutine(IAttackWait(time)));
     }
     public void AttackQ()
     {
-        weapon.PerformQ(this, (animName) => DoAttackAnimation(animName));
+        if (isFreezing) return;
+        if (canAttack == false) return;
+        weapon.PerformQ(this,
+            (animName) => DoAttackAnimation(animName),
+            (time) => StartCoroutine(IFreezeWhenQPerform(time)));
     }
     IEnumerator IDashing;
     IEnumerator IEDash(Vector2 dir)
@@ -148,7 +178,7 @@ public class CharacterController2D : MonoBehaviour
     #region Animation
     private void DoAttackAnimation(string animationName)
     {
-        if (AttackTrack != null && AttackTrack.IsComplete == false) return;
+        //if (AttackTrack != null && AttackTrack.IsComplete == false) return;
         SetAttackAnimation(animationName);
 
     }
@@ -231,6 +261,19 @@ public class CharacterController2D : MonoBehaviour
         {
             Debug.LogError($"Animation name {animName} doesn't exsit.");
         }
+    }
+    private IEnumerator IFreezeWhenQPerform(float time)
+    {
+        FreezeSelf();
+        yield return new WaitForSeconds(time);
+        CancelFreezeSelf();
+    }
+
+    private IEnumerator IAttackWait(float time)
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(time);
+        canAttack = true;
     }
     #endregion
 }
