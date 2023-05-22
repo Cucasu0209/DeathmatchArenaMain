@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 using Spine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Pun.UtilityScripts;
+using Photon.Pun;
 
 public class CharacterController2D : MonoBehaviour
 {
+    public PhotonView photonView;
+
     private enum AnimationType
     {
         Run,
@@ -40,7 +45,6 @@ public class CharacterController2D : MonoBehaviour
     private bool canAttack = true;
     private bool isFreezing = false;
 
-
     [Header("Weapon")]
     public BaseWeapon weapon;
     #region Unity
@@ -50,6 +54,10 @@ public class CharacterController2D : MonoBehaviour
         SetupDefault();
     }
     private void Update()
+    {
+
+    }
+    private void FixedUpdate()
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down, 0.4f);
 
@@ -65,6 +73,15 @@ public class CharacterController2D : MonoBehaviour
         }
 
         UpdateAnimationType();
+
+        if (Mathf.Abs(body.velocity.x) > speed)
+        {
+            body.velocity = new Vector2(Mathf.Clamp(body.velocity.x, -speed, speed), body.velocity.y);
+        }
+        if (Mathf.Abs(body.velocity.y) > jumpSpeed)
+        {
+            body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -jumpSpeed, jumpSpeed));
+        }
     }
     #endregion
 
@@ -72,6 +89,8 @@ public class CharacterController2D : MonoBehaviour
     private void SetupDefault()
     {
         if (body == null) body = gameObject.GetComponent<Rigidbody2D>();
+        photonView = GetComponent<PhotonView>();
+        if (photonView.IsMine) CameraController.Instance.Target = transform;
     }
     private void FreezeSelf()
     {
@@ -93,11 +112,11 @@ public class CharacterController2D : MonoBehaviour
         if (canMove == false) return;
         if (direction.x > 0)
         {
-            body.velocity = new Vector2(speed, body.velocity.y);
+            body.AddForce(Vector2.right * speed * 100);
         }
         else if (direction.x < 0)
         {
-            body.velocity = new Vector2(-speed, body.velocity.y);
+            body.AddForce(Vector2.right * -speed * 100);
         }
         else
         {
@@ -109,7 +128,8 @@ public class CharacterController2D : MonoBehaviour
         if (isFreezing) return;
         if (jumpCount > 0)
         {
-            body.velocity = new Vector2(body.velocity.x, jumpSpeed);
+            body.AddForce(Vector2.up * jumpSpeed * 1000);
+            //body.velocity = new Vector2(body.velocity.x, jumpSpeed);
             jumpCount--;
         }
     }
@@ -184,8 +204,8 @@ public class CharacterController2D : MonoBehaviour
     }
     private void UpdateAnimationType()
     {
-        if (body.velocity.x < 0) CharactorTransform.localScale = new Vector3(-1, 1, 1);
-        else if (body.velocity.x > 0) CharactorTransform.localScale = new Vector3(1, 1, 1);
+        if (body.velocity.x < -0.5f) CharactorTransform.localScale = new Vector3(-1, 1, 1);
+        else if (body.velocity.x > 0.5f) CharactorTransform.localScale = new Vector3(1, 1, 1);
         if (isDashing)
         {
             SetAnimationLoop(AnimationType.Dash);

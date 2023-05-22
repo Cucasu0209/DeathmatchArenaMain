@@ -9,10 +9,11 @@ public class CharactorUserInput : MonoBehaviour
 
     private void Update()
     {
+        if (charactor.photonView.IsMine == false) return;
         currenDiractiom = Vector2.zero;
         if (Input.GetKey(KeyCode.D)) currenDiractiom += Vector2.right;
         if (Input.GetKey(KeyCode.A)) currenDiractiom += Vector2.left;
-        charactor.Move(currenDiractiom);
+     
 
         if (Input.GetKeyDown(KeyCode.Space)) charactor.Jump();
 
@@ -22,5 +23,11 @@ public class CharactorUserInput : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) charactor.AttackNormal();
         if (Input.GetKeyDown(KeyCode.E)) charactor.AttackE();
         if (Input.GetKeyDown(KeyCode.Q)) charactor.AttackQ();
+    }
+
+    private void FixedUpdate()
+    {
+        if (charactor.photonView.IsMine == false) return;
+        charactor.Move(currenDiractiom);
     }
 }
