@@ -7,7 +7,9 @@ public class GamePlayController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.Instantiate("Character", Vector3.zero, Quaternion.identity);
+        GameObject newChar = PhotonNetwork.Instantiate("Character", Vector3.zero, Quaternion.identity);
+        Physics2D.IgnoreLayerCollision(newChar.layer, newChar.layer);
+
     }
 
     // Update is called once per frame
