@@ -68,7 +68,7 @@ public class LoadingController : MonoBehaviour
     public bool isloading = false;
     public int numberOfDoneTask;
     public int maxTask;
-    const float MaxTimeLoading = 10;
+    const float MaxTimeLoading = 1;
 
     public void RegisterEventPrepare(Action<Action> _event)
     {

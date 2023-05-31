@@ -26,6 +26,8 @@ public class LocalClientData
     #region Load Data
     public static string LoadUsername()
     {
+        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "trung1234") return "trung123";
+        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "trung123") return "trung1234";
         return PlayerPrefs.GetString(GetUsernameKey(),Default_Username);
     }
     public static string LoadPassword()
@@ -37,6 +39,7 @@ public class LocalClientData
     #region Save Data
     public static void SaveUsername(string username)
     {
+        Debug.Log("Save UserName: " + username);
         PlayerPrefs.SetString(GetUsernameKey(), username);
     }
     public static void SavePassword(string password)

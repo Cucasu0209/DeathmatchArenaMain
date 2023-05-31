@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 241747757680351582}
   - component: {fileID: 2396268122933898569}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UserInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482025242133}
   - component: {fileID: 7733901482025242132}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LegRightFollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482031509653}
   - component: {fileID: 7733901482031509652}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482186978225}
   - component: {fileID: 7733901482186978224}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: weapon3 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482206084887}
   - component: {fileID: 7733901482206084886}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: physical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733901482208908244}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +460,7 @@ GameObject:
   - component: {fileID: 7733901482293819530}
   - component: {fileID: 7733901482293819532}
   - component: {fileID: 7733901482293819533}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733901482311533756}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Progress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 7733901482324596356}
   - component: {fileID: 7733901482324596358}
   - component: {fileID: 7733901482324596359}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5446,7 +5446,7 @@ GameObject:
   - component: {fileID: 7733901482350815172}
   - component: {fileID: 7733901482350815173}
   - component: {fileID: 7733901482350815170}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5545,7 +5545,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733901482366348949}
-  m_Layer: 0
+  - component: {fileID: 688880715242972040}
+  m_Layer: 3
   m_Name: Charactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5569,6 +5570,22 @@ Transform:
   m_Father: {fileID: 7733901483415960201}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &688880715242972040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7733901482366348946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &7733901482385827214
 GameObject:
   m_ObjectHideFlags: 0
@@ -5579,7 +5596,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482385826929}
   - component: {fileID: 7733901482385826928}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HeadFollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5594,7 +5611,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7733901482385827214}
   m_LocalRotation: {x: -0, y: -0, z: 0.7047579, w: 0.70944786}
-  m_LocalPosition: {x: -0.042937502, y: 1.7160673, z: 0}
+  m_LocalPosition: {x: -0.025692154, y: 1.7167705, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5636,7 +5653,7 @@ GameObject:
   - component: {fileID: 7733901482387109327}
   - component: {fileID: 7733901482387109297}
   - component: {fileID: 7733901482387109326}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5711,7 +5728,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482471815207}
   - component: {fileID: 7733901482471815206}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HeadFollowForGrogress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5725,8 +5742,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7733901482471815204}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7126384, w: 0.7015316}
-  m_LocalPosition: {x: -0.042937487, y: 1.7160673, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7047579, w: 0.70944786}
+  m_LocalPosition: {x: -0.025692165, y: 1.7167706, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5766,7 +5783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482492884599}
   - component: {fileID: 7733901482492884598}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HandLeftFollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5780,8 +5797,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7733901482492884596}
-  m_LocalRotation: {x: 0, y: 0, z: 0.022600166, w: 0.9997446}
-  m_LocalPosition: {x: 0.23489997, y: 2.0627975, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.049982846, w: 0.9987501}
+  m_LocalPosition: {x: 0.9243985, y: 1.5444766, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5821,7 +5838,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733901482545053426}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5859,7 +5876,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482609205120}
   - component: {fileID: 7733901482609205123}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HandRightFollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5873,8 +5890,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7733901482609205121}
-  m_LocalRotation: {x: 0, y: 0, z: -0.12013684, w: 0.9927574}
-  m_LocalPosition: {x: 1.025005, y: 1.6995677, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.92929375, w: 0.36934146}
+  m_LocalPosition: {x: -0.5909981, y: 2.234248, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6003,7 +6020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482749049465}
   - component: {fileID: 7733901482749049464}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6145,7 +6162,7 @@ GameObject:
   - component: {fileID: 7733901482773589816}
   - component: {fileID: 7733901482773589817}
   - component: {fileID: 7733901482773589814}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CharacterAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6251,7 +6268,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 0
-  _animationName: Normal_DoubleGunShoot
+  _animationName: Q_Kunai
   loop: 1
   timeScale: 1
 --- !u!33 &7733901482773589814
@@ -6273,7 +6290,7 @@ GameObject:
   - component: {fileID: 7733901482804307621}
   - component: {fileID: 7733901482804307623}
   - component: {fileID: 7733901482804307620}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Background (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6348,7 +6365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482827430147}
   - component: {fileID: 7733901482827430146}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: weapon3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6433,7 +6450,7 @@ GameObject:
   - component: {fileID: 7733901482914096225}
   - component: {fileID: 7733901482914096227}
   - component: {fileID: 7733901482914096224}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6508,7 +6525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901482925947019}
   - component: {fileID: 7733901482925947018}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: weapon3 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6593,7 +6610,7 @@ GameObject:
   - component: {fileID: 7733901483004173884}
   - component: {fileID: 7733901483004173886}
   - component: {fileID: 7733901483004173887}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6668,7 +6685,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901483028078882}
   - component: {fileID: 7733901483028078885}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6807,7 +6824,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733901483253224849}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6846,7 +6863,7 @@ GameObject:
   - component: {fileID: 7733901483297949604}
   - component: {fileID: 7733901483297949606}
   - component: {fileID: 7733901483297949607}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6921,7 +6938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901483332919535}
   - component: {fileID: 7733901483332919534}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HeadFollowForName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6935,8 +6952,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7733901483332919532}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7126384, w: 0.7015316}
-  m_LocalPosition: {x: -0.042937487, y: 1.7160673, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7047579, w: 0.70944786}
+  m_LocalPosition: {x: -0.025692165, y: 1.7167706, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6977,7 +6994,7 @@ GameObject:
   - component: {fileID: 7733901483400622855}
   - component: {fileID: 7733901483400622857}
   - component: {fileID: 7733901483400622854}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7056,8 +7073,8 @@ GameObject:
   - component: {fileID: 7733901483415960199}
   - component: {fileID: 7733901483415960202}
   - component: {fileID: 3612683568019309605}
-  - component: {fileID: 5516560658099328602}
-  m_Layer: 0
+  - component: {fileID: 726688168293257294}
+  m_Layer: 3
   m_Name: Character
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -7152,7 +7169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cb93e8e5be7814b9e12245155e06de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photonView: {fileID: 0}
+  photonView: {fileID: 7733901483415960202}
   skAnim: {fileID: 7733901482773589817}
   CharactorTransform: {fileID: 7733901482366348949}
   RunAnim: Run
@@ -7163,7 +7180,9 @@ MonoBehaviour:
   body: {fileID: 7733901483415960198}
   speed: 15
   jumpSpeed: 25
+  MaxVelocity: {x: 15, y: 25}
   weapon: {fileID: 3339901894712314257}
+  Myname: {fileID: 7733901482293819533}
 --- !u!114 &7733901483415960202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7184,7 +7203,8 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3612683568019309605}
-  - {fileID: 5516560658099328602}
+  - {fileID: 726688168293257294}
+  - {fileID: 688880715242972040}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -7203,8 +7223,8 @@ MonoBehaviour:
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 0.1
---- !u!114 &5516560658099328602
+  m_TeleportIfDistanceGreaterThan: 2
+--- !u!114 &726688168293257294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7218,7 +7238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
+  m_SynchronizeScale: 0
   m_UseLocal: 1
 --- !u!1 &7733901483416948631
 GameObject:
@@ -7229,7 +7249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733901483416948630}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7267,7 +7287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901483428280497}
   - component: {fileID: 7733901483428280496}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: weapon5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7353,7 +7373,7 @@ GameObject:
   - component: {fileID: 7733901483537805080}
   - component: {fileID: 7733901483537805081}
   - component: {fileID: 7733901483537805078}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7453,7 +7473,7 @@ GameObject:
   - component: {fileID: 7733901483604521273}
   - component: {fileID: 7733901483604521275}
   - component: {fileID: 7733901483604521272}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7528,7 +7548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901483637331523}
   - component: {fileID: 7733901483637331522}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trail (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7667,7 +7687,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733901483764003423}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7705,7 +7725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901483890671289}
   - component: {fileID: 7733901483890671288}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LegLeftFollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7760,7 +7780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901483922805861}
   - component: {fileID: 7733901483922805860}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Heart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7853,7 +7873,7 @@ GameObject:
   - component: {fileID: 7733901483987995867}
   - component: {fileID: 7733901483987995869}
   - component: {fileID: 7733901483987995866}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7927,7 +7947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733901484015925764}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7961,7 +7981,7 @@ GameObject:
   - component: {fileID: 7733901484043228974}
   - component: {fileID: 7733901484043228944}
   - component: {fileID: 7733901484043228945}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Background (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8036,7 +8056,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733901484094064030}
   - component: {fileID: 7733901484094064001}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8295,8 +8315,24 @@ PrefabInstance:
       value: Weapon1
       objectReference: {fileID: 0}
     - target: {fileID: 1234746213698604219, guid: 7930269196fec384b8873c6b5d90a3ee, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234746213698604219, guid: 7930269196fec384b8873c6b5d90a3ee, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234746214041504343, guid: 7930269196fec384b8873c6b5d90a3ee, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234746214929757776, guid: 7930269196fec384b8873c6b5d90a3ee, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234746214931091122, guid: 7930269196fec384b8873c6b5d90a3ee, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7930269196fec384b8873c6b5d90a3ee, type: 3}

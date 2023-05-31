@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "xtL6wLYCIBY",
+	"hash": "TGc/N4kOsFw",
 	"spine": "4.1.21",
 	"x": -67.53,
 	"y": -4.27,
@@ -889,6 +889,114 @@
 						"curve": [ 0.086, 0, 0.128, 0, 0.086, 0, 0.128, 0 ]
 					},
 					{ "time": 0.1524 }
+				]
+			}
+		}
+	},
+	"Q_Kunai": {
+		"bones": {
+			"leg_down_left2": {
+				"rotate": [
+					{},
+					{ "time": 0.3049, "value": 38.95 },
+					{ "time": 0.6098, "value": 24.73, "curve": "stepped" },
+					{ "time": 1.8293, "value": 24.73 },
+					{ "time": 1.9512, "value": 17.38 },
+					{ "time": 2.1037, "value": 19.97 }
+				]
+			},
+			"leg_down_right": {
+				"rotate": [
+					{},
+					{ "time": 0.3049, "value": -24.81 },
+					{ "time": 0.6098, "value": 9.76, "curve": "stepped" },
+					{ "time": 1.8293, "value": 9.76 },
+					{ "time": 1.9512, "value": 0.6 },
+					{ "time": 2.1037 }
+				]
+			},
+			"leg_up_right": {
+				"rotate": [
+					{ "time": 0.3049 },
+					{ "time": 0.6098, "value": -20.35, "curve": "stepped" },
+					{ "time": 1.8293, "value": -20.35 },
+					{ "time": 1.9512, "value": -15.15 },
+					{ "time": 2.1037, "value": -15.52 }
+				]
+			},
+			"leg_up_left": {
+				"rotate": [
+					{ "time": 0.3049 },
+					{ "time": 0.6098, "value": 10.37, "curve": "stepped" },
+					{ "time": 1.8293, "value": 10.37 },
+					{ "time": 1.9512, "value": 11.77 },
+					{ "time": 2.1037, "value": 11.98 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{ "time": 0.3049 },
+					{ "time": 0.6098, "value": 21.94, "curve": "stepped" },
+					{ "time": 1.8293, "value": 21.94 },
+					{ "time": 1.9512, "value": 10.97 },
+					{ "time": 2.1037 }
+				]
+			},
+			"hand_left": {
+				"rotate": [
+					{},
+					{ "time": 0.3049, "value": -71.55 },
+					{ "time": 0.6098, "value": -180.67, "curve": "stepped" },
+					{ "time": 1.8293, "value": -180.67 },
+					{ "time": 1.9512, "value": -71.55 },
+					{ "time": 2.1037 }
+				]
+			},
+			"arm_left": {
+				"rotate": [
+					{ "time": 0.3049 },
+					{ "time": 0.6098, "value": -10.96, "curve": "stepped" },
+					{ "time": 1.8293, "value": -10.96 },
+					{ "time": 1.9512, "value": -57.96 },
+					{ "time": 2.1037, "value": -115.24 }
+				]
+			},
+			"hand_right": {
+				"rotate": [
+					{
+						"curve": [ 0.102, 0, 0.203, 35.14 ]
+					},
+					{
+						"time": 0.3049,
+						"value": 64.88,
+						"curve": [ 0.407, 94.62, 0.508, 178.45 ]
+					},
+					{ "time": 0.6098, "value": 178.45, "curve": "stepped" },
+					{
+						"time": 1.8293,
+						"value": 178.45,
+						"curve": [ 1.87, 178.45, 1.911, 89.59 ]
+					},
+					{
+						"time": 1.9512,
+						"value": 64.88,
+						"curve": [ 2.002, 33.99, 2.053, 11.64 ]
+					},
+					{ "time": 2.1037, "value": 11.64 }
+				]
+			},
+			"arm_right": {
+				"rotate": [
+					{ "time": 0.3049 },
+					{ "time": 0.6098, "value": 5.75, "curve": "stepped" },
+					{ "time": 1.8293, "value": 5.75 },
+					{ "time": 1.9512, "value": 51.39 },
+					{ "time": 2.1037, "value": 99.91 }
+				]
+			},
+			"body": {
+				"scale": [
+					{ "time": 2.439 }
 				]
 			}
 		}
