@@ -6,6 +6,7 @@ using Spine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
 using Photon.Pun;
+using TMPro;
 
 public class CharacterController2D : MonoBehaviour
 {
@@ -34,8 +35,8 @@ public class CharacterController2D : MonoBehaviour
     [Header("movement")]
     public Rigidbody2D body;
     public float speed = 15;
-    public float jumpSpeed = 150;
-
+    public float jumpSpeed = 25;
+    public Vector2 MaxVelocity = new Vector2(15, 25);
 
     private bool grounded = false;
     private int jumpCount = 2;
@@ -47,11 +48,17 @@ public class CharacterController2D : MonoBehaviour
 
     [Header("Weapon")]
     public BaseWeapon weapon;
+
+    [Header("UI")]
+    public TextMeshProUGUI Myname;
     #region Unity
 
     private void Start()
     {
+        if (photonView.enabled == true && photonView.IsMine == false) body.gravityScale = 0;
         SetupDefault();
+
+        Debug.Log(" photonView.id +" + photonView.InstantiationId);
     }
     private void Update()
     {
@@ -73,24 +80,38 @@ public class CharacterController2D : MonoBehaviour
         }
 
         UpdateAnimationType();
+        if (Mathf.Abs(body.velocity.x) > MaxVelocity.x)
+        {
 
-        if (Mathf.Abs(body.velocity.x) > speed)
-        {
-            body.velocity = new Vector2(Mathf.Clamp(body.velocity.x, -speed, speed), body.velocity.y);
+            body.velocity = new Vector2(Mathf.Clamp(body.velocity.x, -MaxVelocity.x, MaxVelocity.x), body.velocity.y);
         }
-        if (Mathf.Abs(body.velocity.y) > jumpSpeed)
+        if (Mathf.Abs(body.velocity.y) > MaxVelocity.y)
         {
-            body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -jumpSpeed, jumpSpeed));
+
+            body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -MaxVelocity.y, MaxVelocity.y));
         }
+    }
+
+    private void OnEnable()
+    {
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateDisplayName;
+    }
+    private void OnDisable()
+    {
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateDisplayName;
     }
     #endregion
 
     #region Private Actions
+    private void UpdateDisplayName()
+    {
+        Myname.SetText(RoomController.Instance.GetName(photonView.Owner));
+    }
     private void SetupDefault()
     {
         if (body == null) body = gameObject.GetComponent<Rigidbody2D>();
         photonView = GetComponent<PhotonView>();
-        if (photonView.IsMine) CameraController.Instance.Target = transform;
+        if (photonView == null || photonView.enabled == false || photonView.IsMine) CameraController.Instance.Target = transform;
     }
     private void FreezeSelf()
     {
@@ -129,7 +150,6 @@ public class CharacterController2D : MonoBehaviour
         if (jumpCount > 0)
         {
             body.AddForce(Vector2.up * jumpSpeed * 1000);
-            //body.velocity = new Vector2(body.velocity.x, jumpSpeed);
             jumpCount--;
         }
     }
@@ -150,13 +170,29 @@ public class CharacterController2D : MonoBehaviour
     }
     public void AttackNormal()
     {
+        photonView.RPC(nameof(RPCAttackNormal), RpcTarget.AllViaServer);
+    }
+    public void AttackE()
+    {
+        photonView.RPC(nameof(RPCAttackE), RpcTarget.AllViaServer);
+    }
+    public void AttackQ()
+    {
+        photonView.RPC(nameof(RPCAttackQ), RpcTarget.AllViaServer);
+    }
+
+    #region RPC callbacks
+    [PunRPC]
+    public void RPCAttackNormal()
+    {
         if (isFreezing) return;
         if (canAttack == false) return;
         weapon.PerformNormal(this,
             (animName) => DoAttackAnimation(animName),
             (time) => StartCoroutine(IAttackWait(time)));
     }
-    public void AttackE()
+    [PunRPC]
+    public void RPCAttackE()
     {
         if (isFreezing) return;
         if (canAttack == false) return;
@@ -164,7 +200,8 @@ public class CharacterController2D : MonoBehaviour
             (animName) => DoAttackAnimation(animName),
             (time) => StartCoroutine(IAttackWait(time)));
     }
-    public void AttackQ()
+    [PunRPC]
+    public void RPCAttackQ()
     {
         if (isFreezing) return;
         if (canAttack == false) return;
@@ -172,10 +209,12 @@ public class CharacterController2D : MonoBehaviour
             (animName) => DoAttackAnimation(animName),
             (time) => StartCoroutine(IFreezeWhenQPerform(time)));
     }
+    #endregion
     IEnumerator IDashing;
     IEnumerator IEDash(Vector2 dir)
     {
         //set Frezee
+        MaxVelocity *= 30;
         isDashing = true;
         canMove = false;
         var _cachegravityScale = body.gravityScale;
@@ -183,7 +222,8 @@ public class CharacterController2D : MonoBehaviour
         body.velocity = Vector2.zero;
 
         //dash
-        body.velocity = dir.normalized * speed * 5;
+        body.AddForce(dir.normalized * speed * 3000);
+        //body.velocity = dir.normalized * speed * 5;
         UpdateAnimationType();
         yield return new WaitForSeconds(0.1f);
 
@@ -192,6 +232,7 @@ public class CharacterController2D : MonoBehaviour
         canMove = true;
         body.gravityScale = _cachegravityScale;
         body.velocity = Vector2.zero;
+        MaxVelocity /= 30;
     }
     #endregion
 

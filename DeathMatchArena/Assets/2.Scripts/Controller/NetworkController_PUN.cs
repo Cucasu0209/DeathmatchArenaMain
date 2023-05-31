@@ -68,6 +68,8 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public static readonly string PLAYER_READY_STATE = "PLAYER_READY_STATE";
     public static readonly string PLAYER_NAME = "PLAYER_NAME";
     public static readonly string ROOM_SLOT = "ROOM_SLOT";
+    public static readonly string PLAYER_LOADED_LEVEL = "PLAYER_LOADED_LEVEL";
+    public static readonly string PLAYER_HEALTH = "PLAYER_HEALTH";
 
     public Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     private Action OnConnecctCompleted;

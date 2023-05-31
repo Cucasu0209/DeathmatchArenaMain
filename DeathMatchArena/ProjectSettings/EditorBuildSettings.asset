@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/1.Scene/5.Room.unity
     guid: 9b25435cf0fb43244ab9cd7a915fdcc5
   - enabled: 1
-    path: Assets/1.Scene/6.GamePlay.unity
+    path: Assets/1.Scene/6.MainGame.unity
     guid: cb1f67a30dbfc88488a40f514b55c034
   - enabled: 1
     path: Assets/Photon/PhotonUnityNetworking/Demos/DemoAsteroids/Scenes/DemoAsteroids-GameScene.unity

@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Photon.Pun;
 
 public class Weapon2 : BaseWeapon
 {
     public SpriteRenderer WeaponRenderer;
     public Collider2D MyCollider;
     public GameObject Trail;
-    public Transform PosSpawnE;
     private string Q_EffectPrefabLink = "Effect/Weapon/Weapon2/Q_Weapon2Item";
     private string E_EffectPrefabLink = "Effect/Weapon/Weapon2/E_Weapon2Item";
     private void Start()
@@ -64,21 +64,35 @@ public class Weapon2 : BaseWeapon
         MyCollider.enabled = true;
         Trail.SetActive(true);
 
-        float t = 0;
         WeaponRenderer.DOColor(new Color(0.8f, 0.4f, 0.4f), 0.2f);
-        while (t < props.TimePerform_E)
+
+        float R = 1;
+        int maxSpawner = 8;
+        for (int i = 0; i < maxSpawner; i++)
         {
-
-
             Weapon2ItemE Item = Resources.Load<Weapon2ItemE>(E_EffectPrefabLink);
             if (Item != null)
             {
-                Item = Instantiate(Item, PosSpawnE.position, Quaternion.identity);
-                Item.Fly(PosSpawnE.up, (a) => Debug.Log(a.name));
+                float angle = 180 - ((360 / maxSpawner) * i);
+                Vector3 newPos = new Vector3(R * Mathf.Cos(angle * Mathf.Deg2Rad), R * Mathf.Sin(angle * Mathf.Deg2Rad), 0);
+                Item = Instantiate(Item, _character.transform.position + Vector3.up * 1.5f + newPos,
+                    Quaternion.identity);
+                Item.Fly(newPos, (_item, objHit) =>
+                {
+                    if (objHit == gameObject) return;
+                    CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
+                    if (_char != null)
+                    {
+                        if (_char == _character) return;
+                    }
+
+                    _item.DestroySelf();
+                });
             }
-            yield return new WaitForSeconds(0.06f);
-            t += 0.06f;
+            yield return new WaitForSeconds(0.02f);
         }
+
+
         WeaponRenderer.DOColor(Color.white, 0.2f);
 
         MyCollider.enabled = false;
@@ -100,10 +114,10 @@ public class Weapon2 : BaseWeapon
 
         }
         WeaponRenderer.DOColor(Color.red, props.TimePerform_Q * 0.77f).SetEase(Ease.Linear);
-        CameraController.Instance.ZoomIn();
+        if (_character.photonView.IsMine) CameraController.Instance.ZoomIn();
 
         yield return new WaitForSeconds(props.TimePerform_Q * 0.77f - 0.3f);
-        CameraController.Instance.ZoomOut();
+        if (_character.photonView.IsMine) CameraController.Instance.ZoomOut();
         yield return new WaitForSeconds(0.3f);
 
 
