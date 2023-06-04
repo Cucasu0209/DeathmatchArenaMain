@@ -15,9 +15,9 @@ MonoBehaviour:
   AnimationAttack_Normal: Normal_StrikeRound_UpDown
   AnimationAttack_E: E_RoundSwordStrike
   AnimationAttack_Q: Q_RoundSwordStrike
-  Damage_Normal: 0
-  Damage_E: 0
-  Damage_Q: 0
+  Damage_Normal: 5
+  Damage_E: 2
+  Damage_Q: 80
   AbilityCooldown_E: 0
   AbilityCooldown_Q: 0
   TimePerform_Normal: 0.244

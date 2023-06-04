@@ -5,6 +5,7 @@ using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 public class GamePlayController : MonoBehaviour
 {
     #region Variables
@@ -104,13 +105,15 @@ public class GamePlayController : MonoBehaviour
                 if (PlayersHealthUI[i] != null)
                 {
                     PlayersHealthUI[i].gameObject.SetActive(true);
-                    PlayersHealthUI[i].SetValueWithoutNotify(RoomController.Instance.GetHealth(RoomController.Instance.PlayerInSlot[i]) * 1f / NetworkController_PUN.MAX_HEALTH);
+                    PlayersHealthUI[i].DOKill();
+                    PlayersHealthUI[i].DOValue(RoomController.Instance.GetHealth(RoomController.Instance.PlayerInSlot[i]) * 1f / NetworkController_PUN.MAX_HEALTH, 0.5f);
                 }
 
                 if (PlayersPhysicalUI[i] != null)
                 {
                     PlayersPhysicalUI[i].gameObject.SetActive(true);
-                    PlayersPhysicalUI[i].SetValueWithoutNotify(RoomController.Instance.GetPhysical(RoomController.Instance.PlayerInSlot[i]) * 1f / NetworkController_PUN.MAX_PHYSICAL);
+                    PlayersPhysicalUI[i].DOKill();
+                    PlayersPhysicalUI[i].DOValue(RoomController.Instance.GetPhysical(RoomController.Instance.PlayerInSlot[i]) * 1f / NetworkController_PUN.MAX_PHYSICAL, 0.5f);
                 }
 
                 if (PlayersNameUI[i] != null)

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 public abstract class BaseWeapon : MonoBehaviour
 {
+    protected CharacterController2D ownChar;
     public WeaponProperties props;
 
     public abstract void PerformNormal(CharacterController2D _charecter, Action<string> doAnimation, Action<float> WaitForNextAttack);
