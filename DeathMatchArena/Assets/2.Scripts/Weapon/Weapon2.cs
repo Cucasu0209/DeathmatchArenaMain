@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Photon.Pun;
+using Player = Photon.Realtime.Player;
 
 public class Weapon2 : BaseWeapon
 {
+
     public SpriteRenderer WeaponRenderer;
     public Collider2D MyCollider;
     public GameObject Trail;
     private string Q_EffectPrefabLink = "Effect/Weapon/Weapon2/Q_Weapon2Item";
     private string E_EffectPrefabLink = "Effect/Weapon/Weapon2/E_Weapon2Item";
+    float currentSwordDmg;
     private void Start()
     {
         if (MyCollider == null) MyCollider = GetComponent<Collider2D>();
@@ -21,6 +24,8 @@ public class Weapon2 : BaseWeapon
     }
     public override void PerformNormal(CharacterController2D _character, Action<string> doAnimation, Action<float> WaitForNextAttack)
     {
+        ownChar = _character;
+        currentSwordDmg = props.Damage_Normal;
         doAnimation?.Invoke(props.AnimationAttack_Normal);
         WaitForNextAttack?.Invoke(props.TimePerform_Normal);
 
@@ -30,6 +35,8 @@ public class Weapon2 : BaseWeapon
     }
     public override void PerformE(CharacterController2D _character, Action<string> doAnimation, Action<float> WaitForNextAttack)
     {
+        ownChar = _character;
+        currentSwordDmg = props.Damage_Normal;
         doAnimation?.Invoke(props.AnimationAttack_E);
         WaitForNextAttack?.Invoke(props.TimePerform_E);
 
@@ -39,8 +46,11 @@ public class Weapon2 : BaseWeapon
     }
     public override void PerformQ(CharacterController2D _character, Action<string> doAnimation, Action<float> FreezeChar)
     {
+        ownChar = _character;
+        currentSwordDmg = props.Damage_Q;
         doAnimation?.Invoke(props.AnimationAttack_Q);
         FreezeChar?.Invoke(props.TimePerform_Q);
+
         if (IEPerform_Q != null) StopCoroutine(IEPerform_Q);
         IEPerform_Q = IPerform_Q(_character);
         StartCoroutine(IEPerform_Q);
@@ -84,6 +94,7 @@ public class Weapon2 : BaseWeapon
                     if (_char != null)
                     {
                         if (_char == _character) return;
+                        TakeDamgeToPlayer(_char, props.Damage_E);
                     }
 
                     _item.DestroySelf();
@@ -103,7 +114,7 @@ public class Weapon2 : BaseWeapon
     private IEnumerator IEPerform_Q;
     private IEnumerator IPerform_Q(CharacterController2D _character)
     {
-        MyCollider.enabled = true;
+        
         Trail.SetActive(true);
 
         Weapon2ItemQ Item = Resources.Load<Weapon2ItemQ>(Q_EffectPrefabLink);
@@ -126,6 +137,8 @@ public class Weapon2 : BaseWeapon
             Item.Hide();
         }
         transform.DOScale(5, props.TimePerform_Q * 0.23f).SetEase(Ease.Linear);
+
+        MyCollider.enabled = true;
         yield return new WaitForSeconds(props.TimePerform_Q * 0.23f);
 
 
@@ -137,5 +150,35 @@ public class Weapon2 : BaseWeapon
         Trail.SetActive(false);
 
     }
+
+
+    public bool CheckCanAttack(Player mine, Player otherPlayer)
+    {
+        return RoomController.Instance.GetTeam(mine) != RoomController.Instance.GetTeam(otherPlayer);
+    }
     #endregion
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<CharacterController2D>() != null)
+        {
+            CharacterController2D otherPlayer = collision.gameObject.GetComponent<CharacterController2D>();
+            if (CheckCanAttack(ownChar.photonView.Controller, otherPlayer.photonView.Controller))
+            {
+                TakeDamgeToPlayer(otherPlayer, currentSwordDmg);
+            }
+        }
+
+    }
+
+    float lastTimeTakeDamge = 0;
+    private void TakeDamgeToPlayer(CharacterController2D player, float dmg)
+    {
+        if (Time.time - lastTimeTakeDamge >= 0.3f)
+        {
+            player.TakeDamage((int)dmg);
+            lastTimeTakeDamge = Time.time;
+        }
+
+    }
 }

@@ -25,18 +25,21 @@ public class CharacterController2D : MonoBehaviour
     private TrackEntry DashTrack;
     private TrackEntry MoveTrack;
     private TrackEntry AttackTrack;
+    private TrackEntry TakeDmgTrack;
     [Header("Animations")]
     [SpineAnimation] public string RunAnim;
     [SpineAnimation] public string IdleAnim;
     [SpineAnimation] public string JumpUpAnim;
     [SpineAnimation] public string JumpDownAnim;
     [SpineAnimation] public string DashAnim;
+    [SpineAnimation] public string TakeDmgAnim;
 
     [Header("movement")]
     public Rigidbody2D body;
     public float speed = 15;
     public float jumpSpeed = 25;
     public Vector2 MaxVelocity = new Vector2(15, 25);
+    private float lastTimeUpdatePhy = 0;
 
     private bool grounded = false;
     private int jumpCount = 2;
@@ -45,6 +48,8 @@ public class CharacterController2D : MonoBehaviour
     private bool canMove = true;
     private bool canAttack = true;
     private bool isFreezing = false;
+    private int dashPhysical = 25;
+    private int physicalIncreaseOverPeriod = 15;
 
     [Header("Weapon")]
     public BaseWeapon weapon;
@@ -89,6 +94,13 @@ public class CharacterController2D : MonoBehaviour
         {
 
             body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -MaxVelocity.y, MaxVelocity.y));
+        }
+
+        //physical
+        if (Time.time - lastTimeUpdatePhy > 1)
+        {
+            IncreasePhysicalOverPriod();
+            lastTimeUpdatePhy = Time.time;
         }
     }
 
@@ -155,6 +167,7 @@ public class CharacterController2D : MonoBehaviour
     }
     public void Dash(Vector2 dir)
     {
+        if (CanDash() == false) return;
         if (isFreezing) return;
         if (isDashing) return;
         if (IDashing != null) StopCoroutine(IDashing);
@@ -164,6 +177,8 @@ public class CharacterController2D : MonoBehaviour
             if (CharactorTransform.localScale.x > 0) dir = Vector2.right;
             else dir = Vector2.left;
         }
+
+        DecreasePhysicalWhenDash();
         IDashing = IEDash(dir);
         StartCoroutine(IDashing);
 
@@ -311,7 +326,6 @@ public class CharacterController2D : MonoBehaviour
     {
         try
         {
-
             AttackTrack = skAnim.state.SetAnimation(2, animName, false);
             AttackTrack.Complete += (track) =>
             {
@@ -322,6 +336,14 @@ public class CharacterController2D : MonoBehaviour
         {
             Debug.LogError($"Animation name {animName} doesn't exsit.");
         }
+    }
+    private void SettakeDamageAnim()
+    {
+        TakeDmgTrack = skAnim.state.SetAnimation(3, TakeDmgAnim, false);
+        TakeDmgTrack.Complete += (track) =>
+        {
+            skAnim.state.SetEmptyAnimation(3, 0.1f);
+        };
     }
     private IEnumerator IFreezeWhenQPerform(float time)
     {
@@ -335,6 +357,44 @@ public class CharacterController2D : MonoBehaviour
         canAttack = false;
         yield return new WaitForSeconds(time);
         canAttack = true;
+    }
+    #endregion
+
+    #region Take Dmg and Dash
+    public void TakeDamage(int dmg)
+    {
+        SettakeDamageAnim();
+        if (photonView.IsMine)
+        {
+            Debug.Log("take damg" + dmg);
+            int newHealth = RoomController.Instance.GetHealth(photonView.Controller) - dmg;
+            if (newHealth <= 0) newHealth = 0;
+            NetworkController_PUN.Instance.UpdateNewHealth(newHealth);
+        }
+
+    }
+
+    private bool CanDash()
+    {
+        return RoomController.Instance.GetPhysical(photonView.Controller) >= dashPhysical;
+    }
+    private void DecreasePhysicalWhenDash()
+    {
+        if (photonView.IsMine)
+        {
+            int newP = RoomController.Instance.GetPhysical(photonView.Controller) - dashPhysical;
+            if (newP <= 0) newP = 0;
+            NetworkController_PUN.Instance.UpdateNewPhysical(newP);
+        }
+    }
+    private void IncreasePhysicalOverPriod()
+    {
+        if (photonView.IsMine)
+        {
+            int newP = RoomController.Instance.GetPhysical(photonView.Controller) + physicalIncreaseOverPeriod;
+            if (newP >= NetworkController_PUN.MAX_PHYSICAL) newP = NetworkController_PUN.MAX_PHYSICAL;
+            NetworkController_PUN.Instance.UpdateNewPhysical(newP);
+        }
     }
     #endregion
 }

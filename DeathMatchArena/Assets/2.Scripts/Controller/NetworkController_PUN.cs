@@ -185,7 +185,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         ActionOnPlayerListChanged?.Invoke();
         ActionOnJoinedRoom?.Invoke();
-       
+
     }
     public override void OnLeftRoom()
     {
@@ -205,7 +205,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
         Debug.Log($"[{this.name}]:PUN {otherPlayer.NickName} Left room.");
         ActionOnPlayerListChanged?.Invoke();
         ActionOnPlayerLeftRoom?.Invoke();
-   
+
     }
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
@@ -213,14 +213,14 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
         ActionOnPlayerListChanged?.Invoke();
         MasterClientId = newMasterClient.NickName;
         ActionOnPlayerLeftRoom?.Invoke();
- 
+
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         Debug.Log($"[{this.name}]:PUN {targetPlayer.NickName} changed his properties.");
         ActionOnPlayerListChanged?.Invoke();
         ActionOnPlayerPropertiesUpdate?.Invoke();
-     
+
     }
     #endregion
 
@@ -339,6 +339,17 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public void SetReady(bool isReady)
     {
         Hashtable props = new Hashtable { { PLAYER_READY_STATE, isReady } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+    public void UpdateNewHealth(int newHealth)
+    {
+        Hashtable props = new Hashtable { { PLAYER_HEALTH, newHealth } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+
+    public void UpdateNewPhysical(int newPhysical)
+    {
+        Hashtable props = new Hashtable { { PLAYER_PHYSICAL, newPhysical } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
     #endregion

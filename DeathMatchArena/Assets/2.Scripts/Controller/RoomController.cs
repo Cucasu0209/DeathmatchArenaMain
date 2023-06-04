@@ -139,6 +139,12 @@ public class RoomController : MonoBehaviour
         if (result is int) return (int)result;
         return NetworkController_PUN.MAX_HEALTH;
     }
+    public int GetTeam(Player player)
+    {
+        object result = NetworkController_PUN.Instance.GetPropertiesValue(player, NetworkController_PUN.ROOM_SLOT);
+        int team = (int)result <= 1 ? 1 : 2;
+        return team;
+    }
     #endregion
 
     #region Private Actions
