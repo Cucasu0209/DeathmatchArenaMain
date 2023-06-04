@@ -84,6 +84,13 @@ public class RoomController : MonoBehaviour
         NetworkController_PUN.ActionOnPlayerListChanged -= GetPlayers;
         NetworkController_PUN.ActionOnLeftRoom -= ResetSlot;
     }
+    private void Update()
+    {
+        Debug.Log($"[{this.name}]: Slot 0: {PlayerInSlot[0] != null}," +
+            $"1: {PlayerInSlot[1] != null}, " +
+            $"2: {PlayerInSlot[2] != null}, " +
+            $"3: {PlayerInSlot[3] != null}");
+    }
     #endregion
 
     #region Public Actions
@@ -111,7 +118,7 @@ public class RoomController : MonoBehaviour
     {
         if (PlayerInSlot[1] == null && PlayerInSlot[0] == null) return false;
         if (PlayerInSlot[2] == null && PlayerInSlot[3] == null) return false;
-        foreach(Player p in PlayerInSlot.Values)
+        foreach (Player p in PlayerInSlot.Values)
         {
             if (p != null)
             {
@@ -120,7 +127,18 @@ public class RoomController : MonoBehaviour
         }
         return true;
     }
-
+    public int GetHealth(Player player)
+    {
+        object result = NetworkController_PUN.Instance.GetPropertiesValue(player, NetworkController_PUN.PLAYER_HEALTH);
+        if (result is int) return (int)result;
+        return NetworkController_PUN.MAX_HEALTH;
+    }
+    public int GetPhysical(Player player)
+    {
+        object result = NetworkController_PUN.Instance.GetPropertiesValue(player, NetworkController_PUN.PLAYER_PHYSICAL);
+        if (result is int) return (int)result;
+        return NetworkController_PUN.MAX_HEALTH;
+    }
     #endregion
 
     #region Private Actions

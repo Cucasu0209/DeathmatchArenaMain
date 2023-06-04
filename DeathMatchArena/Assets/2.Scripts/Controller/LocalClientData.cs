@@ -26,8 +26,11 @@ public class LocalClientData
     #region Load Data
     public static string LoadUsername()
     {
-        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "trung1234") return "trung123";
+       
         if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "trung123") return "trung1234";
+        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "trung1234") return "trung12345";
+        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "trung12345") return "trung123456";
+        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "trung123456") return "trung123";
         return PlayerPrefs.GetString(GetUsernameKey(),Default_Username);
     }
     public static string LoadPassword()
