@@ -70,6 +70,11 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public static readonly string ROOM_SLOT = "ROOM_SLOT";
     public static readonly string PLAYER_LOADED_LEVEL = "PLAYER_LOADED_LEVEL";
     public static readonly string PLAYER_HEALTH = "PLAYER_HEALTH";
+    public static readonly string PLAYER_PHYSICAL = "PLAYER_PHYSICAL";
+    public static readonly int MAX_HEALTH = 100;
+    public static readonly int MAX_PHYSICAL = 100;
+
+
 
     public Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     private Action OnConnecctCompleted;
@@ -173,11 +178,14 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
         {
             {PLAYER_READY_STATE, false},
             {PLAYER_NAME, PlayerData.GetNickName()},
+            {PLAYER_HEALTH, MAX_HEALTH},
+            {PLAYER_PHYSICAL, MAX_PHYSICAL},
 
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-        ActionOnJoinedRoom?.Invoke();
         ActionOnPlayerListChanged?.Invoke();
+        ActionOnJoinedRoom?.Invoke();
+       
     }
     public override void OnLeftRoom()
     {
@@ -188,27 +196,31 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"[{this.name}]:PUN {newPlayer.NickName} Enter room.");
-        ActionOnPlayerEnteredRoom?.Invoke();
         ActionOnPlayerListChanged?.Invoke();
+        ActionOnPlayerEnteredRoom?.Invoke();
+
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log($"[{this.name}]:PUN {otherPlayer.NickName} Left room.");
-        ActionOnPlayerLeftRoom?.Invoke();
         ActionOnPlayerListChanged?.Invoke();
+        ActionOnPlayerLeftRoom?.Invoke();
+   
     }
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         Debug.Log($"[{this.name}]:PUN {newMasterClient.NickName} is new master client.");
+        ActionOnPlayerListChanged?.Invoke();
         MasterClientId = newMasterClient.NickName;
         ActionOnPlayerLeftRoom?.Invoke();
-        ActionOnPlayerListChanged?.Invoke();
+ 
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         Debug.Log($"[{this.name}]:PUN {targetPlayer.NickName} changed his properties.");
-        ActionOnPlayerPropertiesUpdate?.Invoke();
         ActionOnPlayerListChanged?.Invoke();
+        ActionOnPlayerPropertiesUpdate?.Invoke();
+     
     }
     #endregion
 
