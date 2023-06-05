@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9133660063898478784}
   - component: {fileID: 9133660063898478785}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9133660064430182429}
   - component: {fileID: 7095201157043533440}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Q_Weapon2Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
