@@ -41,6 +41,10 @@ public class CharacterController2D : MonoBehaviour
     public Vector2 MaxVelocity = new Vector2(15, 25);
     private float lastTimeUpdatePhy = 0;
 
+    [Header("Tranforms")]
+    public Transform handLeft;
+    public Transform handRight;
+
     private bool grounded = false;
     private int jumpCount = 2;
     private int jumpCountMax = 2;

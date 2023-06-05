@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7986968012945718406}
   - component: {fileID: 7986968012945718407}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 8150224607372187350}
   - component: {fileID: 5397571301910361041}
   - component: {fileID: 4926186901173977432}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: E_Weapon2Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "kCRiFmAxmbA",
+	"hash": "efaf709wevM",
 	"spine": "4.1.21",
 	"x": -67.53,
 	"y": -4.27,
@@ -917,7 +917,8 @@
 			},
 			"leg_up_right": {
 				"rotate": [
-					{ "time": 0.3049 },
+					{},
+					{ "time": 0.3049, "value": -7.02 },
 					{ "time": 0.6098, "value": -20.35, "curve": "stepped" },
 					{ "time": 1.8293, "value": -20.35 },
 					{ "time": 1.9512, "value": -15.15 },
@@ -926,7 +927,8 @@
 			},
 			"leg_up_left": {
 				"rotate": [
-					{ "time": 0.3049 },
+					{},
+					{ "time": 0.3049, "value": -6.02 },
 					{ "time": 0.6098, "value": 10.37, "curve": "stepped" },
 					{ "time": 1.8293, "value": 10.37 },
 					{ "time": 1.9512, "value": 11.77 },
@@ -935,7 +937,8 @@
 			},
 			"Head": {
 				"rotate": [
-					{ "time": 0.3049 },
+					{},
+					{ "time": 0.3049, "value": 6.02 },
 					{ "time": 0.6098, "value": 21.94, "curve": "stepped" },
 					{ "time": 1.8293, "value": 21.94 },
 					{ "time": 1.9512, "value": 10.97 },
@@ -954,7 +957,8 @@
 			},
 			"arm_left": {
 				"rotate": [
-					{ "time": 0.3049 },
+					{},
+					{ "time": 0.3049, "value": -6.02 },
 					{ "time": 0.6098, "value": -10.96, "curve": "stepped" },
 					{ "time": 1.8293, "value": -10.96 },
 					{ "time": 1.9512, "value": -57.96 },
@@ -987,7 +991,8 @@
 			},
 			"arm_right": {
 				"rotate": [
-					{ "time": 0.3049 },
+					{},
+					{ "time": 0.3049, "value": 6.02 },
 					{ "time": 0.6098, "value": 5.75, "curve": "stepped" },
 					{ "time": 1.8293, "value": 5.75 },
 					{ "time": 1.9512, "value": 51.39 },

@@ -56,6 +56,7 @@ public class GamePlayController : MonoBehaviour
         {
             GameObject newChar = PhotonNetwork.Instantiate("Character", Vector3.zero, Quaternion.identity);
             Physics2D.IgnoreLayerCollision(newChar.layer, newChar.layer);
+            Physics2D.IgnoreLayerCollision(8, 8);
             Hashtable props = new Hashtable
             {
                 {NetworkController_PUN.PLAYER_LOADED_LEVEL, true},
