@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1234746213698604217}
   - component: {fileID: 1234746213698604216}
   - component: {fileID: 4826915713898702012}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Weapon1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   props: {fileID: 11400000, guid: 385e5ab5c81f40f4e9230d1bee385294, type: 2}
-  WeaponRenderer: {fileID: 0}
   MyCollider: {fileID: 4826915713898702012}
   Trail: {fileID: 5002230898408343036}
 --- !u!60 &4826915713898702012
@@ -170,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1234746214041504342}
   - component: {fileID: 1234746214041504341}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1234746214929757871}
   - component: {fileID: 1234746214929757870}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1234746214931091121}
   - component: {fileID: 1234746214931091120}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -589,7 +588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8753731033138546806}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
