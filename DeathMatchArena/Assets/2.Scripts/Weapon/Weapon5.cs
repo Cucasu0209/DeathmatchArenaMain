@@ -109,7 +109,7 @@ public class Weapon5 : BaseWeapon
         if (_character.photonView.IsMine) CameraController.Instance.ZoomIn();
         yield return new WaitForSeconds(props.TimePerform_Q / 4);
         float R = 1.8f;
-        int maxSpawner = 15;
+        int maxSpawner = 30;
 
         Weapon5ItemNormalE Item = Resources.Load<Weapon5ItemNormalE>(Normal_EffectPrefabLink);
         List<Weapon5ItemNormalE> newListItem = new List<Weapon5ItemNormalE>();
