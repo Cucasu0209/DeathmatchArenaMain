@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: WeaponData1
   m_EditorClassIdentifier: 
   AnimationAttack_Normal: Normal_StrikeRound_UpDown
-  AnimationAttack_E: 
-  AnimationAttack_Q: 
-  Damage_Normal: 0
-  Damage_E: 0
-  Damage_Q: 0
+  AnimationAttack_E: Normal_StrikeRound_UpDown
+  AnimationAttack_Q: Q_StraightSwordStrike
+  Damage_Normal: 10
+  Damage_E: 10
+  Damage_Q: 30
   AbilityCooldown_E: 0
   AbilityCooldown_Q: 0
+  TimePerform_Normal: 0.244
+  TimePerform_E: 0.244
+  TimePerform_Q: 2.439
