@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8623926360287163195}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: trails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6242694463904942878}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PosSpawnE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8032922574800862176}
   - component: {fileID: 8032922574800862179}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 8032922575592645120}
   - component: {fileID: 3060000209112083961}
   - component: {fileID: 1260156454743524032}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Weapon2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +309,6 @@ MonoBehaviour:
   WeaponRenderer: {fileID: 8032922575592645120}
   MyCollider: {fileID: 1260156454743524032}
   Trail: {fileID: 2178551098269796142}
-  PosSpawnE: {fileID: 6242694463904942878}
 --- !u!60 &1260156454743524032
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -371,7 +370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8032922575631977600}
   - component: {fileID: 8032922575631977603}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8032922575705708031}
   - component: {fileID: 8032922575705708030}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
