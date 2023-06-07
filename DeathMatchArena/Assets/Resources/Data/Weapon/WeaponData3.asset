@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 896074688d987584d8b9d197f9762d57, type: 3}
+  m_Name: WeaponData3
+  m_EditorClassIdentifier: 
+  AnimationAttack_Normal: Normal_DoubleGunShoot
+  AnimationAttack_E: Normal_DoubleGunShoot
+  AnimationAttack_Q: Q_Kunai
+  Damage_Normal: 3
+  Damage_E: 3
+  Damage_Q: 30
+  AbilityCooldown_E: 0
+  AbilityCooldown_Q: 0
+  TimePerform_Normal: 0.305
+  TimePerform_E: 0.305
+  TimePerform_Q: 2.439
