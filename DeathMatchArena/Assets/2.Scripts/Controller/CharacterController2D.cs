@@ -57,6 +57,8 @@ public class CharacterController2D : MonoBehaviour
 
     [Header("Weapon")]
     public BaseWeapon weapon;
+    public BaseWeapon[] weapons;
+    public GameObject gun2;
 
     [Header("UI")]
     public TextMeshProUGUI Myname;
@@ -199,7 +201,10 @@ public class CharacterController2D : MonoBehaviour
     {
         photonView.RPC(nameof(RPCAttackQ), RpcTarget.AllViaServer);
     }
-
+    public void SwitchWeapon(int index)
+    {
+        photonView.RPC(nameof(RPCSwitchWeapon), RpcTarget.AllViaServer, index);
+    }
     #region RPC callbacks
     [PunRPC]
     public void RPCAttackNormal()
@@ -227,6 +232,19 @@ public class CharacterController2D : MonoBehaviour
         weapon.PerformQ(this,
             (animName) => DoAttackAnimation(animName),
             (time) => StartCoroutine(IFreezeWhenQPerform(time)));
+    }
+    [PunRPC]
+    public void RPCSwitchWeapon(int index)
+    {
+        foreach (var we in weapons)
+        {
+            weapon.gameObject.SetActive(false);
+            gun2.SetActive(false);
+        }
+        weapons[index].gameObject.SetActive(true);
+        weapons[index].gameObject.transform.localScale = Vector3.one;
+        weapon = weapons[index];
+        gun2.SetActive(index == 2);
     }
     #endregion
     IEnumerator IDashing;

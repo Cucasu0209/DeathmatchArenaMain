@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/1.Scene/6.MainGame.unity
     guid: cb1f67a30dbfc88488a40f514b55c034
   - enabled: 1
+    path: Assets/1.Scene/7.EndGame.unity
+    guid: 58dba1d994f56484e83d6e29e05c077c
+  - enabled: 1
     path: Assets/Photon/PhotonUnityNetworking/Demos/DemoAsteroids/Scenes/DemoAsteroids-GameScene.unity
     guid: 98efc37d6307844488eb3e4247dde7e9
   m_configObjects: {}

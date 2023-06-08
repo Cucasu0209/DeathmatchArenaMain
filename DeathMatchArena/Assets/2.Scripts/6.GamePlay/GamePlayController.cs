@@ -8,7 +8,7 @@ using TMPro;
 using DG.Tweening;
 public class GamePlayController : MonoBehaviour
 {
-    #region Variables
+    #region Variables UI
     public Slider[] PlayersHealthUI;
     public Slider[] PlayersPhysicalUI;
     public TextMeshProUGUI[] PlayersNameUI;
@@ -78,6 +78,7 @@ public class GamePlayController : MonoBehaviour
         NetworkController_PUN.ActionOnPlayerEnteredRoom += UpdateUI;
         NetworkController_PUN.ActionOnJoinedRoom += UpdateUI;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateUI;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += Checkgameover;
 
 
     }
@@ -89,6 +90,7 @@ public class GamePlayController : MonoBehaviour
         NetworkController_PUN.ActionOnPlayerEnteredRoom -= UpdateUI;
         NetworkController_PUN.ActionOnJoinedRoom -= UpdateUI;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateUI;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= Checkgameover;
     }
 
 
@@ -97,12 +99,10 @@ public class GamePlayController : MonoBehaviour
     #region Action
     private void UpdateUI()
     {
-        Debug.Log("phus update");
         for (int i = 0; i < RoomController.Instance.PlayerInSlot.Count; i++)
         {
             if (RoomController.Instance.PlayerInSlot[i] != null)
             {
-                Debug.Log("i phus " + i);
                 if (PlayersHealthUI[i] != null)
                 {
                     PlayersHealthUI[i].gameObject.SetActive(true);
@@ -126,7 +126,6 @@ public class GamePlayController : MonoBehaviour
             }
             else
             {
-                Debug.Log("i phus fail" + i);
                 if (PlayersHealthUI.Length >= i + 1 && PlayersHealthUI[i] != null)
                 {
                     PlayersHealthUI[i].gameObject.SetActive(false);
@@ -145,6 +144,38 @@ public class GamePlayController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void Checkgameover()
+    {
+
+        if (RoomController.Instance.PlayerInSlot[0] == null && RoomController.Instance.PlayerInSlot[1] == null) return;
+        if (RoomController.Instance.PlayerInSlot[2] == null && RoomController.Instance.PlayerInSlot[3] == null) return;
+
+        bool[] isALive = new bool[4] { false, false, false, false };
+        for (int i = 0; i < RoomController.Instance.PlayerInSlot.Count; i++)
+        {
+            if (RoomController.Instance.PlayerInSlot[i] != null)
+            {
+                isALive[i] = RoomController.Instance.GetHealth(RoomController.Instance.PlayerInSlot[i]) > 0;
+            }
+        }
+        if ((isALive[0] || isALive[1] || isALive[2] || isALive[3]) == false)
+        {
+            Debug.LogError("Draw");
+            LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.EndGame);
+        }
+        else if ((isALive[0] || isALive[1]) == false)
+        {
+            Debug.LogError("team 2 win");
+            LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.EndGame);
+        }
+        else if ((isALive[2] || isALive[3]) == false)
+        {
+            Debug.LogError("team 1 win");
+            LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.EndGame);
+        }
+
     }
     #endregion
 }

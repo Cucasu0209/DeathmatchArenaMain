@@ -12,7 +12,8 @@ public class SceneEnum
         MainMenu,
         Lobby,
         Room,
-        MainGame
+        MainGame,
+        EndGame
     }
     private static string[] SceneString = new string[]
     {
@@ -23,6 +24,7 @@ public class SceneEnum
         "4.Lobby",
         "5.Room",
         "6.MainGame",
+        "7.EndGame",
     };
     public static string GetSceneString(Type type)
     {

@@ -86,10 +86,10 @@ public class RoomController : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log($"[{this.name}]: Slot 0: {PlayerInSlot[0] != null}," +
-            $"1: {PlayerInSlot[1] != null}, " +
-            $"2: {PlayerInSlot[2] != null}, " +
-            $"3: {PlayerInSlot[3] != null}");
+        //Debug.Log($"[{this.name}]: Slot 0: {PlayerInSlot[0] != null}," +
+        //    $"1: {PlayerInSlot[1] != null}, " +
+        //    $"2: {PlayerInSlot[2] != null}, " +
+        //    $"3: {PlayerInSlot[3] != null}");
     }
     #endregion
 
