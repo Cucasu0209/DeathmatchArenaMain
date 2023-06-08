@@ -23,6 +23,14 @@ public class CharactorUserInput : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) charactor.AttackNormal();
         if (Input.GetKeyDown(KeyCode.E)) charactor.AttackE();
         if (Input.GetKeyDown(KeyCode.Q)) charactor.AttackQ();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) charactor.SwitchWeapon(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) charactor.SwitchWeapon(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) charactor.SwitchWeapon(2);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) charactor.SwitchWeapon(3);
+        if (Input.GetKeyDown(KeyCode.Alpha5)) charactor.SwitchWeapon(4);
+        if (Input.GetKeyDown(KeyCode.Alpha6)) charactor.SwitchWeapon(5);
+
     }
 
     private void FixedUpdate()
