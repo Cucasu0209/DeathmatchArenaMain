@@ -94,25 +94,9 @@ public class RoomController : MonoBehaviour
     #endregion
 
     #region Public Actions
-    public string GetName(Player player)
-    {
-        object result = NetworkController_PUN.Instance.GetPropertiesValue(player, NetworkController_PUN.PLAYER_NAME);
-        if (result is string) return (string)result;
-        return "";
-    }
-    public string GetId(Player player)
-    {
-        return player.NickName;
-    }
     public bool GetIsMaster(Player player)
     {
         return player.IsMasterClient;
-    }
-    public bool GetIsReady(Player player)
-    {
-        object result = NetworkController_PUN.Instance.GetPropertiesValue(player, NetworkController_PUN.PLAYER_READY_STATE);
-        if (result is bool) return (bool)result;
-        return false;
     }
     public bool IsEveryOneReady()
     {
@@ -122,27 +106,16 @@ public class RoomController : MonoBehaviour
         {
             if (p != null)
             {
-                if (GetIsReady(p) == false) return false;
+                if (NetworkController_PUN.Instance.GetPlayerProperties(p).isReady == false) return false;
             }
         }
         return true;
     }
-    public int GetHealth(Player player)
-    {
-        object result = NetworkController_PUN.Instance.GetPropertiesValue(player, NetworkController_PUN.PLAYER_HEALTH);
-        if (result is int) return (int)result;
-        return NetworkController_PUN.MAX_HEALTH;
-    }
-    public int GetPhysical(Player player)
-    {
-        object result = NetworkController_PUN.Instance.GetPropertiesValue(player, NetworkController_PUN.PLAYER_PHYSICAL);
-        if (result is int) return (int)result;
-        return NetworkController_PUN.MAX_HEALTH;
-    }
+
     public int GetTeam(Player player)
     {
-        object result = NetworkController_PUN.Instance.GetPropertiesValue(player, NetworkController_PUN.ROOM_SLOT);
-        int team = (int)result <= 1 ? 1 : 2;
+        int result = NetworkController_PUN.Instance.GetPlayerProperties(player).slotInRoom;
+        int team = result <= 1 ? 1 : 2;
         return team;
     }
     #endregion

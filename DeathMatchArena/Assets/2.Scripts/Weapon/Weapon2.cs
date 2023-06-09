@@ -136,13 +136,13 @@ public class Weapon2 : BaseWeapon
         {
             Item.Hide();
         }
-        transform.DOScale(5, props.TimePerform_Q * 0.23f).SetEase(Ease.Linear);
+        _character.WeaponHolder.DOScale(5, props.TimePerform_Q * 0.23f).SetEase(Ease.Linear);
 
         MyCollider.enabled = true;
         yield return new WaitForSeconds(props.TimePerform_Q * 0.23f);
 
 
-        transform.DOScale(1, 0.2f);
+        _character.WeaponHolder.DOScale(1, 0.2f);
         WeaponRenderer.DOColor(Color.white, 0.2f).SetEase(Ease.Linear);
 
 

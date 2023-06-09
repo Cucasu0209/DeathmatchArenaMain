@@ -64,15 +64,6 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     #endregion
 
     #region Variables
-    public static readonly int MAX_PLAYER_IN_ROOM = 4;
-    public static readonly string PLAYER_READY_STATE = "PLAYER_READY_STATE";
-    public static readonly string PLAYER_NAME = "PLAYER_NAME";
-    public static readonly string ROOM_SLOT = "ROOM_SLOT";
-    public static readonly string PLAYER_LOADED_LEVEL = "PLAYER_LOADED_LEVEL";
-    public static readonly string PLAYER_HEALTH = "PLAYER_HEALTH";
-    public static readonly string PLAYER_PHYSICAL = "PLAYER_PHYSICAL";
-    public static readonly int MAX_HEALTH = 100;
-    public static readonly int MAX_PHYSICAL = 100;
 
 
 
@@ -176,10 +167,10 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
 
         Hashtable props = new Hashtable
         {
-            {PLAYER_READY_STATE, false},
-            {PLAYER_NAME, PlayerData.GetNickName()},
-            {PLAYER_HEALTH, MAX_HEALTH},
-            {PLAYER_PHYSICAL, MAX_PHYSICAL},
+            {PlayerProperties.PLAYER_READY_STATE, false},
+            {PlayerProperties.PLAYER_NAME, PlayerData.GetNickName()},
+            {PlayerProperties.PLAYER_HEALTH,PlayerProperties. MAX_HEALTH},
+            {PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL},
 
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
@@ -252,7 +243,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     }
     public void CreateRoom(string roomName)
     {
-        RoomOptions options = new RoomOptions { MaxPlayers = (byte)MAX_PLAYER_IN_ROOM, PlayerTtl = 0 };
+        RoomOptions options = new RoomOptions { MaxPlayers = (byte)PlayerProperties.MAX_PLAYER_IN_ROOM, PlayerTtl = 0 };
         PhotonNetwork.CreateRoom(roomName, options, null);
     }
     public void JoinRoom(string roomName)
@@ -279,7 +270,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
         {
             object slot;
             Hashtable data = player.CustomProperties;
-            if (data.TryGetValue(ROOM_SLOT, out slot))
+            if (data.TryGetValue(PlayerProperties.ROOM_SLOT, out slot))
             {
                 if (slot is int)
                 {
@@ -318,39 +309,86 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public void SetSlot(int slotIndex)
     {
         if (isSlotEmpty(slotIndex) == false) return;
-        Hashtable props = new Hashtable { { ROOM_SLOT, slotIndex } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        UpdateMyProperty(PlayerPropertiesType.slotIndex, slotIndex);
     }
-    public object GetPropertiesValue(Player player, string propName)
+    public T GetPropertiesValue<T>(Player player, string propName, T defaultResult)
     {
         object value;
         Hashtable data = player.CustomProperties;
         if (data.TryGetValue(propName, out value))
         {
-            return value;
+            if (value is T)
+                return (T)value;
         }
-        return null;
+        return defaultResult;
 
     }
     public bool AmIMasterClient()
     {
         return PhotonNetwork.LocalPlayer.IsMasterClient;
     }
-    public void SetReady(bool isReady)
+    public string GetId(Player player)
     {
-        Hashtable props = new Hashtable { { PLAYER_READY_STATE, isReady } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        return player.NickName;
     }
-    public void UpdateNewHealth(int newHealth)
+    public PlayerProperties GetPlayerProperties(Player player)
     {
-        Hashtable props = new Hashtable { { PLAYER_HEALTH, newHealth } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-    }
+        return new PlayerProperties()
+        {
+            isReady = GetPropertiesValue<bool>(player, PlayerProperties.PLAYER_READY_STATE, false),
+            isLoadedLevel = GetPropertiesValue<bool>(player, PlayerProperties.PLAYER_LOADED_LEVEL, false),
+            playerId = player.NickName,
+            playerName = GetPropertiesValue<string>(player, PlayerProperties.PLAYER_NAME, "Bot"),
+            slotInRoom = GetPropertiesValue<int>(player, PlayerProperties.ROOM_SLOT, 0),
+            playerHealth = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_HEALTH, PlayerProperties.MAX_HEALTH),
+            playerPhysical = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL),
+            weaponIndex = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_WEAPON, 0),
 
-    public void UpdateNewPhysical(int newPhysical)
+        };
+    }
+    public void UpdateMyProperty<T>(PlayerPropertiesType type, T value)
     {
-        Hashtable props = new Hashtable { { PLAYER_PHYSICAL, newPhysical } };
+        string propName = "";
+        switch (type)
+        {
+            case PlayerPropertiesType.isReady: propName = PlayerProperties.PLAYER_READY_STATE; break;
+            case PlayerPropertiesType.isLoaded: propName = PlayerProperties.PLAYER_LOADED_LEVEL; break;
+            case PlayerPropertiesType.name: propName = PlayerProperties.PLAYER_NAME; break;
+            case PlayerPropertiesType.slotIndex: propName = PlayerProperties.ROOM_SLOT; break;
+            case PlayerPropertiesType.health: propName = PlayerProperties.PLAYER_HEALTH; break;
+            case PlayerPropertiesType.physical: propName = PlayerProperties.PLAYER_PHYSICAL; break;
+            case PlayerPropertiesType.weapon: propName = PlayerProperties.PLAYER_WEAPON; break;
+        }
+        Hashtable props = new Hashtable { { propName, value } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
     #endregion
+}
+
+public class PlayerProperties
+{
+    public static readonly int MAX_PLAYER_IN_ROOM = 4;
+    public static readonly string PLAYER_READY_STATE = "PLAYER_READY_STATE";
+    public static readonly string PLAYER_LOADED_LEVEL = "PLAYER_LOADED_LEVEL";
+    public static readonly string PLAYER_NAME = "PLAYER_NAME";
+    public static readonly string ROOM_SLOT = "ROOM_SLOT";
+    public static readonly string PLAYER_HEALTH = "PLAYER_HEALTH";
+    public static readonly string PLAYER_PHYSICAL = "PLAYER_PHYSICAL";
+    public static readonly string PLAYER_WEAPON = "PLAYER_WEAPON";
+    public static readonly int MAX_HEALTH = 100;
+    public static readonly int MAX_PHYSICAL = 100;
+
+    public bool isReady;
+    public bool isLoadedLevel;
+    public string playerId;
+    public string playerName;
+    public int slotInRoom;
+    public int playerHealth;
+    public int playerPhysical;
+    public int weaponIndex;
+}
+
+public enum PlayerPropertiesType
+{
+    isReady, isLoaded, name, slotIndex, health, physical, weapon
 }
