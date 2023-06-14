@@ -117,7 +117,7 @@ public class Weapon2 : BaseWeapon
         
         Trail.SetActive(true);
 
-        Weapon2ItemQ Item = Resources.Load<Weapon2ItemQ>(Q_EffectPrefabLink);
+        WeaponItemQBackground Item = Resources.Load<WeaponItemQBackground>(Q_EffectPrefabLink);
         if (Item != null)
         {
             Item = Instantiate(Item, _character.skAnim.transform);

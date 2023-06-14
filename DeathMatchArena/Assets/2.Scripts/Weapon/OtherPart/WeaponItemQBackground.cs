@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Weapon2ItemQ : MonoBehaviour
+public class WeaponItemQBackground : MonoBehaviour
 {
     public SpriteRenderer _renderer;
     private void Awake()
