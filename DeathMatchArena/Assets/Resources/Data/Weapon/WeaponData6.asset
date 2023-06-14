@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimationAttack_Normal: Normal_Throw
   AnimationAttack_E: Normal_Throw
-  AnimationAttack_Q: Q_Kunai
+  AnimationAttack_Q: Q_Boomerang
   Damage_Normal: 3
   Damage_E: 5
   Damage_Q: 10
@@ -22,4 +22,4 @@ MonoBehaviour:
   AbilityCooldown_Q: 0
   TimePerform_Normal: 0.305
   TimePerform_E: 0.305
-  TimePerform_Q: 2.439
+  TimePerform_Q: 2.287

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimationAttack_Normal: Normal_BigGunShoot
   AnimationAttack_E: Normal_BigGunShoot
-  AnimationAttack_Q: Q_Kunai
+  AnimationAttack_Q: Q_BigGun
   Damage_Normal: 10
   Damage_E: 10
   Damage_Q: 30
@@ -22,4 +22,4 @@ MonoBehaviour:
   AbilityCooldown_Q: 0
   TimePerform_Normal: 0.61
   TimePerform_E: 0.61
-  TimePerform_Q: 2.439
+  TimePerform_Q: 1.829
