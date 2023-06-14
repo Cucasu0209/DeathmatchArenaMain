@@ -7,6 +7,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
 using Photon.Pun;
 using TMPro;
+using DG.Tweening;
 
 public class CharacterController2D : MonoBehaviour
 {
@@ -56,7 +57,8 @@ public class CharacterController2D : MonoBehaviour
     private int physicalIncreaseOverPeriod = 15;
 
     [Header("Weapon")]
-    public BaseWeapon weapon;
+    private int currentWeaponIndex = 0;
+    public Transform WeaponHolder;
     public BaseWeapon[] weapons;
     public GameObject gun2;
 
@@ -68,6 +70,7 @@ public class CharacterController2D : MonoBehaviour
     {
         if (photonView.enabled == true && photonView.IsMine == false) body.gravityScale = 0;
         SetupDefault();
+        DisplayWeapon();
 
         Debug.Log(" photonView.id +" + photonView.InstantiationId);
     }
@@ -113,17 +116,24 @@ public class CharacterController2D : MonoBehaviour
     private void OnEnable()
     {
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateDisplayName;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateWeapon;
     }
     private void OnDisable()
     {
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateDisplayName;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateWeapon;
     }
     #endregion
 
     #region Private Actions
     private void UpdateDisplayName()
     {
-        Myname.SetText(RoomController.Instance.GetName(photonView.Owner));
+        Myname.SetText(NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).playerName);
+    }
+    private void UpdateWeapon()
+    {
+        currentWeaponIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).weaponIndex;
+        DisplayWeapon();
     }
     private void SetupDefault()
     {
@@ -201,9 +211,27 @@ public class CharacterController2D : MonoBehaviour
     {
         photonView.RPC(nameof(RPCAttackQ), RpcTarget.AllViaServer);
     }
+    private void DisplayWeapon()
+    {
+        foreach (var we in weapons)
+        {
+            we.gameObject.SetActive(true);
+            if (we != weapons[currentWeaponIndex])
+            {
+                we.transform.DOScale(0, 0.1f);
+            }
+        }
+        weapons[currentWeaponIndex].transform.DOScale(1, 0.1f);
+        WeaponHolder.localScale = Vector3.one;
+
+        gun2.SetActive(true);
+        if (currentWeaponIndex == 2) gun2.transform.DOScale(1, 0.1f);
+        else gun2.transform.DOScale(0, 0.1f);
+    }
+
     public void SwitchWeapon(int index)
     {
-        photonView.RPC(nameof(RPCSwitchWeapon), RpcTarget.AllViaServer, index);
+        NetworkController_PUN.Instance.UpdateMyProperty(PlayerPropertiesType.weapon, index);
     }
     #region RPC callbacks
     [PunRPC]
@@ -211,7 +239,7 @@ public class CharacterController2D : MonoBehaviour
     {
         if (isFreezing) return;
         if (canAttack == false) return;
-        weapon.PerformNormal(this,
+        weapons[currentWeaponIndex].PerformNormal(this,
             (animName) => DoAttackAnimation(animName),
             (time) => StartCoroutine(IAttackWait(time)));
     }
@@ -220,7 +248,7 @@ public class CharacterController2D : MonoBehaviour
     {
         if (isFreezing) return;
         if (canAttack == false) return;
-        weapon.PerformE(this,
+        weapons[currentWeaponIndex].PerformE(this,
             (animName) => DoAttackAnimation(animName),
             (time) => StartCoroutine(IAttackWait(time)));
     }
@@ -229,22 +257,9 @@ public class CharacterController2D : MonoBehaviour
     {
         if (isFreezing) return;
         if (canAttack == false) return;
-        weapon.PerformQ(this,
+        weapons[currentWeaponIndex].PerformQ(this,
             (animName) => DoAttackAnimation(animName),
             (time) => StartCoroutine(IFreezeWhenQPerform(time)));
-    }
-    [PunRPC]
-    public void RPCSwitchWeapon(int index)
-    {
-        foreach (var we in weapons)
-        {
-            weapon.gameObject.SetActive(false);
-            gun2.SetActive(false);
-        }
-        weapons[index].gameObject.SetActive(true);
-        weapons[index].gameObject.transform.localScale = Vector3.one;
-        weapon = weapons[index];
-        gun2.SetActive(index == 2);
     }
     #endregion
     IEnumerator IDashing;
@@ -389,33 +404,33 @@ public class CharacterController2D : MonoBehaviour
         if (photonView.IsMine)
         {
             Debug.Log("take damg" + dmg);
-            int newHealth = RoomController.Instance.GetHealth(photonView.Controller) - dmg;
+            int newHealth = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Controller).playerHealth - dmg;
             if (newHealth <= 0) newHealth = 0;
-            NetworkController_PUN.Instance.UpdateNewHealth(newHealth);
+            NetworkController_PUN.Instance.UpdateMyProperty(PlayerPropertiesType.health, newHealth);
         }
 
     }
 
     private bool CanDash()
     {
-        return RoomController.Instance.GetPhysical(photonView.Controller) >= dashPhysical;
+        return NetworkController_PUN.Instance.GetPlayerProperties(photonView.Controller).playerPhysical >= dashPhysical;
     }
     private void DecreasePhysicalWhenDash()
     {
         if (photonView.IsMine)
         {
-            int newP = RoomController.Instance.GetPhysical(photonView.Controller) - dashPhysical;
+            int newP = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Controller).playerPhysical - dashPhysical;
             if (newP <= 0) newP = 0;
-            NetworkController_PUN.Instance.UpdateNewPhysical(newP);
+            NetworkController_PUN.Instance.UpdateMyProperty(PlayerPropertiesType.physical, newP);
         }
     }
     private void IncreasePhysicalOverPriod()
     {
         if (photonView.IsMine)
         {
-            int newP = RoomController.Instance.GetPhysical(photonView.Controller) + physicalIncreaseOverPeriod;
-            if (newP >= NetworkController_PUN.MAX_PHYSICAL) newP = NetworkController_PUN.MAX_PHYSICAL;
-            NetworkController_PUN.Instance.UpdateNewPhysical(newP);
+            int newP = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Controller).playerPhysical + physicalIncreaseOverPeriod;
+            if (newP >= PlayerProperties.MAX_PHYSICAL) newP = PlayerProperties.MAX_PHYSICAL;
+            NetworkController_PUN.Instance.UpdateMyProperty(PlayerPropertiesType.physical, newP);
         }
     }
     #endregion

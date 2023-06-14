@@ -31,11 +31,9 @@ public class RoomSlotGroup : MonoBehaviour
             if (RoomController.Instance.PlayerInSlot[i] != null)
             {
                 Player p = RoomController.Instance.PlayerInSlot[i];
-
-                slots[i].SetPlayer(RoomController.Instance.GetId(p),
-                   RoomController.Instance.GetName(p),
-                   NetworkController_PUN.Instance.AmIMasterClient(),
-                   RoomController.Instance.GetIsReady(p));
+                PlayerProperties props = NetworkController_PUN.Instance.GetPlayerProperties(p);
+                slots[i].SetPlayer(props.playerId,props.playerName, 
+                   NetworkController_PUN.Instance.AmIMasterClient(),props.isReady);
             }
             else
             {

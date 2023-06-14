@@ -26,10 +26,10 @@ public class GamePlayController : MonoBehaviour
                 Physics2D.IgnoreLayerCollision(newChar.layer, newChar.layer);
                 Hashtable props = new Hashtable
             {
-                {NetworkController_PUN.PLAYER_LOADED_LEVEL, true},
-                {NetworkController_PUN.PLAYER_NAME, PlayerData.GetNickName()},
-                {NetworkController_PUN.PLAYER_HEALTH, NetworkController_PUN.MAX_HEALTH},
-                {NetworkController_PUN.PLAYER_PHYSICAL, NetworkController_PUN.MAX_PHYSICAL}
+                {PlayerProperties.PLAYER_LOADED_LEVEL, true},
+                {PlayerProperties.PLAYER_NAME, PlayerData.GetNickName()},
+                {PlayerProperties.PLAYER_HEALTH, PlayerProperties.MAX_HEALTH},
+                {PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL}
             };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             };
@@ -59,10 +59,10 @@ public class GamePlayController : MonoBehaviour
             Physics2D.IgnoreLayerCollision(8, 8);
             Hashtable props = new Hashtable
             {
-                {NetworkController_PUN.PLAYER_LOADED_LEVEL, true},
-                {NetworkController_PUN.PLAYER_NAME, PlayerData.GetNickName()},
-                {NetworkController_PUN.PLAYER_HEALTH, NetworkController_PUN.MAX_HEALTH},
-                {NetworkController_PUN.PLAYER_PHYSICAL, NetworkController_PUN.MAX_PHYSICAL}
+                {PlayerProperties.PLAYER_LOADED_LEVEL, true},
+                {PlayerProperties.PLAYER_NAME, PlayerData.GetNickName()},
+                {PlayerProperties.PLAYER_HEALTH, PlayerProperties.MAX_HEALTH},
+                {PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL}
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
@@ -107,20 +107,20 @@ public class GamePlayController : MonoBehaviour
                 {
                     PlayersHealthUI[i].gameObject.SetActive(true);
                     PlayersHealthUI[i].DOKill();
-                    PlayersHealthUI[i].DOValue(RoomController.Instance.GetHealth(RoomController.Instance.PlayerInSlot[i]) * 1f / NetworkController_PUN.MAX_HEALTH, 0.5f);
+                    PlayersHealthUI[i].DOValue(NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[i]).playerHealth * 1f / PlayerProperties.MAX_HEALTH, 0.5f);
                 }
 
                 if (PlayersPhysicalUI[i] != null)
                 {
                     PlayersPhysicalUI[i].gameObject.SetActive(true);
                     PlayersPhysicalUI[i].DOKill();
-                    PlayersPhysicalUI[i].DOValue(RoomController.Instance.GetPhysical(RoomController.Instance.PlayerInSlot[i]) * 1f / NetworkController_PUN.MAX_PHYSICAL, 0.5f);
+                    PlayersPhysicalUI[i].DOValue(NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[i]).playerPhysical * 1f / PlayerProperties.MAX_PHYSICAL, 0.5f);
                 }
 
                 if (PlayersNameUI[i] != null)
                 {
                     PlayersNameUI[i].gameObject.SetActive(true);
-                    PlayersNameUI[i].SetText(RoomController.Instance.GetName(RoomController.Instance.PlayerInSlot[i]));
+                    PlayersNameUI[i].SetText(NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[i]).playerName);
                 }
 
             }
@@ -157,7 +157,7 @@ public class GamePlayController : MonoBehaviour
         {
             if (RoomController.Instance.PlayerInSlot[i] != null)
             {
-                isALive[i] = RoomController.Instance.GetHealth(RoomController.Instance.PlayerInSlot[i]) > 0;
+                isALive[i] = NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[i]).playerHealth > 0;
             }
         }
         if ((isALive[0] || isALive[1] || isALive[2] || isALive[3]) == false)

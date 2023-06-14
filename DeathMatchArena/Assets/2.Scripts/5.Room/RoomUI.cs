@@ -50,7 +50,7 @@ public class RoomUI : MonoBehaviour
         AmIReady = !AmIReady;
         if (AmIReady) ReadyState.SetText("Cancel Ready");
         else ReadyState.SetText("Ready!");
-        NetworkController_PUN.Instance.SetReady(AmIReady);
+        NetworkController_PUN.Instance.UpdateMyProperty(PlayerPropertiesType.isReady, AmIReady);
     }
     public void CheckAndActivePlayButton()
     {
