@@ -10,6 +10,7 @@ public class Weapon1 : BaseWeapon
 {
     public Collider2D MyCollider;
     public GameObject Trail;
+    private string Q_EffectPrefabLink = "Effect/Weapon/Weapon1/Q_Weapon1Item";
     float currentSwordDmg;
     private void Start()
     {
@@ -79,7 +80,13 @@ public class Weapon1 : BaseWeapon
     {
 
         Trail.SetActive(true);
+        WeaponItemQBackground Item = Resources.Load<WeaponItemQBackground>(Q_EffectPrefabLink);
+        if (Item != null)
+        {
+            Item = Instantiate(Item, _character.skAnim.transform);
+            Item.Show();
 
+        }
         if (_character.photonView.IsMine) CameraController.Instance.ZoomIn();
 
         yield return new WaitForSeconds(props.TimePerform_Q * 0.77f - 0.3f);
@@ -89,7 +96,10 @@ public class Weapon1 : BaseWeapon
 
         MyCollider.enabled = true;
         yield return new WaitForSeconds(props.TimePerform_Q * 0.23f);
-
+        if (Item != null)
+        {
+            Item.Hide();
+        }
 
         MyCollider.enabled = false;
         Trail.SetActive(false);
