@@ -10,6 +10,7 @@ public class Weapon6 : BaseWeapon
 {
 
     private string Normal_EffectPrefabLink = "Effect/Weapon/Weapon6/Normal_Weapon6Item";
+    private string Q_EffectPrefabLink = "Effect/Weapon/Weapon6/Q_Weapon6Item";
     float currentSwordDmg;
     private void Start()
     {
@@ -108,6 +109,14 @@ public class Weapon6 : BaseWeapon
     private IEnumerator IPerform_Q(CharacterController2D _character)
     {
         if (_character.photonView.IsMine) CameraController.Instance.ZoomIn();
+        WeaponItemQBackground BGItem = Resources.Load<WeaponItemQBackground>(Q_EffectPrefabLink);
+        if (BGItem != null)
+        {
+            BGItem = Instantiate(BGItem, _character.skAnim.transform);
+            BGItem.Show();
+
+        }
+
         yield return new WaitForSeconds(props.TimePerform_Q / 4);
         float R = 1.8f;
         int maxSpawner = 15;
@@ -144,6 +153,11 @@ public class Weapon6 : BaseWeapon
         foreach (var item in newListItem)
         {
             item.Fly();
+        }
+
+        if (BGItem != null)
+        {
+            BGItem.Hide();
         }
         if (_character.photonView.IsMine) CameraController.Instance.ZoomOut();
 
