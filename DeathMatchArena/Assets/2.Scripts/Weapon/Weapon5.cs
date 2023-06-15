@@ -182,15 +182,8 @@ public class Weapon5 : BaseWeapon
         }
 
     }
-
-    float lastTimeTakeDamge = 0;
     private void TakeDamgeToPlayer(CharacterController2D player, float dmg)
     {
-        if (Time.time - lastTimeTakeDamge >= 0.3f)
-        {
-            player.TakeDamage((int)dmg);
-            lastTimeTakeDamge = Time.time;
-        }
-
+        player.TakeDamage((int)dmg);
     }
 }
