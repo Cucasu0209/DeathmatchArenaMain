@@ -398,16 +398,22 @@ public class CharacterController2D : MonoBehaviour
     #endregion
 
     #region Take Dmg and Dash
+    float lastTimeTakeDmg = 0;
     public void TakeDamage(int dmg)
     {
-        SettakeDamageAnim();
-        if (photonView.IsMine)
+        if (Time.time - lastTimeTakeDmg >= 0.1f)
         {
-            Debug.Log("take damg" + dmg);
-            int newHealth = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Controller).playerHealth - dmg;
-            if (newHealth <= 0) newHealth = 0;
-            NetworkController_PUN.Instance.UpdateMyProperty(PlayerPropertiesType.health, newHealth);
+            SettakeDamageAnim();
+            if (photonView.IsMine)
+            {
+                Debug.Log("take damg" + dmg);
+                int newHealth = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Controller).playerHealth - dmg;
+                if (newHealth <= 0) newHealth = 0;
+                NetworkController_PUN.Instance.UpdateMyProperty(PlayerPropertiesType.health, newHealth);
+            }
+            lastTimeTakeDmg = Time.time;
         }
+
 
     }
 

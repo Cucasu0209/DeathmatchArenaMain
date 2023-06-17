@@ -114,7 +114,7 @@ public class Weapon2 : BaseWeapon
     private IEnumerator IEPerform_Q;
     private IEnumerator IPerform_Q(CharacterController2D _character)
     {
-        
+
         Trail.SetActive(true);
 
         WeaponItemQBackground Item = Resources.Load<WeaponItemQBackground>(Q_EffectPrefabLink);
@@ -171,14 +171,8 @@ public class Weapon2 : BaseWeapon
 
     }
 
-    float lastTimeTakeDamge = 0;
     private void TakeDamgeToPlayer(CharacterController2D player, float dmg)
     {
-        if (Time.time - lastTimeTakeDamge >= 0.3f)
-        {
-            player.TakeDamage((int)dmg);
-            lastTimeTakeDamge = Time.time;
-        }
-
+        player.TakeDamage((int)dmg);
     }
 }
