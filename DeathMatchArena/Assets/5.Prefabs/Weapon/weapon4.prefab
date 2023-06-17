@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &556776565869364757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 286727817592549906}
+  m_Layer: 8
+  m_Name: PosSpawnBullet Q
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &286727817592549906
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556776565869364757}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.86, y: 2.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 705108890473950594}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705108890473950593
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +42,7 @@ GameObject:
   - component: {fileID: 705108890473950594}
   - component: {fileID: 705108890473950595}
   - component: {fileID: 1993071451368251251}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: weapon4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,15 +56,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705108890473950593}
-  m_LocalRotation: {x: -0, y: -0, z: -0.13934585, w: 0.9902438}
+  m_LocalRotation: {x: -0, y: -0, z: -0.40950474, w: 0.91230804}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4665405957844564979}
+  - {fileID: 286727817592549906}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -16.02}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -48.347}
 --- !u!212 &705108890473950595
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -100,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   props: {fileID: 11400000, guid: 8b7d23d963f99a44c9c753d08816a131, type: 2}
   PosSpawnBullet: {fileID: 4665405957844564979}
+  PosSpawnBullet_Q: {fileID: 286727817592549906}
 --- !u!1 &8518181324114681668
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +142,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4665405957844564979}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: PosSpawnBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

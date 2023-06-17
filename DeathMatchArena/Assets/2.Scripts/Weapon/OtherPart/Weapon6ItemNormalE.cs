@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
-public class Weapon6ItemNormalE : MonoBehaviour
+public class Weapon6ItemNormalE : BaseWeaponItem
 {
     private Action<Weapon6ItemNormalE, GameObject> OnHitSomthing;
     private Vector2 myDir = Vector2.zero;

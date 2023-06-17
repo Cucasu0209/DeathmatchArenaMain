@@ -11,6 +11,7 @@ public class Weapon1 : BaseWeapon
     public Collider2D MyCollider;
     public GameObject Trail;
     private string Q_EffectPrefabLink = "Effect/Weapon/Weapon1/Q_Weapon1Item";
+    private string Q_SegmentLink = "Effect/Weapon/Weapon1/Q_Weapon1Segment";
     float currentSwordDmg;
     private void Start()
     {
@@ -87,21 +88,48 @@ public class Weapon1 : BaseWeapon
             Item.Show();
 
         }
+
+        Weapon1ItemQ Segment = Resources.Load<Weapon1ItemQ>(Q_SegmentLink);
+        if (Segment != null)
+        {
+            Segment = Instantiate(Segment, _character.transform);
+            Segment.Setup(0, Vector3.zero, (_item, objHit) =>
+            {
+                if (objHit == gameObject) return;
+                if (objHit.GetComponent<BaseWeaponItem>() != null) return;
+
+                CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
+
+                if (_char != null)
+                {
+                    if (_char == _character) return;
+                    TakeDamgeToPlayer(_char, props.Damage_Q);
+                }
+                _item.DestroySelf();
+            });
+            Segment.transform.localScale = Vector3.zero;
+            Segment.transform.localPosition = Vector3.zero;
+            Segment.transform.DOScale(1, props.TimePerform_Q / 2);
+        }
+
         if (_character.photonView.IsMine) CameraController.Instance.ZoomIn();
 
-        yield return new WaitForSeconds(props.TimePerform_Q * 0.77f - 0.3f);
+        yield return new WaitForSeconds(props.TimePerform_Q * 65f / 80);
         if (_character.photonView.IsMine) CameraController.Instance.ZoomOut();
-        yield return new WaitForSeconds(0.3f);
+
+        if (Segment != null)
+        {
+            Segment.transform.localPosition = Vector3.zero;
+            Segment.SpreadOut();
+        }
 
 
-        MyCollider.enabled = true;
-        yield return new WaitForSeconds(props.TimePerform_Q * 0.23f);
+        yield return new WaitForSeconds(props.TimePerform_Q * 15f / 80);
         if (Item != null)
         {
             Item.Hide();
         }
 
-        MyCollider.enabled = false;
         Trail.SetActive(false);
 
     }
@@ -128,6 +156,6 @@ public class Weapon1 : BaseWeapon
 
     private void TakeDamgeToPlayer(CharacterController2D player, float dmg)
     {
-            player.TakeDamage((int)dmg);
+        player.TakeDamage((int)dmg);
     }
 }
