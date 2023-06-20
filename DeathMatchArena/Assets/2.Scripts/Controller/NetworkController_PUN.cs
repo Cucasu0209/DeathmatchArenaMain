@@ -333,6 +333,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     }
     public PlayerProperties GetPlayerProperties(Player player)
     {
+        if (player == null) return new PlayerProperties();
         return new PlayerProperties()
         {
             isReady = GetPropertiesValue<bool>(player, PlayerProperties.PLAYER_READY_STATE, false),

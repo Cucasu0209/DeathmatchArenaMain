@@ -17,7 +17,7 @@ MonoBehaviour:
   AnimationAttack_Q: Q_StraightSwordStrike
   Damage_Normal: 10
   Damage_E: 10
-  Damage_Q: 30
+  Damage_Q: 15
   AbilityCooldown_E: 0
   AbilityCooldown_Q: 0
   TimePerform_Normal: 0.244

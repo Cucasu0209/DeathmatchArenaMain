@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
-public class Weapon4Normal : MonoBehaviour
+public class Weapon4Normal : BaseWeaponItem
 {
     private Action<Weapon4Normal, GameObject> OnHitSomthing;
     private Vector2 myDir = Vector2.zero;
@@ -39,13 +39,23 @@ public class Weapon4Normal : MonoBehaviour
 
         Destroy(gameObject);
     }
-
+    public void HideTrail()
+    {
+        GetComponentInChildren<TrailRenderer>()?.gameObject.SetActive(false);
+    }
     private void Update()
     {
         if (myDir.magnitude > 0 && flying)
         {
             transform.position += (Vector3)myDir * Time.deltaTime * speed;
 
+        }
+        else
+        {
+            if (transform.parent != null)
+            {
+                transform.localPosition = Vector3.zero;
+            }
         }
 
     }

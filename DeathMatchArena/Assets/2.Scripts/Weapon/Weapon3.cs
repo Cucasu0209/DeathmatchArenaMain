@@ -8,7 +8,7 @@ using Player = Photon.Realtime.Player;
 
 public class Weapon3 : BaseWeapon
 {
-
+    public Transform otherGun;
     private string Normal_EffectPrefabLink = "Effect/Weapon/Weapon3/Normal_Weapon3Item";
     private string Q_EffectPrefabLink = "Effect/Weapon/Weapon3/Q_Weapon3Item";
     float currentSwordDmg;
@@ -143,7 +143,69 @@ public class Weapon3 : BaseWeapon
             BGItem.Show();
 
         }
-        yield return new WaitForSeconds(props.TimePerform_Q);
+
+        yield return new WaitForSeconds(props.TimePerform_Q * 5 / 65f);
+        float R = 1.8f;
+        int maxSpawner = 60;
+        Weapon3Normal Item = Resources.Load<Weapon3Normal>(Normal_EffectPrefabLink);
+        if (Item != null)
+        {
+            Quaternion startRotateGun1 = transform.localRotation;
+            Quaternion startRotateGun2 = otherGun.localRotation;
+            transform.DORotate(Vector3.zero, 0.05f).OnComplete(() =>
+            {
+                transform.DORotate(Vector3.forward * 300, 0.05f).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+            });
+            otherGun.DORotate(Vector3.zero, 0.05f).OnComplete(() =>
+            {
+                otherGun.DORotate(Vector3.forward * 300, 0.05f).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+            });
+
+            for (int i = 0; i < maxSpawner; i++)
+            {
+                float angle = 180 - ((360 / maxSpawner * 2) * i);
+                Vector3 newPos = new Vector3(R * Mathf.Cos(angle * Mathf.Deg2Rad), R * Mathf.Sin(angle * Mathf.Deg2Rad), 0);
+                Weapon3Normal Itemr = Instantiate(Item, _character.handRight.position, Quaternion.identity);
+                Weapon3Normal Iteml = Instantiate(Item, _character.handLeft.position, Quaternion.identity);
+                Itemr.transform.localScale *= 2;
+                Iteml.transform.localScale *= 2;
+                Itemr.Setup(newPos, (_item, objHit) =>
+                {
+                    if (objHit == gameObject) return;
+                    CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
+                    if (objHit.GetComponent<BaseWeaponItem>() != null) return;
+                    if (_char != null)
+                    {
+                        if (_char == _character) return;
+                        TakeDamgeToPlayer(_char, props.Damage_Normal);
+                    }
+
+                    _item.DestroySelf();
+                });
+                Iteml.Setup(newPos, (_item, objHit) =>
+                {
+                    if (objHit == gameObject) return;
+                    CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
+                    if (objHit.GetComponent<BaseWeaponItem>() != null) return;
+                    if (_char != null)
+                    {
+                        if (_char == _character) return;
+                        TakeDamgeToPlayer(_char, props.Damage_Normal);
+                    }
+
+                    _item.DestroySelf();
+                });
+                Itemr.Fly();
+                Iteml.Fly();
+                yield return new WaitForSeconds(props.TimePerform_Q * 55 / 65f / maxSpawner);
+            }
+
+            transform.DOKill();
+            otherGun.DOKill();
+            transform.DOLocalRotateQuaternion(startRotateGun1, 0.1f);
+            otherGun.DOLocalRotateQuaternion(startRotateGun2, 0.1f);
+        }
+        //yield return new WaitForSeconds(props.TimePerform_Q);
 
 
 

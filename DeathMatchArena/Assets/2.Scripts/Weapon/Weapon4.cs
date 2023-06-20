@@ -9,6 +9,7 @@ using Player = Photon.Realtime.Player;
 public class Weapon4 : BaseWeapon
 {
     public Transform PosSpawnBullet;
+    public Transform PosSpawnBullet_Q;
     private string Normal_EffectPrefabLink = "Effect/Weapon/Weapon4/Normal_Weapon4Item";
     private string Q_EffectPrefabLink = "Effect/Weapon/Weapon4/Q_Weapon4Item";
     float currentSwordDmg;
@@ -117,7 +118,37 @@ public class Weapon4 : BaseWeapon
             BGItem.Show();
 
         }
-        yield return new WaitForSeconds(props.TimePerform_Q);
+        yield return new WaitForSeconds(props.TimePerform_Normal * 1 / 4);
+        Weapon4Normal Item = Resources.Load<Weapon4Normal>(Normal_EffectPrefabLink);
+        if (Item != null)
+        {
+            Vector2 dir = _character.CharactorTransform.localScale.x > 0 ? Vector2.right : Vector2.left;
+            Item = Instantiate(Item, PosSpawnBullet_Q.transform);
+            Item.HideTrail();
+            Item.Setup(dir, (_item, objHit) =>
+            {
+                if (objHit == gameObject) return;
+                CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
+                if (_char != null)
+                {
+                    if (_char == _character) return;
+                    TakeDamgeToPlayer(_char, props.Damage_Normal);
+                    _item.DestroySelf();
+                }
+            });
+            Item.transform.localScale = Vector3.zero;
+            Item.transform.DOScale(3, props.TimePerform_Q * 1 / 2).SetEase(Ease.OutBounce);
+
+
+        }
+        yield return new WaitForSeconds(props.TimePerform_Q * 1.7f / 3);
+        if (Item != null)
+        {
+            Item.transform.parent = null;
+            Item.Fly();
+        }
+
+        yield return new WaitForSeconds(props.TimePerform_Q / 3f);
 
 
         if (BGItem != null)
