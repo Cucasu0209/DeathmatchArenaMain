@@ -69,6 +69,8 @@ public class RoomController : MonoBehaviour
         {3, null},// Slow2  -  Team2
     };
     public static event Action ActionOnPlayerListChanged;
+    public GamePlayResult currentGameResult = new GamePlayResult();
+    public const string defaultEmptyName = "???";
     #endregion
 
     #region Unity
@@ -77,12 +79,14 @@ public class RoomController : MonoBehaviour
 
         NetworkController_PUN.ActionOnPlayerListChanged += GetPlayers;
         NetworkController_PUN.ActionOnLeftRoom += ResetSlot;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateGameResult;
         GetPlayers();
     }
     private void OnDisable()
     {
         NetworkController_PUN.ActionOnPlayerListChanged -= GetPlayers;
         NetworkController_PUN.ActionOnLeftRoom -= ResetSlot;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateGameResult;
     }
     private void Update()
     {
@@ -118,6 +122,18 @@ public class RoomController : MonoBehaviour
         int team = result <= 1 ? 1 : 2;
         return team;
     }
+    public GamePlayResultEnum GetGameResult()
+    {
+        return currentGameResult.gameResult;
+    }
+    public string GetNamePlayer(int PlayerIndex)
+    {
+        if (PlayerInSlot.ContainsKey(PlayerIndex)) return defaultEmptyName;
+
+        return PlayerInSlot[PlayerIndex] != null ?
+                NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[PlayerIndex]).playerName : defaultEmptyName;
+    }
+
     #endregion
 
     #region Private Actions
@@ -164,6 +180,99 @@ public class RoomController : MonoBehaviour
         PlayerInSlot[2] = null;
         PlayerInSlot[3] = null;
     }
+    private void UpdateGameResult()
+    {
 
+        currentGameResult = new GamePlayResult();
+
+        currentGameResult.gameResult = CheckResult();
+        currentGameResult.player1Reward = new PlayerReward()
+        {
+            owner = PlayerInSlot[0],
+            CoinReward = 0,
+            EloReward = 0
+        };
+
+        currentGameResult.player2Reward = new PlayerReward()
+        {
+            owner = PlayerInSlot[1],
+            CoinReward = 0,
+            EloReward = 0
+        };
+
+        currentGameResult.player3Reward = new PlayerReward()
+        {
+            owner = PlayerInSlot[2],
+            CoinReward = 0,
+            EloReward = 0
+        };
+
+        currentGameResult.player4Reward = new PlayerReward()
+        {
+            owner = PlayerInSlot[3],
+            CoinReward = 0,
+            EloReward = 0
+        };
+    }
+
+    private GamePlayResultEnum CheckResult()
+    {
+
+        if (RoomController.Instance.PlayerInSlot[0] == null && RoomController.Instance.PlayerInSlot[1] == null) return GamePlayResultEnum.NotCompleteYet;
+        if (RoomController.Instance.PlayerInSlot[2] == null && RoomController.Instance.PlayerInSlot[3] == null) return GamePlayResultEnum.NotCompleteYet;
+
+        bool[] isALive = new bool[4] { false, false, false, false };
+        for (int i = 0; i < RoomController.Instance.PlayerInSlot.Count; i++)
+        {
+            if (RoomController.Instance.PlayerInSlot[i] != null)
+            {
+                isALive[i] = NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[i]).playerHealth > 0;
+            }
+        }
+        if ((isALive[0] || isALive[1] || isALive[2] || isALive[3]) == false)
+        {
+            return GamePlayResultEnum.Draw;
+        }
+        else if ((isALive[0] || isALive[1]) == false)
+        {
+            return GamePlayResultEnum.Team2Win;
+        }
+        else if ((isALive[2] || isALive[3]) == false)
+        {
+            return GamePlayResultEnum.Team1Win;
+        }
+        return GamePlayResultEnum.NotCompleteYet;
+
+    }
     #endregion
+}
+
+public class GamePlayResult
+{
+    public GamePlayResultEnum gameResult;
+    public PlayerReward player1Reward;
+    public PlayerReward player2Reward;
+    public PlayerReward player3Reward;
+    public PlayerReward player4Reward;
+
+    public GamePlayResult()
+    {
+        gameResult = GamePlayResultEnum.Draw;
+        player1Reward = new PlayerReward();
+        player2Reward = new PlayerReward();
+        player3Reward = new PlayerReward();
+        player4Reward = new PlayerReward();
+    }
+}
+public class PlayerReward
+{
+    public Player owner;
+    public float EloReward;
+    public float CoinReward;
+
+    public PlayerReward()
+    {
+        EloReward = 0;
+        CoinReward = 0;
+    }
 }
