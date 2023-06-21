@@ -91,7 +91,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     #region Unity
     public override void OnEnable()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
+        //PhotonNetwork.AutomaticallySyncScene = true;
         base.OnEnable();
     }
     #endregion
@@ -327,6 +327,10 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     {
         return PhotonNetwork.LocalPlayer.IsMasterClient;
     }
+    public bool CheckIfMasterPlayGame()
+    {
+        return GetPropertiesValue<bool>(PhotonNetwork.MasterClient, PlayerProperties.IS_MASTER_PLAY_GAME, false);
+    }
     public string GetId(Player player)
     {
         return player.NickName;
@@ -340,6 +344,7 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
             isLoadedLevel = GetPropertiesValue<bool>(player, PlayerProperties.PLAYER_LOADED_LEVEL, false),
             playerId = player.NickName,
             playerName = GetPropertiesValue<string>(player, PlayerProperties.PLAYER_NAME, "Bot"),
+            isMasterPlaygame = GetPropertiesValue<bool>(player, PlayerProperties.IS_MASTER_PLAY_GAME, false),
             slotInRoom = GetPropertiesValue<int>(player, PlayerProperties.ROOM_SLOT, 0),
             playerHealth = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_HEALTH, PlayerProperties.MAX_HEALTH),
             playerPhysical = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL),
@@ -350,16 +355,19 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     public void UpdateMyProperty<T>(PlayerPropertiesType type, T value)
     {
         string propName = "";
+        if (type == PlayerPropertiesType.isMasterPlayGame && PhotonNetwork.LocalPlayer.IsMasterClient == false) return;
         switch (type)
         {
             case PlayerPropertiesType.isReady: propName = PlayerProperties.PLAYER_READY_STATE; break;
             case PlayerPropertiesType.isLoaded: propName = PlayerProperties.PLAYER_LOADED_LEVEL; break;
             case PlayerPropertiesType.name: propName = PlayerProperties.PLAYER_NAME; break;
+            case PlayerPropertiesType.isMasterPlayGame: propName = PlayerProperties.IS_MASTER_PLAY_GAME; break;
             case PlayerPropertiesType.slotIndex: propName = PlayerProperties.ROOM_SLOT; break;
             case PlayerPropertiesType.health: propName = PlayerProperties.PLAYER_HEALTH; break;
             case PlayerPropertiesType.physical: propName = PlayerProperties.PLAYER_PHYSICAL; break;
             case PlayerPropertiesType.weapon: propName = PlayerProperties.PLAYER_WEAPON; break;
         }
+
         Hashtable props = new Hashtable { { propName, value } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
@@ -372,6 +380,7 @@ public class PlayerProperties
     public static readonly string PLAYER_READY_STATE = "PLAYER_READY_STATE";
     public static readonly string PLAYER_LOADED_LEVEL = "PLAYER_LOADED_LEVEL";
     public static readonly string PLAYER_NAME = "PLAYER_NAME";
+    public static readonly string IS_MASTER_PLAY_GAME = "IS_MASTER_PLAY_GAME";
     public static readonly string ROOM_SLOT = "ROOM_SLOT";
     public static readonly string PLAYER_HEALTH = "PLAYER_HEALTH";
     public static readonly string PLAYER_PHYSICAL = "PLAYER_PHYSICAL";
@@ -383,6 +392,7 @@ public class PlayerProperties
     public bool isLoadedLevel;
     public string playerId;
     public string playerName;
+    public bool isMasterPlaygame;
     public int slotInRoom;
     public int playerHealth;
     public int playerPhysical;
@@ -391,5 +401,5 @@ public class PlayerProperties
 
 public enum PlayerPropertiesType
 {
-    isReady, isLoaded, name, slotIndex, health, physical, weapon
+    isReady, isLoaded, name, isMasterPlayGame, slotIndex, health, physical, weapon
 }

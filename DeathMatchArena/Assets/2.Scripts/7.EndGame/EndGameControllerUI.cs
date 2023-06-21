@@ -8,6 +8,10 @@ using Doozy.Runtime.UIManager.Containers;
 
 public class EndGameControllerUI : MonoBehaviour
 {
+    [Header("Others")]
+    public Image Sep;
+
+
     [Header("Team 1")]
     public UIView ViewTeam1;
     public TextMeshProUGUI NamePlayer1;
@@ -107,12 +111,21 @@ public class EndGameControllerUI : MonoBehaviour
     {
         ViewTeam1.Hide();
         ViewTeam2.Hide();
-        RewardView.Show();
+        Sep.transform.DOScale(0, 0.4f).OnComplete(() =>
+        {
+            RewardView.Show();
+        });
+
+
 
         rewardPlayer1.SetInfor(RoomController.Instance.currentGameResult.player1Reward);
         rewardPlayer2.SetInfor(RoomController.Instance.currentGameResult.player2Reward);
         rewardPlayer3.SetInfor(RoomController.Instance.currentGameResult.player3Reward);
         rewardPlayer4.SetInfor(RoomController.Instance.currentGameResult.player4Reward);
+    }
+    public void BackToRoom()
+    {
+        LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.Room);
     }
 }
 

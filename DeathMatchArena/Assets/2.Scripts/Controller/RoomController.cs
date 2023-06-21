@@ -133,7 +133,10 @@ public class RoomController : MonoBehaviour
         return PlayerInSlot[PlayerIndex] != null ?
                 NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[PlayerIndex]).playerName : defaultEmptyName;
     }
-
+    public bool CheckCanPlayGame()
+    {
+        return NetworkController_PUN.Instance.CheckIfMasterPlayGame();
+    }
     #endregion
 
     #region Private Actions

@@ -28,10 +28,12 @@ public class RoomUI : MonoBehaviour
     private void OnEnable()
     {
         RoomController.ActionOnPlayerListChanged += DisplayRoomSlots;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += CheckIfPlayGame;
     }
     private void OnDisable()
     {
         RoomController.ActionOnPlayerListChanged -= DisplayRoomSlots;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= CheckIfPlayGame;
     }
     public void LeaveRoom()
     {
@@ -67,9 +69,13 @@ public class RoomUI : MonoBehaviour
         PlayButton.DOScale(0, 0.4f);
 
     }
+    private void CheckIfPlayGame()
+    {
+        if (RoomController.Instance.CheckCanPlayGame()) LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.MainGame);
+    }
     public void PlayGameClick()
     {
-        Debug.LogError("Go btich");
-        LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.MainGame, true);
+        NetworkController_PUN.Instance.UpdateMyProperty<bool>(PlayerPropertiesType.isMasterPlayGame, true);
+        NetworkController_PUN.Instance.UpdateMyProperty<bool>(PlayerPropertiesType.isMasterPlayGame, false);
     }
 }
