@@ -73,7 +73,7 @@ public class LoadSceneSmoothController : MonoBehaviour
             LoadSceneSmoothEntity.Instance?.Hide(null);
         };
     }
-    public void LoadScene(SceneEnum.Type scene, bool isloadAsync = false)
+    public void LoadScene(SceneEnum.Type scene)
     {
         if (SceneManager.GetActiveScene().name == SceneEnum.GetSceneString(scene)) return;
         if (LoadSceneSmoothEntity.Instance == null)
@@ -84,8 +84,8 @@ public class LoadSceneSmoothController : MonoBehaviour
                 GameObject newEffect = GameObject.Instantiate(myEffect, null);
                 newEffect.GetComponent<LoadSceneSmoothEntity>()?.Show(() =>
                 {
-                    if (isloadAsync == false) SceneManager.LoadScene(SceneEnum.GetSceneString(scene));
-                    else PhotonNetwork.LoadLevel(SceneEnum.GetSceneString(scene));
+                    SceneManager.LoadScene(SceneEnum.GetSceneString(scene));
+
                 });
             }
         }
@@ -93,8 +93,8 @@ public class LoadSceneSmoothController : MonoBehaviour
         {
             LoadSceneSmoothEntity.Instance.Show(() =>
             {
-                if (isloadAsync == false) SceneManager.LoadScene(SceneEnum.GetSceneString(scene));
-                else PhotonNetwork.LoadLevel(SceneEnum.GetSceneString(scene));
+                SceneManager.LoadScene(SceneEnum.GetSceneString(scene));
+
             });
         }
     }
