@@ -259,6 +259,23 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LeaveRoom();
     }
+
+    public void LockCurrentRoom()
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient == false || PhotonNetwork.CurrentRoom == null) return;
+
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+    }
+
+    public void UnLockCurrentRoom()
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient == false || PhotonNetwork.CurrentRoom == null) return;
+
+        PhotonNetwork.CurrentRoom.IsVisible = true;
+        PhotonNetwork.CurrentRoom.IsOpen = true;
+    }
+
     #endregion
 
     #region Player Properties
@@ -370,6 +387,12 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
 
         Hashtable props = new Hashtable { { propName, value } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+    public void ResetGamePlayProperties()
+    {
+        UpdateMyProperty<int>(PlayerPropertiesType.health, PlayerProperties.MAX_HEALTH);
+        UpdateMyProperty<int>(PlayerPropertiesType.physical, PlayerProperties.MAX_PHYSICAL);
+        UpdateMyProperty<int>(PlayerPropertiesType.weapon, 0);
     }
     #endregion
 }

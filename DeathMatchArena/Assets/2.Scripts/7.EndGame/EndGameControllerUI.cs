@@ -40,16 +40,12 @@ public class EndGameControllerUI : MonoBehaviour
     {
         SetupDefault();
 
-
-
-
-
-
         DOVirtual.DelayedCall(1, () =>
         {
             ShowFirstResult();
         });
 
+        NetworkController_PUN.Instance.UpdateMyProperty<bool>(PlayerPropertiesType.isReady, false);
     }
 
     private void SetupDefault()

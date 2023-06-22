@@ -71,7 +71,15 @@ public class RoomUI : MonoBehaviour
     }
     private void CheckIfPlayGame()
     {
-        if (RoomController.Instance.CheckCanPlayGame()) LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.MainGame);
+
+        if (RoomController.Instance.CheckCanPlayGame())
+        {
+            NetworkController_PUN.Instance.ResetGamePlayProperties();
+            NetworkController_PUN.Instance.LockCurrentRoom();
+            NetworkController_PUN.Instance.UpdateMyProperty<bool>(PlayerPropertiesType.isReady, false);
+            NetworkController_PUN.Instance.UpdateMyProperty<bool>(PlayerPropertiesType.isLoaded, false);
+            LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.MainGame);
+        }
     }
     public void PlayGameClick()
     {
