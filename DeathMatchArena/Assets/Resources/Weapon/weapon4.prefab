@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   props: {fileID: 11400000, guid: 8b7d23d963f99a44c9c753d08816a131, type: 2}
+  data: {fileID: 11400000, guid: 6cca56d8cadc9f743b84a86a1a304993, type: 2}
   PosSpawnBullet: {fileID: 4665405957844564979}
   PosSpawnBullet_Q: {fileID: 286727817592549906}
 --- !u!1 &8518181324114681668

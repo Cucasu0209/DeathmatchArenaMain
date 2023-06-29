@@ -6,6 +6,7 @@ public abstract class BaseWeapon : MonoBehaviour
 {
     protected CharacterController2D ownChar;
     public WeaponProperties props;
+    public ItemData data;
 
     public abstract void PerformNormal(CharacterController2D _charecter, Action<string> doAnimation, Action<float> WaitForNextAttack);
     public abstract void PerformE(CharacterController2D _charecter, Action<string> doAnimation, Action<float> WaitForNextAttack);

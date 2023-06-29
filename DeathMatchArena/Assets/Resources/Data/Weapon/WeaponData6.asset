@@ -9,17 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 896074688d987584d8b9d197f9762d57, type: 3}
+  m_Script: {fileID: 11500000, guid: d480ef31c551ba64bbce82f98d8648bf, type: 3}
   m_Name: WeaponData6
   m_EditorClassIdentifier: 
-  AnimationAttack_Normal: Normal_Throw
-  AnimationAttack_E: Normal_Throw
-  AnimationAttack_Q: Q_Boomerang
-  Damage_Normal: 3
-  Damage_E: 5
-  Damage_Q: 10
-  AbilityCooldown_E: 0
-  AbilityCooldown_Q: 0
-  TimePerform_Normal: 0.305
-  TimePerform_E: 0.305
-  TimePerform_Q: 2.287
+  Attack: 0
+  Defense: 0
+  Speed: 0
