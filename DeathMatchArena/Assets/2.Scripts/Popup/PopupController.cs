@@ -16,6 +16,7 @@ public class PopupController
     private static readonly string FriendListToAddGroupPopupLink = "Popup/FriendListToAddGroupPopup";
     private static readonly string GroupManagePopupLink = "Popup/GroupManagePopup";
     private static readonly string CreateRoomFormPopupLink = "Popup/CreateRoomFormPopup";
+    private static readonly string BagPopupLink = "Popup/BagPopup";
 
     #endregion
 
@@ -289,6 +290,33 @@ public class PopupController
         if (CreateRoomFormPopup.Instance != null)
         {
             CreateRoomFormPopup.Instance.Hide();
+        }
+
+    }
+    public static void ShowBagPopup()
+    {
+        if (BagPopup.Instance != null)
+        {
+            BagPopup.Instance.Show();
+            BagPopup.Instance.transform.SetAsLastSibling();
+        }
+        else
+        {
+            GameObject myPopup = Resources.Load<GameObject>(BagPopupLink);
+            if (myPopup != null)
+            {
+                GameObject NewPopup = GameObject.Instantiate(myPopup, GetPopupCanvas().transform);
+                NewPopup.GetComponent<BasePopup>()?.Show();
+                NewPopup.GetComponent<BasePopup>()?.transform.SetAsLastSibling();
+            }
+        }
+
+    }
+    public static void HideBagPopup()
+    {
+        if (BagPopup.Instance != null)
+        {
+            BagPopup.Instance.Hide();
         }
 
     }

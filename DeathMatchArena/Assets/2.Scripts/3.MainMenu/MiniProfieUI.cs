@@ -32,7 +32,10 @@ public class MiniProfieUI : MonoBehaviour
     }
     public void Rename()
     {
-        if (MainMenuSceneController.Instance != null)
-            PopupController.ShowRenamePopup();
+        PopupController.ShowRenamePopup();
+    }
+    public void OpenBag()
+    {
+        PopupController.ShowBagPopup();
     }
 }

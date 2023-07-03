@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d480ef31c551ba64bbce82f98d8648bf, type: 3}
   m_Name: WeaponData3
   m_EditorClassIdentifier: 
-  Attack: 0
-  Defense: 0
-  Speed: 0
+  Attack: 20
+  Defense: 10
+  Speed: 25
