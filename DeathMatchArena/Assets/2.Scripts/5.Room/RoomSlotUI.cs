@@ -10,6 +10,7 @@ public class RoomSlotUI : MonoBehaviour
 
     private SlotState currentState = SlotState.Empty;
     public int Slotid;
+    private string currentId;
     public RoomSlotGroup holder;
 
     [Header("Empty")]
@@ -41,6 +42,7 @@ public class RoomSlotUI : MonoBehaviour
 
         Name.SetText(name);
         Id.SetText("Id: " + id);
+        currentId = id;
 
         KickButton.SetActive(AmIMaster);
         if (isReady) SetReady();
@@ -61,6 +63,13 @@ public class RoomSlotUI : MonoBehaviour
     {
         NotReady.gameObject.SetActive(true);
         Ready.gameObject.SetActive(false);
+    }
+    public void OpenBag()
+    {
+        if (currentId == PlayerData.GetId() && currentState == SlotState.NotEmpty)
+        {
+            PopupController.ShowBagPopup();
+        }
     }
     public void SwitchToSlot()
     {

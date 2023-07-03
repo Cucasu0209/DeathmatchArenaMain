@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2613,7 +2613,39 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
   Behaviours:
-    Behaviours: []
+    Behaviours:
+    - Enabled: 1
+      EventName: PointerDown
+      Runners: []
+      Event:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 91484812}
+            m_TargetAssemblyTypeName: MiniProfieUI, Assembly-CSharp
+            m_MethodName: OpenBag
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      BehaviourName: 2
+      Receiver:
+        ConnectionMode: 1
+        SignalProviderId:
+          Type: 0
+          Category: Pointer
+          Name: Down
+        ProviderReference: {fileID: 0}
+        StreamId:
+          Category: None
+          Name: None
+          Custom: 0
+      Cooldown: 0
+      Selectable: {fileID: 15025445}
     SignalSource: {fileID: 15025443}
     Selectable: {fileID: 15025445}
   Id:
@@ -8747,7 +8779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38700002, y: -0.632}
   m_AnchorMax: {x: 0.61300004, y: -0.3097744}
-  m_AnchoredPosition: {x: -930, y: -1872.9497}
+  m_AnchoredPosition: {x: -930, y: -1872.9459}
   m_SizeDelta: {x: 521.4707, y: 106.33064}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &162324691
@@ -20063,7 +20095,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38700002, y: -0.632}
   m_AnchorMax: {x: 0.61300004, y: -0.3097744}
-  m_AnchoredPosition: {x: -263, y: -1872.9497}
+  m_AnchoredPosition: {x: -263, y: -1872.9459}
   m_SizeDelta: {x: 521.4707, y: 106.33064}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &738879582
@@ -20975,7 +21007,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6055189490552750401, guid: 1e1e6387499f4ae41b8aea71d0aecffd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 283847.16
+      value: 1785747.2
       objectReference: {fileID: 0}
     - target: {fileID: 6055189490673889723, guid: 1e1e6387499f4ae41b8aea71d0aecffd, type: 3}
       propertyPath: m_AnchorMax.y

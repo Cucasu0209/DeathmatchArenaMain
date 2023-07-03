@@ -68,6 +68,10 @@ public class PlayfabController : MonoBehaviour
     #region Variables Playfab
     private readonly string PlayfabFunctionCloud_Attendance = "attendance";
     private readonly string PlayfabFunctionCloud_GetAllPlayers = "getAllPlayers";
+    private readonly string PlayfabFunctionCloud_SetWeaponIndex = "setWeaponIndex";
+    private readonly string PlayfabFunctionCloud_SetHatIndex = "setHatIndex";
+    private readonly string PlayfabFunctionCloud_SetShoeIndex = "setShoeIndex";
+
 
 
     private readonly string PlayfabDataName_RequestAddFriend = "RequestAddFriend";
@@ -143,6 +147,18 @@ public class PlayfabController : MonoBehaviour
         {
             Debug.Log($"[{this.name}]:Get All Players Fail");
         });
+    }
+    public void SetEquipWeaponPlayfab(int index, Action OnComplete)
+    {
+        PlayerData.SetCurrentWeaponIndex(index);
+    }
+    public void SetEquipHatPlayfab(int index, Action OnComplete)
+    {
+        PlayerData.SetCurrentHatIndex(index);
+    }
+    public void SetEquipShoePlayfab(int index, Action OnComplete)
+    {
+        PlayerData.SetCurrentShoeIndex(index);
     }
     public void GetRequestAddfriend(Action<List<string>> OnComplete)
     {
