@@ -43,15 +43,15 @@ public class ItemSkinController : MonoBehaviour
         switch (type)
         {
             case ItemType.Weapon:
-                if (index <= 0 || index >= WeaponNames.Length) break;
+                if (index < 0 || index >= WeaponNames.Length) break;
                 BaseWeapon weapon = Resources.Load<BaseWeapon>(LinkWeaponPrefab + WeaponNames[index]);
                 return weapon.data;
             case ItemType.Hat:
-                if (index <= 0 || index >= HatNames.Length) break;
+                if (index < 0 || index >= HatNames.Length) break;
                 Hat hat = Resources.Load<Hat>(LinkHatPrefab + HatNames[index]);
                 return hat.data;
             case ItemType.Shoe:
-                if (index <= 0 || index >= ShoeNames.Length) break;
+                if (index < 0 || index >= ShoeNames.Length) break;
                 Shoe shoe = Resources.Load<Shoe>(LinkShoePrefab + ShoeNames[index]);
                 return shoe.data;
         }
