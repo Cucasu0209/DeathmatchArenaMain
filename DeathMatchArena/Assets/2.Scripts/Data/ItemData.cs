@@ -8,4 +8,5 @@ public class ItemData : ScriptableObject
     public float Attack;
     public float Defense;
     public float Speed;
+    public float Cost;
 }

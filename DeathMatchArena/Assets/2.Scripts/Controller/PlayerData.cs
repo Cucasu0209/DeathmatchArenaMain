@@ -10,12 +10,12 @@ public class PlayerData
     private static string NickName = "";
 
     private static int currentWeaponIndex = 0;
-    private static int currentHatIndex = -1;
-    private static int currentShoeIndex = -1;
+    private static int currentHatIndex = 0;
+    private static int currentShoeIndex = 0;
 
     private static List<int> weaponOwned = new List<int>() { 0, 2, 4, 5 };
     private static List<int> hatOwned = new List<int>() { 0, 1, 3 };
-    private static List<int> shoeOwned = new List<int>() { 2, 3, 5 };
+    private static List<int> shoeOwned = new List<int>() { 0, 2, 3, 5 };
     #endregion
 
     #region Event
