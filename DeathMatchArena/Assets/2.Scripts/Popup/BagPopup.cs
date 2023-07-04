@@ -39,13 +39,13 @@ public class BagPopup : BasePopup
     public override void Show()
     {
         base.Show();
-        playerReview.ShowMine();
+        playerReview.Show();
         ShowDetail();
     }
 
     private void ShowDetail()
     {
-     
+
 
         foreach (var item in BagWeapons)
         {
@@ -70,7 +70,7 @@ public class BagPopup : BasePopup
             {
                 BagWeapons[id].GetComponent<Button>()?.onClick.AddListener(() =>
                 {
-                    PlayfabController.Instance.SetEquipWeaponPlayfab(id, null);
+                    PlayfabController.Instance.SetEquipPlayfab(ItemType.Weapon, id, null);
                 });
                 BagWeapons[id].SetOwned(true);
             }
@@ -78,7 +78,7 @@ public class BagPopup : BasePopup
             {
                 BagHats[id].GetComponent<Button>()?.onClick.AddListener(() =>
                 {
-                    PlayfabController.Instance.SetEquipHatPlayfab(id, null);
+                    PlayfabController.Instance.SetEquipPlayfab(ItemType.Hat, id, null);
                 });
                 BagHats[id].SetOwned(true);
             }
@@ -86,7 +86,7 @@ public class BagPopup : BasePopup
             {
                 BagShoes[id].GetComponent<Button>()?.onClick.AddListener(() =>
                 {
-                    PlayfabController.Instance.SetEquipShoePlayfab(id, null);
+                    PlayfabController.Instance.SetEquipPlayfab(ItemType.Shoe, id, null);
                 });
                 BagShoes[id].SetOwned(true);
             }

@@ -203,6 +203,13 @@ public class AuthenticationController : MonoBehaviour
     private void LoadDataAfterLogin(Action OnComplete)
     {
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.ActionImediatelyAfterLogin(oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetEquipPlayfab(ItemType.Weapon, PlayerData.GetId(), (a, b, c) => oncomplete?.Invoke()));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetEquipPlayfab(ItemType.Hat, PlayerData.GetId(), (a, b, c) => oncomplete?.Invoke()));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetEquipPlayfab(ItemType.Shoe, PlayerData.GetId(), (a, b, c) => oncomplete?.Invoke()));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetItemOwned(ItemType.Weapon, (a, b) => oncomplete?.Invoke()));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetItemOwned(ItemType.Hat, (a, b) => oncomplete?.Invoke()));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetItemOwned(ItemType.Shoe, (a, b) => oncomplete?.Invoke()));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetCurrencyPlayfab((a) => oncomplete?.Invoke()));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetAllPlayers(0, oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetAllPlayers(30, oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetRequestAddfriend(oncomplete));

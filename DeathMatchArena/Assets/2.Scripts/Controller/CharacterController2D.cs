@@ -45,6 +45,12 @@ public class CharacterController2D : MonoBehaviour
     [Header("Tranforms")]
     public Transform handLeft;
     public Transform handRight;
+    public Transform hatPos;
+    public Transform legLeft;
+    public Transform legRight;
+
+    private string hatLink = "Skin/Hat/Hat";
+    private string ShoeLink = "Skin/Shoe/Shoe";
 
     private bool grounded = false;
     private int jumpCount = 2;
@@ -61,6 +67,10 @@ public class CharacterController2D : MonoBehaviour
     public Transform WeaponHolder;
     public BaseWeapon[] weapons;
     public GameObject gun2;
+
+    public Hat hat;
+    public Shoe shoeR;
+    public Shoe shoeL;
 
     [Header("UI")]
     public TextMeshProUGUI Myname;
@@ -117,11 +127,15 @@ public class CharacterController2D : MonoBehaviour
     {
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateDisplayName;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateWeapon;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateHat;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateShoe;
     }
     private void OnDisable()
     {
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateDisplayName;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateWeapon;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateHat;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateShoe;
     }
     #endregion
 
@@ -133,6 +147,26 @@ public class CharacterController2D : MonoBehaviour
     private void UpdateWeapon()
     {
         currentWeaponIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).weaponIndex;
+        DisplayWeapon();
+    }
+    private void UpdateHat()
+    {
+        currentWeaponIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).hatIndex;
+        Hat _hat = Resources.Load<Hat>(hatLink + (currentWeaponIndex + 1));
+        if (_hat != null)
+        {
+            hat = Instantiate(_hat, hatPos);
+        }
+    }
+    private void UpdateShoe()
+    {
+        currentWeaponIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).shoeIndex;
+        Shoe _shoe = Resources.Load<Shoe>(ShoeLink + (currentWeaponIndex + 1));
+        if (_shoe != null)
+        {
+            shoeR = Instantiate(_shoe, legRight);
+            shoeL = Instantiate(_shoe, legLeft);
+        }
         DisplayWeapon();
     }
     private void SetupDefault()

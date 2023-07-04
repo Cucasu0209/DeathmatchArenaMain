@@ -37,20 +37,20 @@ public class PlayerReviewUI : MonoBehaviour
     public TextMeshProUGUI DefenseValue;
     public TextMeshProUGUI SpeedValue;
 
-
+    public string currentIdShowned;
     private void OnEnable()
     {
-        ShowMine();
-        PlayerData.OnCurrentWeaponChange += ShowMine;
-        PlayerData.OnCurrentHatChange += ShowMine;
-        PlayerData.OnCurrentShoeChange += ShowMine;
+        Show();
+        PlayerData.OnCurrentWeaponChange += UpdateShow;
+        PlayerData.OnCurrentHatChange += UpdateShow;
+        PlayerData.OnCurrentShoeChange += UpdateShow;
     }
 
     private void OnDisable()
     {
-        PlayerData.OnCurrentWeaponChange -= ShowMine;
-        PlayerData.OnCurrentHatChange -= ShowMine;
-        PlayerData.OnCurrentShoeChange -= ShowMine;
+        PlayerData.OnCurrentWeaponChange -= UpdateShow;
+        PlayerData.OnCurrentHatChange -= UpdateShow;
+        PlayerData.OnCurrentShoeChange -= UpdateShow;
     }
 
     public void HideAll()
@@ -58,11 +58,28 @@ public class PlayerReviewUI : MonoBehaviour
         foreach (var weapon in Weapons) weapon.HideAll();
         foreach (var hat in Hats) hat.HideAll();
         foreach (var shoe in Shoes) shoe.HideAll();
+        AttackSlider.value = 0;
+        DefenseSlider.value = 0;
+        SpeedSlider.value = 0;
     }
 
-    public void ShowMine()
+    public void Show()
     {
-        Show(PlayerReviewController.Instance.GetPlayerInformation(PlayerData.GetId()));
+        HideAll();
+        if (string.IsNullOrEmpty(currentIdShowned)) currentIdShowned = PlayerData.GetId();
+
+        PlayerReviewController.Instance.GetPlayerInformation(currentIdShowned, (id, inf) =>
+        {
+            if (id == currentIdShowned) Show(inf);
+        });
+    }
+
+    public void UpdateShow()
+    {
+        if (currentIdShowned == PlayerData.GetId())
+        {
+            Show();
+        }
     }
 
     public void Show(PlayerReviewEntity entity)

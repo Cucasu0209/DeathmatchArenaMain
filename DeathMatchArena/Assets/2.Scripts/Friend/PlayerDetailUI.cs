@@ -6,10 +6,19 @@ public class PlayerDetailUI : MonoBehaviour
 {
     public TextMeshProUGUI Name;
     public TextMeshProUGUI Id;
+    public PlayerReviewUI review;
+
+    private string currentid = "";
 
     public void DisplayInfomation(PlayerPlayfabInformation player)
     {
         Name.SetText(player.DisplayName);
         Id.SetText("Id: " + player.PlayFabId);
+
+        currentid = player.PlayFabId;
+
+        review.currentIdShowned = currentid;
+        review.Show();
+
     }
 }

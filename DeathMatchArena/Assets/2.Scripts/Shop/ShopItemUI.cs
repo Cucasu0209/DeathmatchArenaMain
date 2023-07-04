@@ -58,6 +58,8 @@ public class ShopItemUI : MonoBehaviour
             {
                 PopupController.ShowYesNoPopup($"Are you sure to buy this item with cost {data.Cost}?", () =>
                 {
+                    PlayfabController.Instance.AddCurrencyPlayfab((int)-data.Cost, null);
+                    PlayfabController.Instance.AdditemOwned(type, itemIndex, null);
                 },
                 () =>
                 {

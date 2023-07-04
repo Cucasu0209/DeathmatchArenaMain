@@ -29,12 +29,26 @@ public class RoomUI : MonoBehaviour
     {
         RoomController.ActionOnPlayerListChanged += DisplayRoomSlots;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate += CheckIfPlayGame;
+        PlayerData.OnCurrentWeaponChange += UpdateItem;
+        PlayerData.OnCurrentHatChange += UpdateItem;
+        PlayerData.OnCurrentShoeChange += UpdateItem;
     }
     private void OnDisable()
     {
         RoomController.ActionOnPlayerListChanged -= DisplayRoomSlots;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= CheckIfPlayGame;
+        PlayerData.OnCurrentWeaponChange -= UpdateItem;
+        PlayerData.OnCurrentHatChange -= UpdateItem;
+        PlayerData.OnCurrentShoeChange -= UpdateItem;
     }
+
+    private void UpdateItem()
+    {
+        NetworkController_PUN.Instance.UpdateMyProperty<int>(PlayerPropertiesType.weapon, PlayerData.GetCurrentWeaponIndex());
+        NetworkController_PUN.Instance.UpdateMyProperty<int>(PlayerPropertiesType.hat, PlayerData.GetCurrentHatIndex());
+        NetworkController_PUN.Instance.UpdateMyProperty<int>(PlayerPropertiesType.shoe, PlayerData.GetCurrentShoeIndex());
+    }
+
     public void LeaveRoom()
     {
         PopupController.ShowYesNoPopup("Are you sure to leave room?",

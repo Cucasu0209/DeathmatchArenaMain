@@ -733,6 +733,7 @@ MonoBehaviour:
   Name: {fileID: 3807678629656816077}
   Id: {fileID: 3807678631010101744}
   KickButton: {fileID: 8022730773551513151}
+  detail: {fileID: 6288844316369044479}
 --- !u!1 &3807678631010101745
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,3 +1606,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7015062752220198052, guid: 8c44af15afa7fbc4ca63c44ff0d0cc5b, type: 3}
   m_PrefabInstance: {fileID: 3899260697007224666}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6288844316369044479 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7015062752220198053, guid: 8c44af15afa7fbc4ca63c44ff0d0cc5b, type: 3}
+  m_PrefabInstance: {fileID: 3899260697007224666}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a58ec0d4d9cf39479d042e63f5182e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

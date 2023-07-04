@@ -68,9 +68,17 @@ public class PlayfabController : MonoBehaviour
     #region Variables Playfab
     private readonly string PlayfabFunctionCloud_Attendance = "attendance";
     private readonly string PlayfabFunctionCloud_GetAllPlayers = "getAllPlayers";
+
     private readonly string PlayfabFunctionCloud_SetWeaponIndex = "setWeaponIndex";
     private readonly string PlayfabFunctionCloud_SetHatIndex = "setHatIndex";
     private readonly string PlayfabFunctionCloud_SetShoeIndex = "setShoeIndex";
+
+    private readonly string PlayfabFunctionCloud_GetWeaponIndex = "getWeaponIndex";
+    private readonly string PlayfabFunctionCloud_GetHatIndex = "getHatIndex";
+    private readonly string PlayfabFunctionCloud_GetShoeIndex = "getShoeIndex";
+
+    private readonly string PlayfabFunctionCloud_AddCurrency = "addCurrency";
+    private readonly string PlayfabFunctionCloud_GetCurrency = "getCurrency";
 
 
 
@@ -78,6 +86,11 @@ public class PlayfabController : MonoBehaviour
     private readonly string PlayfabDataName_InvitationFriend = "InvitationFriend";
     private readonly string PlayfabDataName_FriendChatMessage = "FriendChatMessage";
     private readonly string PlayfabDataName_GroupChatMessage = "GroupChatMessage";
+
+    private readonly string PlayfabDataName_WeanponOwned = "WeanponOwned";
+    private readonly string PlayfabDataName_HatOwned = "HatOwned";
+    private readonly string PlayfabDataName_ShoeOwned = "ShoeOwned";
+
 
     public string GroupRoleMember = "members";
     public string GroupRoleAdmin = "admins";
@@ -148,17 +161,261 @@ public class PlayfabController : MonoBehaviour
             Debug.Log($"[{this.name}]:Get All Players Fail");
         });
     }
-    public void SetEquipWeaponPlayfab(int index, Action OnComplete)
+    public void SetEquipPlayfab(ItemType type, int index, Action OnComplete)
     {
-        PlayerData.SetCurrentWeaponIndex(index);
+        string functionname = "";
+        switch (type)
+        {
+            case ItemType.Weapon:
+                functionname = PlayfabFunctionCloud_SetWeaponIndex;
+                PlayerData.SetCurrentWeaponIndex(index);
+                break;
+            case ItemType.Hat:
+                functionname = PlayfabFunctionCloud_SetHatIndex;
+                PlayerData.SetCurrentHatIndex(index);
+                break;
+            case ItemType.Shoe:
+                functionname = PlayfabFunctionCloud_SetShoeIndex;
+                PlayerData.SetCurrentShoeIndex(index);
+                break;
+        }
+
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
+        {
+            FunctionName = functionname,
+            FunctionParameter = new { id = index }
+        },
+        (result) =>
+        {
+            if (result.FunctionResult != null)
+            {
+                Debug.Log($"[{this.name}]:SetEquipPlayfab {functionname} {result.FunctionResult}");
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:SetEquipPlayfab {functionname} fail");
+            }
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:SetEquipPlayfab {functionname} fail");
+            OnComplete?.Invoke();
+        });
+
     }
-    public void SetEquipHatPlayfab(int index, Action OnComplete)
+    public void GetEquipPlayfab(ItemType type, string playfabId, Action<ItemType, string, int> OnComplete)
     {
-        PlayerData.SetCurrentHatIndex(index);
+        string functionname = "";
+        switch (type)
+        {
+            case ItemType.Weapon:
+                functionname = PlayfabFunctionCloud_GetWeaponIndex;
+                break;
+            case ItemType.Hat:
+                functionname = PlayfabFunctionCloud_GetHatIndex;
+                break;
+            case ItemType.Shoe:
+                functionname = PlayfabFunctionCloud_GetShoeIndex;
+                break;
+        }
+
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
+        {
+            FunctionName = functionname,
+            FunctionParameter = new { playfabId = playfabId }
+        },
+        (result) =>
+        {
+            if (result.FunctionResult != null)
+            {
+                int index = int.Parse(result.FunctionResult.ToString());
+
+                Debug.Log($"[{this.name}]:GetEquipPlayfab {functionname} {result.FunctionResult}");
+                if (PlayerData.GetId() == playfabId)
+                {
+                    switch (type)
+                    {
+                        case ItemType.Weapon:
+                            PlayerData.SetCurrentWeaponIndex(index);
+                            break;
+                        case ItemType.Hat:
+                            PlayerData.SetCurrentHatIndex(index);
+                            break;
+                        case ItemType.Shoe:
+                            PlayerData.SetCurrentShoeIndex(index);
+                            break;
+                    }
+                }
+
+                OnComplete?.Invoke(type, playfabId, index);
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:GetEquipPlayfab {functionname} fail");
+                OnComplete?.Invoke(ItemType.Hat, "", -1);
+            }
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:GetEquipPlayfab {functionname} fail");
+            OnComplete?.Invoke(ItemType.Hat, "", -1);
+        });
     }
-    public void SetEquipShoePlayfab(int index, Action OnComplete)
+    public void GetItemOwned(ItemType type, Action<ItemType, List<int>> OnComplete)
     {
-        PlayerData.SetCurrentShoeIndex(index);
+        string keyName = "";
+        switch (type)
+        {
+            case ItemType.Weapon:
+                keyName = PlayfabDataName_WeanponOwned;
+                break;
+            case ItemType.Hat:
+                keyName = PlayfabDataName_HatOwned;
+                break;
+            case ItemType.Shoe:
+                keyName = PlayfabDataName_ShoeOwned;
+                break;
+        }
+        PlayFabClientAPI.GetUserData(new PlayFab.ClientModels.GetUserDataRequest()
+        {
+            Keys = new List<string>() { keyName },
+        },
+        (result) =>
+        {
+            List<int> listReqest = new List<int>();
+            if (result.Data.ContainsKey(keyName))
+            {
+                listReqest = JsonConvert.DeserializeObject<List<int>>(result.Data[keyName].Value);
+                Debug.Log($"[{this.name}]:Get Item Owned  {listReqest.Count}");
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:Get Item Owned  - No Request");
+
+            }
+            switch (type)
+            {
+                case ItemType.Weapon:
+                    PlayerData.SetWeaponOwned(listReqest);
+                    break;
+                case ItemType.Hat:
+                    PlayerData.SetHatOwned(listReqest);
+                    break;
+                case ItemType.Shoe:
+                    PlayerData.SetShoeOwned(listReqest);
+                    break;
+            }
+            OnComplete?.Invoke(type, listReqest);
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Get Item Owned fail {error.ErrorMessage}");
+            OnComplete?.Invoke(type, new List<int>());
+        });
+    }
+    public void AdditemOwned(ItemType type, int index, Action OnComplete)
+    {
+        string keyName = "";
+        List<int> list = new List<int>();
+        switch (type)
+        {
+            case ItemType.Weapon:
+                keyName = PlayfabDataName_WeanponOwned;
+                PlayerData.AddWeaponOwned(index);
+                list = PlayerData.GetWeaponOwned();
+                break;
+            case ItemType.Hat:
+                keyName = PlayfabDataName_HatOwned;
+                PlayerData.AddHatOwned(index);
+                list = PlayerData.GetHatOwned();
+                break;
+            case ItemType.Shoe:
+                keyName = PlayfabDataName_ShoeOwned;
+                PlayerData.AddShoeOwned(index);
+                list = PlayerData.GetShoeOwned();
+                break;
+        }
+
+
+
+        PlayFabClientAPI.UpdateUserData(new PlayFab.ClientModels.UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>()
+                {
+                    {keyName, JsonConvert.SerializeObject(list)},
+                }
+        },
+        (result) =>
+        {
+            GetItemOwned(type, null);
+            Debug.Log($"[{this.name}]:AdditemOwned success");
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:AdditemOwned success { error.ErrorMessage}");
+            OnComplete?.Invoke();
+        });
+
+
+
+    }
+    public void GetCurrencyPlayfab(Action<int> OnComplete)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
+        {
+            FunctionName = PlayfabFunctionCloud_GetCurrency,
+            FunctionParameter = new { playfabId = PlayerData.GetId() }
+        },
+        (result) =>
+        {
+            if (result.FunctionResult != null)
+            {
+                Debug.Log($"[{this.name}]:GetCurrencyPlayfab {result.FunctionResult}");
+                int s = int.Parse(result.FunctionResult.ToString());
+                PlayerData.SetCurrency(s);
+                OnComplete?.Invoke(int.Parse(result.FunctionResult.ToString()));
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:GetCurrencyPlayfab  fail");
+                OnComplete?.Invoke(0);
+            }
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:GetCurrencyPlayfab fail");
+            OnComplete?.Invoke(0);
+        });
+    }
+    public void AddCurrencyPlayfab(int pl, Action OnComplete)
+    {
+        PlayerData.AddCurrency(pl);
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
+        {
+            FunctionName = PlayfabFunctionCloud_AddCurrency,
+            FunctionParameter = new { playfabId = PlayerData.GetId(), currencyAdd = pl }
+
+        },
+        (result) =>
+        {
+            if (result.FunctionResult != null)
+            {
+                Debug.Log($"[{this.name}]:AddCurrencyPlayfab {result.FunctionResult}");
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:AddCurrencyPlayfab  fail {result.Error.StackTrace}");
+
+            }
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:AddCurrencyPlayfab fail");
+            OnComplete?.Invoke();
+        });
     }
     public void GetRequestAddfriend(Action<List<string>> OnComplete)
     {
@@ -732,7 +989,6 @@ public class PlayfabController : MonoBehaviour
             PlayfabDataName_FriendChatMessage,
             content);
     }
-
     public void GetGroupChatMessage(GroupChatInfomation group, Action<List<ChatPartnerMessageInfomation>> Oncomplete)
     {
         LoadFiles(new EntityKey()

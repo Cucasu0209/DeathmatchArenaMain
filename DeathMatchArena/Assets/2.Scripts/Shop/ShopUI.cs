@@ -19,17 +19,46 @@ public class ShopUI : MonoBehaviour
     private void Start()
     {
         ShowWeaponList();
+       
     }
+
+    private void OnEnable()
+    {
+        ShowCurrency();
+        PlayerData.OnCurrencyChange += ShowCurrency;
+        PlayerData.OnHatOwnedChange += ShowCurrentList;
+        PlayerData.OnShoeOwnedChange += ShowCurrentList;
+        PlayerData.OnWeaponOwnedChange += ShowCurrentList;
+    }
+
+    private void OnDisable()
+    {
+        PlayerData.OnCurrencyChange -= ShowCurrency;
+        PlayerData.OnHatOwnedChange -= ShowCurrentList;
+        PlayerData.OnShoeOwnedChange -= ShowCurrentList;
+        PlayerData.OnWeaponOwnedChange -= ShowCurrentList;
+    }
+    int currenlist = 0;
+    public void ShowCurrentList()
+    {
+        if (currenlist == 0) ShowWeaponList();
+        else if (currenlist == 1) ShowHatList();
+        else if (currenlist == 2) ShowShoeList();
+    }
+
     public void ShowWeaponList()
     {
+        currenlist = 0;
         ShowList(ItemType.Weapon);
     }
     public void ShowHatList()
     {
+        currenlist = 1;
         ShowList(ItemType.Hat);
     }
     public void ShowShoeList()
     {
+        currenlist = 2;
         ShowList(ItemType.Shoe);
     }
     public void ShowList(ItemType type)
@@ -42,7 +71,7 @@ public class ShopUI : MonoBehaviour
         HatList.SetActive(false);
         ShoeList.SetActive(false);
 
-        switch(type)
+        switch (type)
         {
             case ItemType.Weapon:
                 WeaponOptionBG.SetActive(true);
@@ -58,5 +87,9 @@ public class ShopUI : MonoBehaviour
                 break;
         }
     }
-
+    private void ShowCurrency()
+    {
+        Debug.Log("Currency update ui");
+        MyCoin.SetText(PlayerData.GetCurrency().ToString());
+    }
 }

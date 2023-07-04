@@ -7113,6 +7113,9 @@ MonoBehaviour:
   MaxVelocity: {x: 15, y: 25}
   handLeft: {fileID: 7733901482492884599}
   handRight: {fileID: 7733901482609205120}
+  hatPos: {fileID: 4315969601776205842}
+  legLeft: {fileID: 3704262868859085403}
+  legRight: {fileID: 1470248820036154371}
   WeaponHolder: {fileID: 6982234051235403749}
   weapons:
   - {fileID: 7733901482696021478}
@@ -7122,6 +7125,9 @@ MonoBehaviour:
   - {fileID: 9059409292436111593}
   - {fileID: 1777527008742755774}
   gun2: {fileID: 7733901482186978254}
+  hat: {fileID: 0}
+  shoeR: {fileID: 0}
+  shoeL: {fileID: 0}
   Myname: {fileID: 7733901482293819533}
 --- !u!114 &7733901483415960202
 MonoBehaviour:
@@ -8053,7 +8059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3704262868859085403}
   m_Layer: 3
-  m_Name: ShoeRightContainer
+  m_Name: ShoeLeftContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
