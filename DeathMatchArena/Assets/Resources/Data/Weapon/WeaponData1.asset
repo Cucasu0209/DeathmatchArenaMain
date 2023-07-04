@@ -15,3 +15,4 @@ MonoBehaviour:
   Attack: 30
   Defense: 3
   Speed: 15
+  Cost: 12

@@ -23,6 +23,7 @@ public class RoomSlotUI : MonoBehaviour
     public TextMeshProUGUI Name;
     public TextMeshProUGUI Id;
     public GameObject KickButton;
+    public PlayerReviewUI detail;
 
     private void Start()
     {
@@ -32,7 +33,7 @@ public class RoomSlotUI : MonoBehaviour
     {
         return currentState == SlotState.Empty;
     }
-    public void SetPlayer(string id, string name, bool AmIMaster, bool isReady)
+    public void SetPlayer(string id, string name, bool AmIMaster, bool isReady, PlayerReviewEntity entity)
     {
         currentState = SlotState.NotEmpty;
         EmptyState.SetActive(false);
@@ -45,6 +46,9 @@ public class RoomSlotUI : MonoBehaviour
         currentId = id;
 
         KickButton.SetActive(AmIMaster);
+
+        detail.currentIdShowned = id;
+        detail.Show(entity);
         if (isReady) SetReady();
         else SetNotReady();
     }

@@ -32,8 +32,14 @@ public class RoomSlotGroup : MonoBehaviour
             {
                 Player p = RoomController.Instance.PlayerInSlot[i];
                 PlayerProperties props = NetworkController_PUN.Instance.GetPlayerProperties(p);
-                slots[i].SetPlayer(props.playerId,props.playerName, 
-                   NetworkController_PUN.Instance.AmIMasterClient(),props.isReady);
+                slots[i].SetPlayer(props.playerId, props.playerName,
+                   NetworkController_PUN.Instance.AmIMasterClient(), props.isReady,
+                   new PlayerReviewEntity()
+                   {
+                       HatIndex = props.hatIndex,
+                       WeaponIndex = props.weaponIndex,
+                       ShoeIndex = props.shoeIndex,
+                   });
             }
             else
             {

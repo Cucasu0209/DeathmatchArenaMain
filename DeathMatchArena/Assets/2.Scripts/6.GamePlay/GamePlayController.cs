@@ -29,7 +29,10 @@ public class GamePlayController : MonoBehaviour
                 {PlayerProperties.PLAYER_LOADED_LEVEL, true},
                 {PlayerProperties.PLAYER_NAME, PlayerData.GetNickName()},
                 {PlayerProperties.PLAYER_HEALTH, PlayerProperties.MAX_HEALTH},
-                {PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL}
+                {PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL},
+                {PlayerProperties.PLAYER_WEAPON, PlayerData.GetCurrentWeaponIndex()},
+                {PlayerProperties.PLAYER_HAT, PlayerData.GetCurrentHatIndex()},
+                {PlayerProperties.PLAYER_SHOE, PlayerData.GetCurrentShoeIndex()},
             };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             };
@@ -62,7 +65,10 @@ public class GamePlayController : MonoBehaviour
                 {PlayerProperties.PLAYER_LOADED_LEVEL, true},
                 {PlayerProperties.PLAYER_NAME, PlayerData.GetNickName()},
                 {PlayerProperties.PLAYER_HEALTH, PlayerProperties.MAX_HEALTH},
-                {PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL}
+                {PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL},
+                {PlayerProperties.PLAYER_WEAPON, PlayerData.GetCurrentWeaponIndex()},
+                {PlayerProperties.PLAYER_HAT, PlayerData.GetCurrentHatIndex()},
+                {PlayerProperties.PLAYER_SHOE, PlayerData.GetCurrentShoeIndex()},
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }

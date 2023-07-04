@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-
+using System;
 public class PlayerReviewController : MonoBehaviour
 {
     #region Singleton
@@ -60,24 +60,37 @@ public class PlayerReviewController : MonoBehaviour
     #endregion
 
     #region Public Method
-    public PlayerReviewEntity GetPlayerInformation(string id)
+    public void GetPlayerInformation(string id, Action<string, PlayerReviewEntity> OnComplete)
     {
         if (id == PlayerData.GetId())
         {
-            return new PlayerReviewEntity()
+
+            OnComplete?.Invoke(id, new PlayerReviewEntity()
             {
                 WeaponIndex = PlayerData.GetCurrentWeaponIndex(),
                 HatIndex = PlayerData.GetCurrentHatIndex(),
                 ShoeIndex = PlayerData.GetCurrentShoeIndex(),
-            };
+            });
+        }
+        else
+        {
+            PlayfabController.Instance.GetEquipPlayfab(ItemType.Weapon, id, (type, id, indexWeapon) =>
+            {
+                PlayfabController.Instance.GetEquipPlayfab(ItemType.Hat, id, (type, id, indexHat) =>
+                {
+                    PlayfabController.Instance.GetEquipPlayfab(ItemType.Shoe, id, (type, id, indexShoe) =>
+                    {
+                        OnComplete?.Invoke(id, new PlayerReviewEntity()
+                        {
+                            WeaponIndex = indexWeapon,
+                            HatIndex = indexHat,
+                            ShoeIndex = indexHat,
+                        });
+                    });
+                });
+            });
         }
 
-        return new PlayerReviewEntity()
-        {
-            HatIndex = 3,
-            ShoeIndex = 4,
-            WeaponIndex = 2,
-        };
     }
 
     #endregion

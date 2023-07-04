@@ -171,6 +171,9 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
             {PlayerProperties.PLAYER_NAME, PlayerData.GetNickName()},
             {PlayerProperties.PLAYER_HEALTH,PlayerProperties. MAX_HEALTH},
             {PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL},
+            {PlayerProperties.PLAYER_WEAPON, PlayerData.GetCurrentWeaponIndex()},
+            {PlayerProperties.PLAYER_HAT, PlayerData.GetCurrentHatIndex()},
+            {PlayerProperties.PLAYER_SHOE, PlayerData.GetCurrentShoeIndex()},
 
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
@@ -366,6 +369,8 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
             playerHealth = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_HEALTH, PlayerProperties.MAX_HEALTH),
             playerPhysical = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_PHYSICAL, PlayerProperties.MAX_PHYSICAL),
             weaponIndex = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_WEAPON, 0),
+            hatIndex = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_HAT, 0),
+            shoeIndex = GetPropertiesValue<int>(player, PlayerProperties.PLAYER_SHOE, 0),
 
         };
     }
@@ -383,6 +388,8 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
             case PlayerPropertiesType.health: propName = PlayerProperties.PLAYER_HEALTH; break;
             case PlayerPropertiesType.physical: propName = PlayerProperties.PLAYER_PHYSICAL; break;
             case PlayerPropertiesType.weapon: propName = PlayerProperties.PLAYER_WEAPON; break;
+            case PlayerPropertiesType.hat: propName = PlayerProperties.PLAYER_HAT; break;
+            case PlayerPropertiesType.shoe: propName = PlayerProperties.PLAYER_SHOE; break;
         }
 
         Hashtable props = new Hashtable { { propName, value } };
@@ -408,6 +415,8 @@ public class PlayerProperties
     public static readonly string PLAYER_HEALTH = "PLAYER_HEALTH";
     public static readonly string PLAYER_PHYSICAL = "PLAYER_PHYSICAL";
     public static readonly string PLAYER_WEAPON = "PLAYER_WEAPON";
+    public static readonly string PLAYER_HAT = "PLAYER_HAT";
+    public static readonly string PLAYER_SHOE = "PLAYER_SHOE";
     public static readonly int MAX_HEALTH = 100;
     public static readonly int MAX_PHYSICAL = 100;
 
@@ -420,9 +429,11 @@ public class PlayerProperties
     public int playerHealth;
     public int playerPhysical;
     public int weaponIndex;
+    public int hatIndex;
+    public int shoeIndex;
 }
 
 public enum PlayerPropertiesType
 {
-    isReady, isLoaded, name, isMasterPlayGame, slotIndex, health, physical, weapon
+    isReady, isLoaded, name, isMasterPlayGame, slotIndex, health, physical, weapon, hat, shoe
 }

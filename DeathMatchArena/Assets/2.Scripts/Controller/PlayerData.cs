@@ -16,6 +16,8 @@ public class PlayerData
     private static List<int> weaponOwned = new List<int>() { 0, 2, 4, 5 };
     private static List<int> hatOwned = new List<int>() { 0, 1, 3 };
     private static List<int> shoeOwned = new List<int>() { 0, 2, 3, 5 };
+
+    private static int currency = 0;
     #endregion
 
     #region Event
@@ -29,6 +31,8 @@ public class PlayerData
     public static event Action OnWeaponOwnedChange;
     public static event Action OnHatOwnedChange;
     public static event Action OnShoeOwnedChange;
+
+    public static event Action OnCurrencyChange;
     #endregion
 
     #region Get 
@@ -54,15 +58,23 @@ public class PlayerData
     }
     public static List<int> GetWeaponOwned()
     {
+        if (weaponOwned.Count < 1) weaponOwned.Add(0);
         return weaponOwned;
     }
     public static List<int> GetHatOwned()
     {
+        if (hatOwned.Count < 1) hatOwned.Add(0);
         return hatOwned;
     }
     public static List<int> GetShoeOwned()
     {
+        if (shoeOwned.Count < 1) shoeOwned.Add(0);
         return shoeOwned;
+    }
+    public static int GetCurrency()
+    {
+        Debug.Log("Currency" + currency);
+        return currency;
     }
     #endregion
 
@@ -77,7 +89,6 @@ public class PlayerData
         NickName = value;
         OnNickNameChange?.Invoke();
     }
-
     public static void SetCurrentWeaponIndex(int value)
     {
         currentWeaponIndex = value;
@@ -93,7 +104,21 @@ public class PlayerData
         currentShoeIndex = value;
         OnCurrentShoeChange?.Invoke();
     }
-
+    public static void SetWeaponOwned(List<int> value)
+    {
+        weaponOwned = value;
+        OnWeaponOwnedChange?.Invoke();
+    }
+    public static void SetHatOwned(List<int> value)
+    {
+        hatOwned = value;
+        OnHatOwnedChange?.Invoke();
+    }
+    public static void SetShoeOwned(List<int> value)
+    {
+        shoeOwned = value;
+        OnShoeOwnedChange?.Invoke();
+    }
     public static void AddWeaponOwned(int value)
     {
         if (weaponOwned.Contains(value) == false) weaponOwned.Add(value);
@@ -109,6 +134,16 @@ public class PlayerData
         if (shoeOwned.Contains(value) == false) shoeOwned.Add(value);
         OnShoeOwnedChange?.Invoke();
     }
-
+    public static void AddCurrency(int value)
+    {
+        currency += value;
+        OnCurrencyChange?.Invoke();
+    }
+    public static void SetCurrency(int value)
+    {
+        currency = value;
+        Debug.Log("currency +" + currency);
+        OnCurrencyChange?.Invoke();
+    }
     #endregion
 }
