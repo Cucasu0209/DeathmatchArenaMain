@@ -17,7 +17,10 @@ public class PlayerData
     private static List<int> hatOwned = new List<int>() { 0, 1, 3 };
     private static List<int> shoeOwned = new List<int>() { 0, 2, 3, 5 };
 
+    public static PlayerPlayfabInformation[] eloLeaderboard = new PlayerPlayfabInformation[5];
+
     private static int currency = 0;
+    private static int elo = 0;
     #endregion
 
     #region Event
@@ -33,6 +36,9 @@ public class PlayerData
     public static event Action OnShoeOwnedChange;
 
     public static event Action OnCurrencyChange;
+    public static event Action OnEloChange;
+
+    public static event Action OnEloLeaderboardChange;
     #endregion
 
     #region Get 
@@ -75,6 +81,16 @@ public class PlayerData
     {
         Debug.Log("Currency" + currency);
         return currency;
+    }
+    public static int GetElo()
+    {
+        Debug.Log("Elo" + elo);
+        return elo;
+    }
+    public static PlayerPlayfabInformation GetEloLeaderboard(int index)
+    {
+        if (index >= 0 && index <= 4) return eloLeaderboard[index];
+        return null;
     }
     #endregion
 
@@ -145,5 +161,27 @@ public class PlayerData
         Debug.Log("currency +" + currency);
         OnCurrencyChange?.Invoke();
     }
+    public static void AddElo(int value)
+    {
+        elo += value;
+        OnEloChange?.Invoke();
+    }
+    public static void SetElo(int value)
+    {
+        elo = value;
+        Debug.Log("elo +" + elo);
+        OnEloChange?.Invoke();
+    }
+    public static void SetEloLeaderboard(List<PlayerPlayfabInformation> list)
+    {
+        eloLeaderboard = new PlayerPlayfabInformation[5];
+
+        for (int i = 0; i < Mathf.Min(eloLeaderboard.Length, list.Count); i++)
+        {
+            eloLeaderboard[i] = list[i];
+        }
+        OnEloLeaderboardChange?.Invoke();
+    }
+
     #endregion
 }

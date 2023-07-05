@@ -4,6 +4,8 @@ using System.Reflection;
 using UnityEngine;
 using Photon.Realtime;
 using System;
+using Photon.Pun;
+using Photon.Realtime;
 public class RoomController : MonoBehaviour
 {
     #region Singleton
@@ -102,6 +104,17 @@ public class RoomController : MonoBehaviour
     {
         return player.IsMasterClient;
     }
+    public PlayerReward GetMyReward()
+    {
+        int sl = NetworkController_PUN.Instance.GetPlayerProperties(PhotonNetwork.LocalPlayer).slotInRoom;
+
+        if (sl == 0) return currentGameResult.player1Reward;
+        if (sl == 1) return currentGameResult.player2Reward;
+        if (sl == 2) return currentGameResult.player3Reward;
+        if (sl == 3) return currentGameResult.player4Reward;
+
+        return new PlayerReward();
+    }
     public bool IsEveryOneReady()
     {
         if (PlayerInSlot[1] == null && PlayerInSlot[0] == null) return false;
@@ -128,7 +141,7 @@ public class RoomController : MonoBehaviour
     }
     public string GetNamePlayer(int PlayerIndex)
     {
-        if (PlayerInSlot.ContainsKey(PlayerIndex)) return defaultEmptyName;
+        if (PlayerInSlot.ContainsKey(PlayerIndex) == false) return defaultEmptyName;
 
         return PlayerInSlot[PlayerIndex] != null ?
                 NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[PlayerIndex]).playerName : defaultEmptyName;
@@ -189,33 +202,67 @@ public class RoomController : MonoBehaviour
         currentGameResult = new GamePlayResult();
 
         currentGameResult.gameResult = CheckResult();
-        currentGameResult.player1Reward = new PlayerReward()
-        {
-            owner = PlayerInSlot[0],
-            CoinReward = 0,
-            EloReward = 0
-        };
 
-        currentGameResult.player2Reward = new PlayerReward()
+        int eloplusteam1 = 0;
+        int eloplusteam2 = 0;
+        int coinplusteam1 = 0;
+        int coinplusteam2 = 0;
+        if (currentGameResult.gameResult == GamePlayResultEnum.Team1Win)
         {
-            owner = PlayerInSlot[1],
-            CoinReward = 0,
-            EloReward = 0
-        };
+            eloplusteam1 = 10;
+            eloplusteam2 = -10;
+            coinplusteam1 = 100;
+            coinplusteam2 = 20;
+        }
+        else if (currentGameResult.gameResult == GamePlayResultEnum.Team2Win)
+        {
+            eloplusteam1 = -10;
+            eloplusteam2 = 10;
+            coinplusteam1 = 20;
+            coinplusteam2 = 100;
+        }
+        else
+        {
+            eloplusteam1 = 5;
+            eloplusteam2 = 5;
+            coinplusteam1 = 50;
+            coinplusteam2 = 50;
+        }
+        if (PlayerInSlot[0] != null)
+            currentGameResult.player1Reward = new PlayerReward()
+            {
+                owner = PlayerInSlot[0],
+                EloReward = eloplusteam1,
+                CoinReward = coinplusteam1
+            };
+        else currentGameResult.player1Reward = new PlayerReward();
 
-        currentGameResult.player3Reward = new PlayerReward()
-        {
-            owner = PlayerInSlot[2],
-            CoinReward = 0,
-            EloReward = 0
-        };
+        if (PlayerInSlot[1] != null)
+            currentGameResult.player2Reward = new PlayerReward()
+            {
+                owner = PlayerInSlot[1],
+                EloReward = eloplusteam1,
+                CoinReward = coinplusteam1
+            };
+        else currentGameResult.player2Reward = new PlayerReward();
 
-        currentGameResult.player4Reward = new PlayerReward()
-        {
-            owner = PlayerInSlot[3],
-            CoinReward = 0,
-            EloReward = 0
-        };
+        if (PlayerInSlot[2] != null)
+            currentGameResult.player3Reward = new PlayerReward()
+            {
+                owner = PlayerInSlot[2],
+                EloReward = eloplusteam2,
+                CoinReward = coinplusteam2
+            };
+        else currentGameResult.player3Reward = new PlayerReward();
+
+        if (PlayerInSlot[3] != null)
+            currentGameResult.player4Reward = new PlayerReward()
+            {
+                owner = PlayerInSlot[3],
+                EloReward = eloplusteam2,
+                CoinReward = coinplusteam2
+            };
+        else currentGameResult.player4Reward = new PlayerReward();
     }
 
     private GamePlayResultEnum CheckResult()
@@ -270,8 +317,8 @@ public class GamePlayResult
 public class PlayerReward
 {
     public Player owner;
-    public float EloReward;
-    public float CoinReward;
+    public int EloReward;
+    public int CoinReward;
 
     public PlayerReward()
     {

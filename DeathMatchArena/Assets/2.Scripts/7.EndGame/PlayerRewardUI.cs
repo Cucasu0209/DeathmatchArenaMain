@@ -23,7 +23,7 @@ public class PlayerRewardUI : MonoBehaviour
         if (reward.CoinReward < 0)
         {
             CoinReward.color = Color.red;
-            CoinReward.SetText("- " + reward.CoinReward);
+            CoinReward.SetText(reward.CoinReward.ToString());
         }
         else
         {
@@ -34,7 +34,7 @@ public class PlayerRewardUI : MonoBehaviour
         if (reward.EloReward < 0)
         {
             EloReward.color = Color.red;
-            EloReward.SetText("- " + reward.EloReward);
+            EloReward.SetText(reward.EloReward.ToString());
         }
         else
         {

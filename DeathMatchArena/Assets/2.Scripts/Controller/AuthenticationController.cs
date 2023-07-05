@@ -210,8 +210,10 @@ public class AuthenticationController : MonoBehaviour
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetItemOwned(ItemType.Hat, (a, b) => oncomplete?.Invoke()));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetItemOwned(ItemType.Shoe, (a, b) => oncomplete?.Invoke()));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetCurrencyPlayfab((a) => oncomplete?.Invoke()));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetEloPlayfab((a) => oncomplete?.Invoke()));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetAllPlayers(0, oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetAllPlayers(30, oncomplete));
+        LoadingController.Instance.RegisterEventPrepare((oncomplete) => PlayfabController.Instance.GetEloLeaderboardPlayfab((a) => oncomplete?.Invoke()));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetRequestAddfriend(oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => OtherPlayersController.Instance.GetInvitationfriend(oncomplete));
         LoadingController.Instance.RegisterEventPrepare((oncomplete) => FriendController.Instance.GetFriends(oncomplete));
