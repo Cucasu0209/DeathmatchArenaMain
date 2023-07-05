@@ -399,7 +399,6 @@ public class NetworkController_PUN : MonoBehaviourPunCallbacks
     {
         UpdateMyProperty<int>(PlayerPropertiesType.health, PlayerProperties.MAX_HEALTH);
         UpdateMyProperty<int>(PlayerPropertiesType.physical, PlayerProperties.MAX_PHYSICAL);
-        UpdateMyProperty<int>(PlayerPropertiesType.weapon, 0);
     }
     #endregion
 }

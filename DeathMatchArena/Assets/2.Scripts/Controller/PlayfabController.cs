@@ -68,6 +68,7 @@ public class PlayfabController : MonoBehaviour
     #region Variables Playfab
     private readonly string PlayfabFunctionCloud_Attendance = "attendance";
     private readonly string PlayfabFunctionCloud_GetAllPlayers = "getAllPlayers";
+    private readonly string PlayfabFunctionCloud_GetEloLeaderboard = "getEloLeaderboard";
 
     private readonly string PlayfabFunctionCloud_SetWeaponIndex = "setWeaponIndex";
     private readonly string PlayfabFunctionCloud_SetHatIndex = "setHatIndex";
@@ -80,7 +81,8 @@ public class PlayfabController : MonoBehaviour
     private readonly string PlayfabFunctionCloud_AddCurrency = "addCurrency";
     private readonly string PlayfabFunctionCloud_GetCurrency = "getCurrency";
 
-
+    private readonly string PlayfabFunctionCloud_AddElo = "addElo";
+    private readonly string PlayfabFunctionCloud_GetElo = "getElo";
 
     private readonly string PlayfabDataName_RequestAddFriend = "RequestAddFriend";
     private readonly string PlayfabDataName_InvitationFriend = "InvitationFriend";
@@ -153,6 +155,36 @@ public class PlayfabController : MonoBehaviour
             else
             {
                 Debug.Log($"[{this.name}]:Get All Players Fail");
+            }
+
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:Get All Players Fail");
+        });
+    }
+    public void GetEloLeaderboardPlayfab(Action<List<PlayerPlayfabInformation>> OnComplete)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
+        {
+            FunctionName = PlayfabFunctionCloud_GetEloLeaderboard,
+        },
+        (result) =>
+        {
+            if (result.FunctionResult != null)
+            {
+                List<PlayerPlayfabInformation> Players = JsonConvert.DeserializeObject<List<PlayerPlayfabInformation>>(result.FunctionResult.ToString());
+                Debug.Log($"[{this.name}]:GetEloLeaderboardPlayfab {Players.Count} {result.FunctionResult}");
+                foreach (var player in Players)
+                {
+                    Debug.Log($"[{this.name}]: GetEloLeaderboardPlayfab player inf" + player.getInf());
+                }
+                PlayerData.SetEloLeaderboard(Players);
+                OnComplete?.Invoke(Players);
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:GetEloLeaderboardPlayfab Fail");
             }
 
         },
@@ -414,6 +446,62 @@ public class PlayfabController : MonoBehaviour
         (error) =>
         {
             Debug.Log($"[{this.name}]:AddCurrencyPlayfab fail");
+            OnComplete?.Invoke();
+        });
+    }
+    public void GetEloPlayfab(Action<int> OnComplete)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
+        {
+            FunctionName = PlayfabFunctionCloud_GetElo,
+            FunctionParameter = new { playfabId = PlayerData.GetId() }
+        },
+        (result) =>
+        {
+            if (result.FunctionResult != null)
+            {
+                Debug.Log($"[{this.name}]:GetEloPlayfab {result.FunctionResult}");
+                int s = int.Parse(result.FunctionResult.ToString());
+                PlayerData.SetElo(s);
+                OnComplete?.Invoke(int.Parse(result.FunctionResult.ToString()));
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:GetEloPlayfab  fail");
+                OnComplete?.Invoke(0);
+            }
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:GetEloPlayfab fail");
+            OnComplete?.Invoke(0);
+        });
+    }
+    public void AddEloPlayfab(int pl, Action OnComplete)
+    {
+        PlayerData.AddElo(pl);
+        PlayFabClientAPI.ExecuteCloudScript(new PlayFab.ClientModels.ExecuteCloudScriptRequest()
+        {
+            FunctionName = PlayfabFunctionCloud_AddElo,
+            FunctionParameter = new { playfabId = PlayerData.GetId(), eloAdd = pl }
+
+        },
+        (result) =>
+        {
+            if (result.FunctionResult != null)
+            {
+                Debug.Log($"[{this.name}]:AddEloPlayfab {result.FunctionResult}");
+            }
+            else
+            {
+                Debug.Log($"[{this.name}]:AddEloPlayfab  fail {result.Error.StackTrace}");
+
+            }
+            OnComplete?.Invoke();
+        },
+        (error) =>
+        {
+            Debug.Log($"[{this.name}]:AddEloPlayfab fail");
             OnComplete?.Invoke();
         });
     }
@@ -1213,10 +1301,11 @@ public class PlayerPlayfabInformation
     public string DisplayName;
     public string PlayFabId;
     public int status;
+    public int StatValue;
 
     public string getInf()
     {
-        return DisplayName + ":" + PlayFabId;
+        return DisplayName + ":" + PlayFabId + ": elo - " + StatValue;
     }
     public static PlayerPlayfabInformation GetMyInfomation()
     {
@@ -1224,7 +1313,8 @@ public class PlayerPlayfabInformation
         {
             DisplayName = PlayerData.GetNickName(),
             PlayFabId = PlayerData.GetId(),
-            status = 1
+            status = 1,
+            StatValue = PlayerData.GetElo(),
         };
     }
 }

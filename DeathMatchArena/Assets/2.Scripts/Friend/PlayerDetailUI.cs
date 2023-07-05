@@ -12,13 +12,24 @@ public class PlayerDetailUI : MonoBehaviour
 
     public void DisplayInfomation(PlayerPlayfabInformation player)
     {
-        Name.SetText(player.DisplayName);
-        Id.SetText("Id: " + player.PlayFabId);
+        if (player == null)
+        {
+            Name.SetText("??????????");
+            Id.SetText("Id: ??????????");
 
-        currentid = player.PlayFabId;
+            review.HideAll();
+        }
+        else
+        {
+            Name.SetText(player.DisplayName);
+            Id.SetText("Id: " + player.PlayFabId);
 
-        review.currentIdShowned = currentid;
-        review.Show();
+            currentid = player.PlayFabId;
+
+            review.currentIdShowned = currentid;
+            review.Show();
+        }
+
 
     }
 }

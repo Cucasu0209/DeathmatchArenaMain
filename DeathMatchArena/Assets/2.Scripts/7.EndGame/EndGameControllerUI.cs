@@ -38,6 +38,8 @@ public class EndGameControllerUI : MonoBehaviour
 
     private void Start()
     {
+        PlayfabController.Instance.AddCurrencyPlayfab(RoomController.Instance.GetMyReward().CoinReward, null);
+        PlayfabController.Instance.AddEloPlayfab(RoomController.Instance.GetMyReward().EloReward, null);
         SetupDefault();
 
         DOVirtual.DelayedCall(1, () =>
