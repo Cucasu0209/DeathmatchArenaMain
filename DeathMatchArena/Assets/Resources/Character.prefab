@@ -7132,6 +7132,10 @@ MonoBehaviour:
   hat: {fileID: 0}
   shoeR: {fileID: 0}
   shoeL: {fileID: 0}
+  timeE: 0
+  timeQ: 0
+  MaxtimeE: 0
+  MaxtimeQ: 0
   Myname: {fileID: 7733901482293819533}
   _pName: {fileID: 5670411762277554688}
 --- !u!114 &7733901483415960202

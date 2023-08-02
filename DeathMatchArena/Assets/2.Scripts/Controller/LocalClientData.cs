@@ -27,9 +27,9 @@ public class LocalClientData
     public static string LoadUsername()
     {
 
-        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "ttrunghb123") return "ttrunghb1234";
-        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "ttrunghb1234") return "ttrunghb12345";
-        if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "ttrunghb12345") return "ttrunghb123";
+        //if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "ttrunghb123") return "ttrunghb1234";
+        //if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "ttrunghb1234") return "ttrunghb12345";
+        //if (PlayerPrefs.GetString(GetUsernameKey(), Default_Username) == "ttrunghb12345") return "ttrunghb123";
         return PlayerPrefs.GetString(GetUsernameKey(),Default_Username);
     }
     public static string LoadPassword()

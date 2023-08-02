@@ -17,9 +17,9 @@ MonoBehaviour:
   AnimationAttack_Q: Q_DoubleGun
   Damage_Normal: 3
   Damage_E: 3
-  Damage_Q: 30
-  AbilityCooldown_E: 0
-  AbilityCooldown_Q: 0
+  Damage_Q: 50
+  AbilityCooldown_E: 3
+  AbilityCooldown_Q: 12
   TimePerform_Normal: 0.305
   TimePerform_E: 0.427
   TimePerform_Q: 1.982

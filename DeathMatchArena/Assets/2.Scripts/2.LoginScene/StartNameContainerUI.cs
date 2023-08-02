@@ -36,7 +36,14 @@ public class StartNameContainerUI : MonoBehaviour
     {
         Notification.SetText(NotificationLog[result]);
         PopupController.HideLoadingPopup();
-        LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.MainMenu);
+
+        if (result == NickNameChangeResult.Success)
+        {
+            LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.MainMenu);
+        }
+
+
+
 
     }
 }

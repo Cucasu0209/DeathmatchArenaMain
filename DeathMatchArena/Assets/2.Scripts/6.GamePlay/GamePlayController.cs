@@ -6,6 +6,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System;
 public class GamePlayController : MonoBehaviour
 {
     public static GamePlayController instance;
@@ -32,6 +33,8 @@ public class GamePlayController : MonoBehaviour
     public Transform spawnPos3;
     public Transform spawnPos4;
 
+    public Image FillE;
+    public Image FillQ;
     #endregion
 
     #region Unity
@@ -128,6 +131,11 @@ public class GamePlayController : MonoBehaviour
 
     }
 
+    public void SetFill(float E,  float Q)
+    {
+        FillE.fillAmount = E;
+        FillQ.fillAmount = Q;
+    }
     private void OnDisable()
     {
         NetworkController_PUN.ActionOnPlayerListChanged -= UpdateUI;
@@ -247,6 +255,15 @@ public class GamePlayController : MonoBehaviour
         LoadSceneSmoothController.Instance.LoadScene(SceneEnum.Type.EndGame);
     }
 
+
+    public static Action OnleftHold;
+    public static Action OnRightHold;
+    public static Action OnQClick;
+    public static Action OnEClick;
+    public static Action OnDashClick;
+    public static Action OnAttackClick;
+    public static Action OnJumpClick;
+
     public IEnumerator StartGame()
     {
         yield return new WaitForSeconds(2f);
@@ -287,6 +304,35 @@ public class GamePlayController : MonoBehaviour
         Checkgameover();
     }
 
+    public void UIEvent_OnleftHold()
+    {
+        OnleftHold?.Invoke();
+    }
+    public void UIEvent_OnRightHold()
+    {
+        OnRightHold?.Invoke();
+    }
 
+    public void UIEvent_OnQClick()
+    {
+        OnQClick?.Invoke();
+    }
+
+    public void UIEvent_OnEClick()
+    {
+        OnEClick?.Invoke();
+    }
+    public void UIEvent_OnAttackClick()
+    {
+        OnAttackClick?.Invoke();
+    }
+    public void UIEvent_OnJumpClick()
+    {
+        OnJumpClick?.Invoke();
+    }
+    public void UIEvent_OnDashClick()
+    {
+        OnDashClick?.Invoke();
+    }
     #endregion
 }

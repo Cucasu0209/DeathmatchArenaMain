@@ -18,8 +18,8 @@ MonoBehaviour:
   Damage_Normal: 5
   Damage_E: 2
   Damage_Q: 80
-  AbilityCooldown_E: 0
-  AbilityCooldown_Q: 0
+  AbilityCooldown_E: 3
+  AbilityCooldown_Q: 12
   TimePerform_Normal: 0.244
   TimePerform_E: 0.427
   TimePerform_Q: 1.585

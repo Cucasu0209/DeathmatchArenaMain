@@ -78,6 +78,11 @@ public class CharacterController2D : MonoBehaviour
     public Shoe shoeR;
     public Shoe shoeL;
 
+    public float timeE = 0;
+    public float timeQ = 0;
+    public float MaxtimeE = 0;
+    public float MaxtimeQ = 0;
+
     [Header("UI")]
     public TextMeshProUGUI Myname;
     public Image _pName;
@@ -95,6 +100,8 @@ public class CharacterController2D : MonoBehaviour
     }
     private void Update()
     {
+        timeE -= Time.deltaTime;
+        timeQ -= Time.deltaTime;
         Debug.Log("Curent weapon + " + currentWeaponIndex);
     }
     private void FixedUpdate()
@@ -161,7 +168,10 @@ public class CharacterController2D : MonoBehaviour
     }
     private void UpdateWeapon()
     {
+
         currentWeaponIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).weaponIndex;
+        MaxtimeE = weapons[currentWeaponIndex].props.AbilityCooldown_E;
+        MaxtimeQ = weapons[currentWeaponIndex].props.AbilityCooldown_Q;
         DisplayWeapon();
     }
     private void UpdateHat()
@@ -296,10 +306,14 @@ public class CharacterController2D : MonoBehaviour
     }
     public void AttackE()
     {
+        if (timeE >= 0) return;
+        timeE = weapons[currentWeaponIndex].props.AbilityCooldown_E;
         photonView.RPC(nameof(RPCAttackE), RpcTarget.AllViaServer);
     }
     public void AttackQ()
     {
+        if (timeQ >= 0) return;
+        timeQ = weapons[currentWeaponIndex].props.AbilityCooldown_Q;
         photonView.RPC(nameof(RPCAttackQ), RpcTarget.AllViaServer);
     }
     private void DisplayWeapon()
