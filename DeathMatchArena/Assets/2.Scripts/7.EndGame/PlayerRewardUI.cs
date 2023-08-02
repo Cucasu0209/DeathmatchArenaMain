@@ -10,6 +10,8 @@ public class PlayerRewardUI : MonoBehaviour
     public TextMeshProUGUI Name;
     public TextMeshProUGUI EloReward;
     public TextMeshProUGUI CoinReward;
+    public GameObject coinp;
+    public GameObject elop;
 
     private void Start()
     {
@@ -27,7 +29,7 @@ public class PlayerRewardUI : MonoBehaviour
         }
         else
         {
-            CoinReward.color = Color.green;
+            CoinReward.color = Color.yellow;
             CoinReward.SetText("+ " + reward.CoinReward);
         }
 
@@ -40,6 +42,11 @@ public class PlayerRewardUI : MonoBehaviour
         {
             EloReward.color = Color.green;
             EloReward.SetText("+ " + reward.EloReward);
+        }
+        if(string.IsNullOrEmpty(NetworkController_PUN.Instance.GetPlayerProperties(reward.owner).playerName))
+        {
+            coinp.SetActive(false);
+            elop.SetActive(false);
         }
 
         EloReward.transform.parent.DOScale(1, 0.3f).SetDelay(1);

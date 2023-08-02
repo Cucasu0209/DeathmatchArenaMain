@@ -216,7 +216,9 @@ public class ChatController : MonoBehaviour
     {
         PlayfabController.Instance.GetAllFriendChatMessage((chatmsg) =>
         {
-            _tempAllFriendChatMessage = chatmsg;
+            if (chatmsg != null)
+                _tempAllFriendChatMessage = chatmsg;
+
             Oncomplete?.Invoke();
         });
     }

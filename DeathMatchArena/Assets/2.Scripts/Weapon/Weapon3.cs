@@ -65,10 +65,11 @@ public class Weapon3 : BaseWeapon
             Itemr.Setup(dir, (_item, objHit) =>
             {
                 if (objHit == gameObject) return;
+                if (objHit.GetComponent<BaseWeaponItem>() != null) return;
                 CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
                 if (_char != null)
                 {
-                    if (_char == _character) return;
+                    if (_char.isTeamOne == _character.isTeamOne) return;
                     TakeDamgeToPlayer(_char, props.Damage_Normal);
                 }
 
@@ -77,10 +78,11 @@ public class Weapon3 : BaseWeapon
             Iteml.Setup(dir, (_item, objHit) =>
             {
                 if (objHit == gameObject) return;
+                if (objHit.GetComponent<BaseWeaponItem>() != null) return;
                 CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
                 if (_char != null)
                 {
-                    if (_char == _character) return;
+                    if (_char.isTeamOne == _character.isTeamOne) return;
                     TakeDamgeToPlayer(_char, props.Damage_Normal);
                 }
 
@@ -95,39 +97,35 @@ public class Weapon3 : BaseWeapon
     private IEnumerator IPerform_E(CharacterController2D _character)
     {
 
-        yield return new WaitForSeconds(props.TimePerform_Normal * 1 / 2);
-        Weapon3Normal Item = Resources.Load<Weapon3Normal>(Normal_EffectPrefabLink);
-        if (Item != null)
+
+        float R = 1;
+        int maxSpawner = 8;
+        for (int i = 0; i < maxSpawner; i++)
         {
-            Vector2 dir = _character.CharactorTransform.localScale.x > 0 ? Vector2.right : Vector2.left;
-            Weapon3Normal Itemr = Instantiate(Item, _character.handRight.position, Quaternion.identity);
-            Weapon3Normal Iteml = Instantiate(Item, _character.handLeft.position, Quaternion.identity);
-            Itemr.Setup(dir, (_item, objHit) =>
+            Weapon3Normal Item = Resources.Load<Weapon3Normal>(Normal_EffectPrefabLink);
+            if (Item != null)
             {
-                if (objHit == gameObject) return;
-                CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
-                if (_char != null)
-                {
-                    if (_char == _character) return;
-                    TakeDamgeToPlayer(_char, props.Damage_Normal);
-                }
+                float angle = 180 - ((360 / maxSpawner) * i);
+                Vector3 newPos = new Vector3(R * Mathf.Cos(angle * Mathf.Deg2Rad), R * Mathf.Sin(angle * Mathf.Deg2Rad), 0);
+                Item = Instantiate(Item, _character.transform.position + Vector3.up * 1.5f + newPos,
+                    Quaternion.identity);
 
-                _item.DestroySelf();
-            });
-            Iteml.Setup(dir, (_item, objHit) =>
-            {
-                if (objHit == gameObject) return;
-                CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
-                if (_char != null)
+                Item.Setup(newPos, (_item, objHit) =>
                 {
-                    if (_char == _character) return;
-                    TakeDamgeToPlayer(_char, props.Damage_Normal);
-                }
+                    if (objHit == gameObject) return;
+                    if (objHit.GetComponent<BaseWeaponItem>() != null) return;
+                    CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
+                    if (_char != null)
+                    {
+                        if (_char.isTeamOne == _character.isTeamOne) return;
+                        TakeDamgeToPlayer(_char, props.Damage_Normal);
+                    }
 
-                _item.DestroySelf();
-            });
-            Itemr.Fly();
-            Iteml.Fly();
+                    _item.DestroySelf();
+                });
+                Item.Fly();
+            }
+            yield return new WaitForSeconds(0.02f);
         }
 
     }
@@ -185,11 +183,12 @@ public class Weapon3 : BaseWeapon
                 Iteml.Setup(newPos, (_item, objHit) =>
                 {
                     if (objHit == gameObject) return;
+                    if (objHit.GetComponent<BaseWeaponItem>() != null) return;
                     CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
                     if (objHit.GetComponent<BaseWeaponItem>() != null) return;
                     if (_char != null)
                     {
-                        if (_char == _character) return;
+                        if (_char.isTeamOne == _character.isTeamOne) return;
                         TakeDamgeToPlayer(_char, props.Damage_Normal);
                     }
 

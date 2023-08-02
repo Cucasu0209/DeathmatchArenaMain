@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: WeaponProps4
   m_EditorClassIdentifier: 
   AnimationAttack_Normal: Normal_BigGunShoot
-  AnimationAttack_E: Normal_BigGunShoot
+  AnimationAttack_E: E_RoundSwordStrike
   AnimationAttack_Q: Q_BigGun
   Damage_Normal: 10
   Damage_E: 10
-  Damage_Q: 30
-  AbilityCooldown_E: 0
-  AbilityCooldown_Q: 0
+  Damage_Q: 50
+  AbilityCooldown_E: 3
+  AbilityCooldown_Q: 12
   TimePerform_Normal: 0.61
-  TimePerform_E: 0.61
+  TimePerform_E: 0.427
   TimePerform_Q: 1.829

@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: WeaponProps5
   m_EditorClassIdentifier: 
   AnimationAttack_Normal: Normal_Throw
-  AnimationAttack_E: Normal_Throw
+  AnimationAttack_E: E_RoundSwordStrike
   AnimationAttack_Q: Q_Kunai
   Damage_Normal: 3
   Damage_E: 5
-  Damage_Q: 10
-  AbilityCooldown_E: 0
-  AbilityCooldown_Q: 0
+  Damage_Q: 30
+  AbilityCooldown_E: 3
+  AbilityCooldown_Q: 12
   TimePerform_Normal: 0.305
-  TimePerform_E: 0.305
+  TimePerform_E: 0.427
   TimePerform_Q: 2.439
