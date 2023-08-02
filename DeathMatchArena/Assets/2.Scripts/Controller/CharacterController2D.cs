@@ -8,6 +8,7 @@ using Photon.Pun.UtilityScripts;
 using Photon.Pun;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class CharacterController2D : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class CharacterController2D : MonoBehaviour
         JumpDown,
         Dash
     }
+    public bool isdeath = false;
+    public bool isTeamOne = true;
     public SkeletonAnimation skAnim;
     public Transform CharactorTransform;
     private TrackEntry DashTrack;
@@ -39,6 +42,7 @@ public class CharacterController2D : MonoBehaviour
     public Rigidbody2D body;
     public float speed = 15;
     public float jumpSpeed = 25;
+    public float defense = 100;
     public Vector2 MaxVelocity = new Vector2(15, 25);
     private float lastTimeUpdatePhy = 0;
 
@@ -64,6 +68,8 @@ public class CharacterController2D : MonoBehaviour
 
     [Header("Weapon")]
     private int currentWeaponIndex = 0;
+    private int currentHatIndex = 0;
+    private int currentShoeIndex = 0;
     public Transform WeaponHolder;
     public BaseWeapon[] weapons;
     public GameObject gun2;
@@ -74,6 +80,9 @@ public class CharacterController2D : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI Myname;
+    public Image _pName;
+
+
     #region Unity
 
     private void Start()
@@ -86,7 +95,7 @@ public class CharacterController2D : MonoBehaviour
     }
     private void Update()
     {
-
+        Debug.Log("Curent weapon + " + currentWeaponIndex);
     }
     private void FixedUpdate()
     {
@@ -129,6 +138,9 @@ public class CharacterController2D : MonoBehaviour
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateWeapon;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateHat;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateShoe;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += CheckDie;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateTeam;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate += UpdateProps;
     }
     private void OnDisable()
     {
@@ -136,6 +148,9 @@ public class CharacterController2D : MonoBehaviour
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateWeapon;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateHat;
         NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateShoe;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= CheckDie;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateTeam;
+        NetworkController_PUN.ActionOnPlayerPropertiesUpdate -= UpdateProps;
     }
     #endregion
 
@@ -151,8 +166,8 @@ public class CharacterController2D : MonoBehaviour
     }
     private void UpdateHat()
     {
-        currentWeaponIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).hatIndex;
-        Hat _hat = Resources.Load<Hat>(hatLink + (currentWeaponIndex + 1));
+        currentHatIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).hatIndex;
+        Hat _hat = Resources.Load<Hat>(hatLink + (currentHatIndex + 1));
         if (_hat != null)
         {
             hat = Instantiate(_hat, hatPos);
@@ -160,14 +175,56 @@ public class CharacterController2D : MonoBehaviour
     }
     private void UpdateShoe()
     {
-        currentWeaponIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).shoeIndex;
-        Shoe _shoe = Resources.Load<Shoe>(ShoeLink + (currentWeaponIndex + 1));
+        currentShoeIndex = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).shoeIndex;
+        Shoe _shoe = Resources.Load<Shoe>(ShoeLink + (currentShoeIndex + 1));
         if (_shoe != null)
         {
             shoeR = Instantiate(_shoe, legRight);
             shoeL = Instantiate(_shoe, legLeft);
         }
+
         DisplayWeapon();
+    }
+    private void UpdateProps()
+    {
+        speed = (shoeL.data.Speed + hat.data.Speed + weapons[currentWeaponIndex].data.Speed + 30) / 2f;
+        defense = (shoeL.data.Defense + hat.data.Defense + weapons[currentWeaponIndex].data.Defense + 30);
+    }
+    private void UpdateTeam()
+    {
+        isTeamOne = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).slotInRoom <= 1;
+        _pName.color = isTeamOne ? Color.green : Color.red;
+    }
+
+    private void CheckDie()
+    {
+        if (isdeath) return;
+        isdeath = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Owner).playerHealth <= 0;
+        if (isdeath)
+        {
+            transform.DOScale(0, 0.2f);
+            body.bodyType = RigidbodyType2D.Static;
+            body.gravityScale = 0;
+            body.velocity = Vector2.zero;
+            transform.DOMove(new Vector3(0, 2.18f, transform.position.z), 0.5f).SetDelay(2);
+            if (photonView.IsMine)
+            {
+                Camera.main.DOOrthoSize(20, 0.1f).SetDelay(2.5f);
+                GamePlayController.instance.ShowDeath();
+            }
+
+            CharactorUserInput input = GetComponentInChildren<CharactorUserInput>();
+            if (input != null) Destroy(input);
+
+            ParticleSystem effect = Resources.Load<ParticleSystem>("Effect/EffectCloud");
+            if (effect != null)
+            {
+                effect = Instantiate(effect, transform.position, Quaternion.identity);
+                effect.Emit(40);
+                Destroy(effect.gameObject, 1);
+            }
+
+        }
     }
     private void SetupDefault()
     {
@@ -441,7 +498,7 @@ public class CharacterController2D : MonoBehaviour
             if (photonView.IsMine)
             {
                 Debug.Log("take damg" + dmg);
-                int newHealth = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Controller).playerHealth - dmg;
+                int newHealth = NetworkController_PUN.Instance.GetPlayerProperties(photonView.Controller).playerHealth - (int)(dmg * defense / 2f / 100f);
                 if (newHealth <= 0) newHealth = 0;
                 NetworkController_PUN.Instance.UpdateMyProperty(PlayerPropertiesType.health, newHealth);
             }

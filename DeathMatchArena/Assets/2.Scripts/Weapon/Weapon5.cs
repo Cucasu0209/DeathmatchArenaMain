@@ -65,10 +65,11 @@ public class Weapon5 : BaseWeapon
             Item.Setup(dir, (_item, objHit) =>
             {
                 if (objHit == gameObject) return;
+                if (objHit.GetComponent<BaseWeaponItem>() != null) return;
                 CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
                 if (_char != null)
                 {
-                    if (_char == _character) return;
+                    if (_char.isTeamOne == _character.isTeamOne) return;
                     TakeDamgeToPlayer(_char, props.Damage_Normal);
                 }
 
@@ -82,25 +83,35 @@ public class Weapon5 : BaseWeapon
     private IEnumerator IPerform_E(CharacterController2D _character)
     {
 
-        yield return new WaitForSeconds(props.TimePerform_E * 1 / 2);
-        Weapon5ItemNormalE Item = Resources.Load<Weapon5ItemNormalE>(Normal_EffectPrefabLink);
-        if (Item != null)
-        {
-            Vector2 dir = _character.CharactorTransform.localScale.x > 0 ? Vector2.right : Vector2.left;
-            Item = Instantiate(Item, _character.handRight.position, Quaternion.identity);
-            Item.Setup(dir, (_item, objHit) =>
-            {
-                if (objHit == gameObject) return;
-                CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
-                if (_char != null)
-                {
-                    if (_char == _character) return;
-                    TakeDamgeToPlayer(_char, props.Damage_E);
-                }
 
-                _item.DestroySelf();
-            });
-            Item.Fly();
+        float R = 1;
+        int maxSpawner = 8;
+        for (int i = 0; i < maxSpawner; i++)
+        {
+            Weapon5ItemNormalE Item = Resources.Load<Weapon5ItemNormalE>(Normal_EffectPrefabLink);
+            if (Item != null)
+            {
+                float angle = 180 - ((360 / maxSpawner) * i);
+                Vector3 newPos = new Vector3(R * Mathf.Cos(angle * Mathf.Deg2Rad), R * Mathf.Sin(angle * Mathf.Deg2Rad), 0);
+                Item = Instantiate(Item, _character.transform.position + Vector3.up * 1.5f + newPos,
+                    Quaternion.identity);
+
+                Item.Setup(newPos, (_item, objHit) =>
+                {
+                    if (objHit == gameObject) return;
+                    if (objHit.GetComponent<BaseWeaponItem>() != null) return;
+                    CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
+                    if (_char != null)
+                    {
+                        if (_char.isTeamOne == _character.isTeamOne) return;
+                        TakeDamgeToPlayer(_char, props.Damage_Normal);
+                    }
+
+                    _item.DestroySelf();
+                });
+                Item.Fly();
+            }
+            yield return new WaitForSeconds(0.02f);
         }
 
     }
@@ -134,10 +145,11 @@ public class Weapon5 : BaseWeapon
                 {
                     if (objHit == gameObject) return;
                     if (objHit.layer == 8) return;
+                    if (objHit.GetComponent<BaseWeaponItem>() != null) return;
                     CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
                     if (_char != null)
                     {
-                        if (_char == _character) return;
+                        if (_char.isTeamOne == _character.isTeamOne) return;
                         TakeDamgeToPlayer(_char, props.Damage_Q);
                     }
 

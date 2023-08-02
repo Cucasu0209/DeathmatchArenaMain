@@ -90,10 +90,11 @@ public class Weapon2 : BaseWeapon
                 Item.Fly(newPos, (_item, objHit) =>
                 {
                     if (objHit == gameObject) return;
+                    if (objHit.GetComponent<BaseWeaponItem>() != null) return;
                     CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
                     if (_char != null)
                     {
-                        if (_char == _character) return;
+                        if (_char.isTeamOne == _character.isTeamOne) return;
                         TakeDamgeToPlayer(_char, props.Damage_E);
                     }
 

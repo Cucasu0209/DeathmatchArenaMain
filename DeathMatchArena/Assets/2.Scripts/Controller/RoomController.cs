@@ -73,6 +73,7 @@ public class RoomController : MonoBehaviour
     public static event Action ActionOnPlayerListChanged;
     public GamePlayResult currentGameResult = new GamePlayResult();
     public const string defaultEmptyName = "???";
+    public float timeasd = 0;
     #endregion
 
     #region Unity
@@ -267,32 +268,46 @@ public class RoomController : MonoBehaviour
 
     private GamePlayResultEnum CheckResult()
     {
-
         if (RoomController.Instance.PlayerInSlot[0] == null && RoomController.Instance.PlayerInSlot[1] == null) return GamePlayResultEnum.NotCompleteYet;
         if (RoomController.Instance.PlayerInSlot[2] == null && RoomController.Instance.PlayerInSlot[3] == null) return GamePlayResultEnum.NotCompleteYet;
 
-        bool[] isALive = new bool[4] { false, false, false, false };
+        float[] health = new float[4] { 0, 0, 0, 0 };
         for (int i = 0; i < RoomController.Instance.PlayerInSlot.Count; i++)
         {
             if (RoomController.Instance.PlayerInSlot[i] != null)
             {
-                isALive[i] = NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[i]).playerHealth > 0;
+                health[i] = NetworkController_PUN.Instance.GetPlayerProperties(RoomController.Instance.PlayerInSlot[i]).playerHealth;
             }
         }
-        if ((isALive[0] || isALive[1] || isALive[2] || isALive[3]) == false)
+
+        if (health[0] + health[1] <= 0 || health[2] + health[3] <= 0 || timeasd <= 0)
         {
-            return GamePlayResultEnum.Draw;
-        }
-        else if ((isALive[0] || isALive[1]) == false)
-        {
-            return GamePlayResultEnum.Team2Win;
-        }
-        else if ((isALive[2] || isALive[3]) == false)
-        {
-            return GamePlayResultEnum.Team1Win;
+            if (health[0] + health[1] <= 0)
+            {
+                return GamePlayResultEnum.Team2Win;
+            }
+            else if (health[2] + health[3] <= 0)
+            {
+                return GamePlayResultEnum.Team1Win;
+            }
+            else if (health[0] + health[1] > health[2] + health[3])
+            {
+                return GamePlayResultEnum.Team1Win;
+            }
+            else if (health[0] + health[1] < health[2] + health[3])
+            {
+                return GamePlayResultEnum.Team2Win;
+            }
+            else if (health[0] + health[1] == health[2] + health[3])
+            {
+                return GamePlayResultEnum.Draw;
+            }
+            else
+            {
+                return GamePlayResultEnum.Draw;
+            }
         }
         return GamePlayResultEnum.NotCompleteYet;
-
     }
     #endregion
 }

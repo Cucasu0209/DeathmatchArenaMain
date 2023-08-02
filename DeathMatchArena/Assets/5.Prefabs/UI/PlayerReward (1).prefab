@@ -230,6 +230,8 @@ MonoBehaviour:
   Name: {fileID: 8036007791594561555}
   EloReward: {fileID: 6459879516295753075}
   CoinReward: {fileID: 5788802789558560270}
+  coinp: {fileID: 5032223431199291489}
+  elop: {fileID: 7881967382375683424}
 --- !u!1 &4554731290599823784
 GameObject:
   m_ObjectHideFlags: 0

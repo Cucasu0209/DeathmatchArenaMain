@@ -11,6 +11,7 @@ public class Weapon1 : BaseWeapon
     public Collider2D MyCollider;
     public GameObject Trail;
     private string Q_EffectPrefabLink = "Effect/Weapon/Weapon1/Q_Weapon1Item";
+    private string E_EffectPrefabLink = "Effect/Weapon/Weapon2/E_Weapon2Item";
     private string Q_SegmentLink = "Effect/Weapon/Weapon1/Q_Weapon1Segment";
     float currentSwordDmg;
     private void Start()
@@ -71,7 +72,37 @@ public class Weapon1 : BaseWeapon
     {
         MyCollider.enabled = true;
         Trail.SetActive(true);
-        yield return new WaitForSeconds(props.TimePerform_E);
+
+
+        float R = 1;
+        int maxSpawner = 8;
+        for (int i = 0; i < maxSpawner; i++)
+        {
+            Weapon2ItemE Item = Resources.Load<Weapon2ItemE>(E_EffectPrefabLink);
+            if (Item != null)
+            {
+                float angle = 180 - ((360 / maxSpawner) * i);
+                Vector3 newPos = new Vector3(R * Mathf.Cos(angle * Mathf.Deg2Rad), R * Mathf.Sin(angle * Mathf.Deg2Rad), 0);
+                Item = Instantiate(Item, _character.transform.position + Vector3.up * 1.5f + newPos,
+                    Quaternion.identity);
+                Item.Fly(newPos, (_item, objHit) =>
+                {
+                    if (objHit == gameObject) return;
+                    if (objHit.GetComponent<BaseWeaponItem>() != null) return;
+                    CharacterController2D _char = objHit.GetComponent<CharacterController2D>();
+                    if (_char != null)
+                    {
+                        if (_char.isTeamOne == _character.isTeamOne) return;
+                        TakeDamgeToPlayer(_char, props.Damage_E);
+                    }
+
+                    _item.DestroySelf();
+                });
+            }
+            yield return new WaitForSeconds(0.02f);
+        }
+
+
         MyCollider.enabled = false;
         Trail.SetActive(false);
     }
@@ -102,7 +133,7 @@ public class Weapon1 : BaseWeapon
 
                 if (_char != null)
                 {
-                    if (_char == _character) return;
+                    if (_char.isTeamOne == _character.isTeamOne) return;
                     TakeDamgeToPlayer(_char, props.Damage_Q);
                 }
                 _item.DestroySelf();

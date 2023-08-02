@@ -152,6 +152,7 @@ public class ChatUI : MonoBehaviour
             return;
         }
         string chatContent = "";
+        Debug.Log("trunghehe" + partner.Id + (ChatController.Instance._tempAllFriendChatMessage == null));
         if (partner.Type == ChatPartnerType.Friend)
         {
             if (ChatController.Instance._tempAllFriendChatMessage.ContainsKey(partner.Id))
@@ -237,7 +238,7 @@ public class ChatUI : MonoBehaviour
             {
                 PartnerName.SetText(ChatController.Instance.getTempChannelSub()[partner.Id].GroupName);
                 if (ChatController.Instance.isAdmin(PlayerData.GetId(), ChatController.Instance.getTempChannelSub()[partner.Id]))
-                       AddMember.gameObject.SetActive(true);
+                    AddMember.gameObject.SetActive(true);
                 else AddMember.gameObject.SetActive(false);
                 ManagerMember.gameObject.SetActive(true);
                 MemberCount.gameObject.SetActive(true);
