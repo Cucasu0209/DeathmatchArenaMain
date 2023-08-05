@@ -79,10 +79,16 @@ public class OtherPlayersController : MonoBehaviour
     {
         NetworkController_Chat.OnPrivateChatMessageCome += OnChatMessageCome;
     }
+    float cd = 0;
+    public void Update()
+    {
+        cd += Time.deltaTime;
+        if (cd >= 2) { GetAllPlayers(0, null); cd = 0; }
+    }
     #endregion
 
     #region Actions
-    public PlayerPlayfabInformation GetInfFromId(string playfabid=null)
+    public PlayerPlayfabInformation GetInfFromId(string playfabid = null)
     {
         if (string.IsNullOrEmpty(playfabid)) playfabid = GetIdFocus();
         if (_tempOtherPlayer.ContainsKey(playfabid)) return _tempOtherPlayer[playfabid];
@@ -175,6 +181,8 @@ public class OtherPlayersController : MonoBehaviour
         if (_tempOtherPlayer.ContainsKey(player.PlayFabId)) _tempOtherPlayer[player.PlayFabId] = player;
         else _tempOtherPlayer.Add(player.PlayFabId, player);
     }
+
+
     #endregion
 
     #region Request
