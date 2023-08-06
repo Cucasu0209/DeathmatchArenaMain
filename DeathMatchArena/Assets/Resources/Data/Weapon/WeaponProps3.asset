@@ -15,8 +15,8 @@ MonoBehaviour:
   AnimationAttack_Normal: Normal_DoubleGunShoot
   AnimationAttack_E: E_RoundSwordStrike
   AnimationAttack_Q: Q_DoubleGun
-  Damage_Normal: 3
-  Damage_E: 3
+  Damage_Normal: 20
+  Damage_E: 30
   Damage_Q: 50
   AbilityCooldown_E: 3
   AbilityCooldown_Q: 12

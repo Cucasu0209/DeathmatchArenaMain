@@ -15,9 +15,9 @@ MonoBehaviour:
   AnimationAttack_Normal: Normal_BigGunShoot
   AnimationAttack_E: E_RoundSwordStrike
   AnimationAttack_Q: Q_BigGun
-  Damage_Normal: 10
-  Damage_E: 10
-  Damage_Q: 50
+  Damage_Normal: 30
+  Damage_E: 25
+  Damage_Q: 75
   AbilityCooldown_E: 3
   AbilityCooldown_Q: 12
   TimePerform_Normal: 0.61
