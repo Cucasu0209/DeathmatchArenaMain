@@ -72,9 +72,11 @@ public class ChatUI : MonoBehaviour
         countDownTime += Time.deltaTime;
     }
     #endregion
+
     #region Actions
     public void ToggleChatPanel()
     {
+        UpdateList();
         float distanceToZero = Vector3.Distance(ChatPanel.localScale, Vector3.zero);
         float distanceToOne = Vector3.Distance(ChatPanel.localScale, Vector3.one);
 
@@ -155,7 +157,7 @@ public class ChatUI : MonoBehaviour
         Debug.Log("trunghehe" + partner.Id + (ChatController.Instance._tempAllFriendChatMessage == null));
         if (partner.Type == ChatPartnerType.Friend)
         {
-            if (ChatController.Instance._tempAllFriendChatMessage.ContainsKey(partner.Id))
+            if (ChatController.Instance._tempAllFriendChatMessage.ContainsKey(partner.Id) && ChatController.Instance._tempAllFriendChatMessage[partner.Id] != null)
             {
                 foreach (var msg in ChatController.Instance._tempAllFriendChatMessage[partner.Id])
                 {
@@ -176,7 +178,7 @@ public class ChatUI : MonoBehaviour
         }
         else if (partner.Type == ChatPartnerType.Channel)
         {
-            if (ChatController.Instance._tempAllGroupChatMessage.ContainsKey(partner.Id))
+            if (ChatController.Instance._tempAllGroupChatMessage.ContainsKey(partner.Id) && ChatController.Instance._tempAllGroupChatMessage[partner.Id] != null)
             {
                 foreach (var msg in ChatController.Instance._tempAllGroupChatMessage[partner.Id])
                 {

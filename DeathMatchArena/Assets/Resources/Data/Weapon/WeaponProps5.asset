@@ -15,9 +15,9 @@ MonoBehaviour:
   AnimationAttack_Normal: Normal_Throw
   AnimationAttack_E: E_RoundSwordStrike
   AnimationAttack_Q: Q_Kunai
-  Damage_Normal: 3
-  Damage_E: 5
-  Damage_Q: 30
+  Damage_Normal: 20
+  Damage_E: 25
+  Damage_Q: 35
   AbilityCooldown_E: 3
   AbilityCooldown_Q: 12
   TimePerform_Normal: 0.305
